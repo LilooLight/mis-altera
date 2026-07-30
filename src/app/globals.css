@@ -41,9 +41,9 @@
   --font-sans: var(--font-geist-sans), 'Inter', system-ui, sans-serif;
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-mono: var(--font-geist-mono);
-  --color-accent-gold: #c9a96e;
-  --color-accent-gold-light: #d4b87a;
-  --color-accent-gold-dark: #b89558;
+  --color-accent-tiffany: #5ecece;
+  --color-accent-tiffany-light: #8edece;
+  --color-accent-tiffany-dark: #4bb8b8;
   --color-dark-bg: #0b1120;
   --color-dark-card: #151e2e;
   --color-dark-border: #253041;

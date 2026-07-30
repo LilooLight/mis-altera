@@ -134,15 +134,15 @@ export function MedicalCard() {
         <ChevronRight className="w-3 h-3" />
         <span>Кабинет пациента</span>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#c9a96e] font-medium">Медицинская карта</span>
+        <span className="text-[#5ecece] font-medium">Медицинская карта</span>
       </div>
 
       {/* Patient Header */}
       <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-[#c9a96e]/10 border border-[#c9a96e]/20 flex items-center justify-center shrink-0">
-              <User className="w-7 h-7 text-[#c9a96e]" />
+            <div className="w-14 h-14 rounded-xl bg-[#5ecece]/10 border border-[#5ecece]/20 flex items-center justify-center shrink-0">
+              <User className="w-7 h-7 text-[#5ecece]" />
             </div>
             <div>
               <h1 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100">
@@ -172,7 +172,7 @@ export function MedicalCard() {
         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[#253041]">
           <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Основной диагноз</p>
           <p className="text-sm text-gray-900 dark:text-gray-100">
-            <span className="font-mono text-[#c9a96e] mr-1.5">M54.5</span>
+            <span className="font-mono text-[#5ecece] mr-1.5">M54.5</span>
             Боль в нижней части спины · Хронический остеохондроз поясничного отдела
           </p>
         </div>
@@ -185,7 +185,7 @@ export function MedicalCard() {
             onClick={() => setActiveTab('chronology')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeTab === 'chronology'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
@@ -195,7 +195,7 @@ export function MedicalCard() {
             onClick={() => setActiveTab('documents')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeTab === 'documents'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
@@ -215,7 +215,7 @@ export function MedicalCard() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Поиск записей..."
-                className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e] w-48"
+                className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
               />
             </div>
           </div>
@@ -240,7 +240,7 @@ export function MedicalCard() {
                 </div>
 
                 {/* Content card */}
-                <div className="flex-1 bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 hover:border-[#c9a96e]/20 transition-colors">
+                <div className="flex-1 bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 hover:border-[#5ecece]/20 transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -258,7 +258,7 @@ export function MedicalCard() {
                       </div>
                     </div>
                     {entry.hasAttachment && (
-                      <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#c9a96e]/10 text-[#c9a96e] text-[11px] font-medium hover:bg-[#c9a96e]/20 transition-colors shrink-0">
+                      <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#5ecece]/10 text-[#5ecece] text-[11px] font-medium hover:bg-[#5ecece]/20 transition-colors shrink-0">
                         <Paperclip className="w-3 h-3" />
                         <span className="hidden sm:inline">{entry.attachmentName}</span>
                         <span className="sm:hidden">Файл</span>
@@ -289,7 +289,7 @@ export function MedicalCard() {
                 {documentsData.length} документов
               </span>
             </div>
-            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#c9a96e] text-white text-xs font-medium hover:bg-[#b89558] transition-colors">
+            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#5ecece] text-white text-xs font-medium hover:bg-[#4bb8b8] transition-colors">
               <Plus className="w-3 h-3" />
               Загрузить документ
             </button>
@@ -323,7 +323,7 @@ export function MedicalCard() {
                     {doc.linkedDate && (
                       <>
                         <span className="text-gray-300 dark:text-gray-600">·</span>
-                        <span className="flex items-center gap-0.5 text-[11px] text-[#c9a96e]">
+                        <span className="flex items-center gap-0.5 text-[11px] text-[#5ecece]">
                           <Paperclip className="w-2.5 h-2.5" />
                           Привязан к {doc.linkedDate}
                         </span>

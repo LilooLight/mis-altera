@@ -35,7 +35,7 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
         </button>
 
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#c9a96e] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-[#5ecece] flex items-center justify-center">
             <Stethoscope className="w-4 h-4 text-white" />
           </div>
           <div className="flex flex-col">
@@ -50,7 +50,7 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
 
         <div className="hidden md:flex items-center gap-1.5 ml-4 text-xs text-gray-500 dark:text-gray-400">
           <span>Курортный комплекс</span>
-          <span className="text-[#c9a96e]">·</span>
+          <span className="text-[#5ecece]">·</span>
           <span>Здоровье и отдых</span>
         </div>
       </div>
@@ -65,7 +65,7 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
               onClick={() => onRoleChange(role)}
               className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all duration-200 ${
                 currentRole === role
-                  ? 'bg-[#c9a96e] text-white shadow-sm'
+                  ? 'bg-[#5ecece] text-white shadow-sm'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
@@ -95,8 +95,8 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
         </button>
 
         {/* User avatar */}
-        <div className="w-8 h-8 rounded-full bg-[#c9a96e]/10 border border-[#c9a96e]/30 flex items-center justify-center">
-          <span className="text-xs font-semibold text-[#c9a96e]">ИИ</span>
+        <div className="w-8 h-8 rounded-full bg-[#5ecece]/10 border border-[#5ecece]/30 flex items-center justify-center">
+          <span className="text-xs font-semibold text-[#5ecece]">ИИ</span>
         </div>
       </div>
     </header>

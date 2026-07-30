@@ -166,7 +166,7 @@ export default function Home() {
                 key={tab.id}
                 className={`group flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium whitespace-nowrap cursor-pointer border-b-2 transition-colors select-none shrink-0 ${
                   isActive
-                    ? 'border-[#c9a96e] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#0b1120]'
+                    ? 'border-[#5ecece] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#0b1120]'
                     : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1a2538]'
                 }`}
                 onClick={() => setActiveTabId(tab.id)}
@@ -214,7 +214,7 @@ export default function Home() {
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                     placeholder="Быстрый поиск..."
-                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-md text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/40 focus:border-[#c9a96e] transition-colors"
+                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-md text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
                   />
                   {searchFocused && searchResults.length > 0 && (
                     <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg z-50 overflow-hidden">
@@ -224,8 +224,8 @@ export default function Home() {
                           onMouseDown={() => handleSearchSelect(p)}
                           className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
                         >
-                          <div className="w-7 h-7 rounded-full bg-[#c9a96e]/15 border border-[#c9a96e]/30 flex items-center justify-center shrink-0">
-                            <span className="text-[10px] font-bold text-[#c9a96e]">{p.initials}</span>
+                          <div className="w-7 h-7 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+                            <span className="text-[10px] font-bold text-[#5ecece]">{p.initials}</span>
                           </div>
                           <div className="min-w-0">
                             <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{p.shortName}</div>
@@ -241,7 +241,7 @@ export default function Home() {
                 </div>
               )}
               {!sidebarOpen && (
-                <button className="w-full flex justify-center p-1.5 text-gray-400 hover:text-[#c9a96e] transition-colors">
+                <button className="w-full flex justify-center p-1.5 text-gray-400 hover:text-[#5ecece] transition-colors">
                   <Search className="w-4 h-4" />
                 </button>
               )}
@@ -264,7 +264,7 @@ export default function Home() {
                   onClick={() => openToolTab(item.id, item.label)}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-all group ${
                     activeTabId === item.id
-                      ? 'bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 text-[#c9a96e]'
+                      ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece]'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] hover:text-gray-900 dark:hover:text-gray-200'
                   } ${!sidebarOpen ? 'justify-center' : ''}`}
                 >
@@ -299,7 +299,7 @@ export default function Home() {
             <div className="sticky top-0 z-10 bg-gray-50/80 dark:bg-[#0b1120]/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-[#253041]/50 px-6 py-2">
               <div className="flex items-center gap-2 text-xs">
                 {breadcrumbText.split(' / ').map((part, i, arr) => (
-                  <span key={i} className={i === arr.length - 1 ? 'text-[#c9a96e] font-medium' : 'text-gray-400 dark:text-gray-500'}>
+                  <span key={i} className={i === arr.length - 1 ? 'text-[#5ecece] font-medium' : 'text-gray-400 dark:text-gray-500'}>
                     {part}
                   </span>
                 ))}

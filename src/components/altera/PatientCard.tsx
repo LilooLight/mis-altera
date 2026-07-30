@@ -221,7 +221,7 @@ function AttachmentLightbox({
             Закрыть
           </button>
           <button
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-[#c9a96e] text-white hover:bg-[#b89558] transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors"
           >
             <span className="inline-flex items-center gap-2">
               <Download className="w-4 h-4" />
@@ -251,7 +251,7 @@ function AttachmentButton({
     <div className="relative group">
       <button
         onClick={attachments.length === 1 ? () => onOpen(attachments[0]) : undefined}
-        className="p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-[#c9a96e] hover:bg-[#c9a96e]/10 transition-colors"
+        className="p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-[#5ecece] hover:bg-[#5ecece]/10 transition-colors"
         aria-label={label}
       >
         <Paperclip className="w-3.5 h-3.5" />
@@ -288,8 +288,8 @@ export function PatientCard() {
             <button className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors mr-1">
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div className="w-12 h-12 rounded-full bg-[#c9a96e]/10 dark:bg-[#c9a96e]/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-semibold text-[#c9a96e]">КВ</span>
+            <div className="w-12 h-12 rounded-full bg-[#5ecece]/10 dark:bg-[#5ecece]/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-sm font-semibold text-[#5ecece]">КВ</span>
             </div>
             <div>
               <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100 font-sans leading-tight">
@@ -324,10 +324,10 @@ export function PatientCard() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-[#253041]">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#c9a96e] text-white hover:bg-[#b89558] transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">
             Назначить процедуру
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#c9a96e] text-[#c9a96e] hover:bg-[#c9a96e]/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-[#5ecece] hover:bg-[#5ecece]/10 transition-colors">
             План лечения
           </button>
           <button className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 dark:border-[#253041] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors">
@@ -345,13 +345,13 @@ export function PatientCard() {
               onClick={() => setActiveTab(tab.key)}
               className={`relative pb-3 pt-3 text-sm font-medium transition-colors whitespace-nowrap ${
                 activeTab === tab.key
-                  ? 'text-[#c9a96e]'
+                  ? 'text-[#5ecece]'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
               {tab.label}
               {activeTab === tab.key && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#c9a96e] rounded-full" />
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5ecece] rounded-full" />
               )}
             </button>
           ))}
@@ -450,7 +450,7 @@ export function PatientCard() {
                         {item.hasAttachment && (
                           <button
                             onClick={() => setLightboxDoc({ name: `${item.name}.pdf`, type: 'pdf' })}
-                            className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-[#c9a96e] hover:text-[#b89558] transition-colors"
+                            className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors"
                           >
                             <Paperclip className="w-3 h-3" />
                             Открыть вложение
@@ -476,7 +476,7 @@ export function PatientCard() {
                   onClick={() => setHistorySubTab(sub.key)}
                   className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                     historySubTab === sub.key
-                      ? 'bg-[#c9a96e]/10 text-[#c9a96e]'
+                      ? 'bg-[#5ecece]/10 text-[#5ecece]'
                       : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                   }`}
                 >
@@ -502,7 +502,7 @@ export function PatientCard() {
                         <div className={`absolute left-[14px] top-1 w-[13px] h-[13px] rounded-full border-2 ${
                           entry.type === 'system'
                             ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1120]'
-                            : 'border-[#c9a96e] bg-[#c9a96e]/20 dark:bg-[#c9a96e]/10'
+                            : 'border-[#5ecece] bg-[#5ecece]/20 dark:bg-[#5ecece]/10'
                         }`} />
 
                         {/* Date separator */}
@@ -521,7 +521,7 @@ export function PatientCard() {
                               <div className={`w-7 h-7 rounded-md flex items-center justify-center ${
                                 entry.type === 'system'
                                   ? 'bg-gray-100 dark:bg-[#1e293b] text-gray-500 dark:text-gray-400'
-                                  : 'bg-[#c9a96e]/10 text-[#c9a96e]'
+                                  : 'bg-[#5ecece]/10 text-[#5ecece]'
                               }`}>
                                 {getTimelineIcon(entry.type)}
                               </div>
@@ -578,7 +578,7 @@ export function PatientCard() {
                                 <button
                                   key={aIdx}
                                   onClick={() => setLightboxDoc(att)}
-                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-300 hover:bg-[#c9a96e]/10 hover:text-[#c9a96e] transition-colors border border-gray-200 dark:border-[#253041]"
+                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-300 hover:bg-[#5ecece]/10 hover:text-[#5ecece] transition-colors border border-gray-200 dark:border-[#253041]"
                                 >
                                   <Paperclip className="w-3 h-3" />
                                   {att.name}
@@ -606,7 +606,7 @@ export function PatientCard() {
                         onClick={() => setDocFilter(f.key)}
                         className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap ${
                           docFilter === f.key
-                            ? 'bg-[#c9a96e] text-white'
+                            ? 'bg-[#5ecece] text-white'
                             : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                         }`}
                       >
@@ -622,7 +622,7 @@ export function PatientCard() {
                       placeholder="Поиск документов..."
                       value={docSearch}
                       onChange={e => setDocSearch(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e]"
+                      className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]"
                     />
                   </div>
 
@@ -631,7 +631,7 @@ export function PatientCard() {
                       onClick={() => setDocViewMode('grid')}
                       className={`p-1.5 rounded-md transition-colors ${
                         docViewMode === 'grid'
-                          ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                          ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                           : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                       }`}
                     >
@@ -641,7 +641,7 @@ export function PatientCard() {
                       onClick={() => setDocViewMode('table')}
                       className={`p-1.5 rounded-md transition-colors ${
                         docViewMode === 'table'
-                          ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                          ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                           : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                       }`}
                     >
@@ -657,14 +657,14 @@ export function PatientCard() {
                       <button
                         key={doc.id}
                         onClick={() => setLightboxDoc({ name: doc.name, type: doc.type })}
-                        className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 text-left hover:shadow-md hover:border-[#c9a96e]/30 transition-all group"
+                        className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 text-left hover:shadow-md hover:border-[#5ecece]/30 transition-all group"
                       >
                         <div className="flex items-start gap-3">
                           <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${getDocTypeBg(doc.type)}`}>
                             {getDocTypeIcon(doc.type)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate group-hover:text-[#c9a96e] transition-colors">
+                            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate group-hover:text-[#5ecece] transition-colors">
                               {doc.name}
                             </h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">

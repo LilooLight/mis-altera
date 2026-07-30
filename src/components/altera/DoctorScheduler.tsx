@@ -256,7 +256,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
   /* status → classes helper for appointment blocks */
   const blockClasses = (b: AppointmentBlock): string => {
     if (b.status === 'current') {
-      return 'bg-[#c9a96e]/15 dark:bg-[#c9a96e]/20 border-l-[3px] border-[#c9a96e] shadow-[0_0_0_1px_rgba(201,169,110,0.25),0_4px_14px_-2px_rgba(201,169,110,0.45)]'
+      return 'bg-[#5ecece]/15 dark:bg-[#5ecece]/20 border-l-[3px] border-[#5ecece] shadow-[0_0_0_1px_rgba(201,169,110,0.25),0_4px_14px_-2px_rgba(201,169,110,0.45)]'
     }
     if (b.status === 'completed') {
       return 'bg-emerald-500/20 dark:bg-emerald-900/20 border-l-2 border-emerald-500'
@@ -339,17 +339,17 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     style={{ top, height }}
                     className={`absolute left-2 right-2 rounded-md flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer group ${
                       isDrop
-                        ? 'border-2 border-dashed border-[#c9a96e] bg-[#c9a96e]/5 animate-pulse'
-                        : 'border-2 border-dashed border-transparent group-hover:border-[#c9a96e]/50 group-hover:bg-[#c9a96e]/5'
+                        ? 'border-2 border-dashed border-[#5ecece] bg-[#5ecece]/5 animate-pulse'
+                        : 'border-2 border-dashed border-transparent group-hover:border-[#5ecece]/50 group-hover:bg-[#5ecece]/5'
                     }`}
                   >
                     {isDrop ? (
-                      <span className="flex items-center gap-1.5 text-[11px] font-semibold text-[#c9a96e]">
+                      <span className="flex items-center gap-1.5 text-[11px] font-semibold text-[#5ecece]">
                         <Plus className="w-3 h-3" />
                         Слот для переноса
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1.5 text-[11px] text-gray-300 dark:text-gray-600 group-hover:text-[#c9a96e] transition-colors">
+                      <span className="flex items-center gap-1.5 text-[11px] text-gray-300 dark:text-gray-600 group-hover:text-[#5ecece] transition-colors">
                         <Plus className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                         {b.patient}
                       </span>
@@ -378,8 +378,8 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     b,
                   )} ${
                     dragging
-                      ? 'opacity-80 shadow-xl rotate-1 ring-2 ring-[#c9a96e] z-20'
-                      : 'hover:shadow-md hover:ring-2 hover:ring-[#c9a96e]/30 hover:brightness-110'
+                      ? 'opacity-80 shadow-xl rotate-1 ring-2 ring-[#5ecece] z-20'
+                      : 'hover:shadow-md hover:ring-2 hover:ring-[#5ecece]/30 hover:brightness-110'
                   }`}
                 >
                   <div className="flex items-center gap-2 h-full">
@@ -418,7 +418,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     </div>
 
                     {b.status === 'current' && (
-                      <span className="shrink-0 text-[10px] font-bold font-mono text-[#c9a96e] bg-[#c9a96e]/15 px-1.5 py-0.5 rounded">
+                      <span className="shrink-0 text-[10px] font-bold font-mono text-[#5ecece] bg-[#5ecece]/15 px-1.5 py-0.5 rounded">
                         {mm}:{ss}
                       </span>
                     )}
@@ -433,9 +433,9 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                 className="absolute z-30 w-72"
                 style={{ top: minutesToTop(90) + 40, left: 'auto', right: 8 }}
               >
-                <div className="bg-white dark:bg-[#151e2e] rounded-lg border-2 border-[#c9a96e] shadow-2xl overflow-hidden">
-                  <div className="flex items-center gap-2 px-3 py-2 bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 border-b border-[#c9a96e]/20">
-                    <AlertTriangle className="w-4 h-4 text-[#c9a96e]" />
+                <div className="bg-white dark:bg-[#151e2e] rounded-lg border-2 border-[#5ecece] shadow-2xl overflow-hidden">
+                  <div className="flex items-center gap-2 px-3 py-2 bg-[#5ecece]/10 dark:bg-[#5ecece]/15 border-b border-[#5ecece]/20">
+                    <AlertTriangle className="w-4 h-4 text-[#5ecece]" />
                     <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                       Перенести приём?
                     </span>
@@ -448,8 +448,8 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-xs">
-                      <ChevronRight className="w-3 h-3 text-[#c9a96e]" />
-                      <span className="font-medium text-[#c9a96e]">
+                      <ChevronRight className="w-3 h-3 text-[#5ecece]" />
+                      <span className="font-medium text-[#5ecece]">
                         Новиков Алексей В. → 09:30
                       </span>
                     </div>
@@ -460,7 +460,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                         onClick={() => setNotifyPatient((v) => !v)}
                         className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
                           notifyPatient
-                            ? 'bg-[#c9a96e] border-[#c9a96e]'
+                            ? 'bg-[#5ecece] border-[#5ecece]'
                             : 'bg-transparent border-gray-300 dark:border-[#253041]'
                         }`}
                       >
@@ -481,7 +481,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                       </button>
                       <button
                         onClick={() => setDragConfirmVisible(false)}
-                        className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-[#c9a96e] rounded-md hover:bg-[#b89558] transition-colors"
+                        className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-[#5ecece] rounded-md hover:bg-[#4bb8b8] transition-colors"
                       >
                         Подтвердить
                       </button>
@@ -497,7 +497,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
       {/* Legend */}
       <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-gray-500 dark:text-gray-400 px-1">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-sm bg-[#c9a96e]/30 border-l-2 border-[#c9a96e]" />
+          <span className="w-3 h-3 rounded-sm bg-[#5ecece]/30 border-l-2 border-[#5ecece]" />
           <span>Текущий приём</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -513,7 +513,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
           <span>Экстренный</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-sm border-2 border-dashed border-[#c9a96e]" />
+          <span className="w-3 h-3 rounded-sm border-2 border-dashed border-[#5ecece]" />
           <span>Свободный слот</span>
         </div>
       </div>
@@ -537,18 +537,18 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
               <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                 Прогресс обхода
               </span>
-              <span className="text-xs font-bold text-[#c9a96e]">
+              <span className="text-xs font-bold text-[#5ecece]">
                 {done} из {total} палат осмотрено
               </span>
             </div>
             <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-[#1e293b] overflow-hidden">
               <div
-                className="h-full rounded-full bg-[#c9a96e] transition-all duration-500"
+                className="h-full rounded-full bg-[#5ecece] transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#c9a96e] text-white rounded-lg text-sm font-medium hover:bg-[#b89558] transition-colors shrink-0">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[#5ecece] text-white rounded-lg text-sm font-medium hover:bg-[#4bb8b8] transition-colors shrink-0">
             <Stethoscope className="w-4 h-4" />
             Начать обход
           </button>
@@ -583,7 +583,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                   }}
                   className={`w-full grid grid-cols-12 gap-3 px-4 py-3 items-center text-left transition-colors ${
                     isCurrent
-                      ? 'bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15'
+                      ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15'
                       : 'hover:bg-gray-50 dark:hover:bg-[#1e293b]/60'
                   }`}
                 >
@@ -592,7 +592,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     <span
                       className={`inline-flex items-center justify-center min-w-[52px] px-2.5 py-1 rounded-md text-sm font-bold font-mono ${
                         isCurrent
-                          ? 'bg-[#c9a96e] text-white'
+                          ? 'bg-[#5ecece] text-white'
                           : visited
                             ? 'bg-emerald-500/15 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
                             : 'bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-[#253041]'
@@ -632,10 +632,10 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     {status === 'current' && (
                       <>
                         <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c9a96e] opacity-75" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#c9a96e]" />
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5ecece] opacity-75" />
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5ecece]" />
                         </span>
-                        <span className="text-[11px] font-semibold text-[#c9a96e]">
+                        <span className="text-[11px] font-semibold text-[#5ecece]">
                           текущий
                         </span>
                       </>
@@ -671,7 +671,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                   if (next) setCurrentWard(next.room)
                 }
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#c9a96e] rounded-md hover:bg-[#b89558] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#5ecece] rounded-md hover:bg-[#4bb8b8] transition-colors"
             >
               <Check className="w-3.5 h-3.5" />
               Отметить палату {currentWard} осмотренной
@@ -691,7 +691,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
       <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
         <span>Рабочее место врача</span>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#c9a96e] font-medium">Мой день</span>
+        <span className="text-[#5ecece] font-medium">Мой день</span>
       </div>
 
       {/* Page header */}
@@ -712,7 +712,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
             onClick={() => setMode('office')}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               mode === 'office'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
             }`}
           >
@@ -723,7 +723,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
             onClick={() => setMode('ward')}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               mode === 'ward'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
             }`}
           >
@@ -761,7 +761,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
           <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400">
             Осталось
           </p>
-          <p className="text-xl font-serif font-bold text-[#c9a96e] mt-0.5">
+          <p className="text-xl font-serif font-bold text-[#5ecece] mt-0.5">
             {stats.left}{' '}
             <span className="text-xs font-sans font-normal text-gray-500 dark:text-gray-400">
               приёмов
@@ -777,10 +777,10 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
       {/*  Floating timer panel (current reception)                   */}
       {/* ============================================================ */}
       <div className="fixed bottom-4 right-4 z-40 w-72">
-        <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-[#c9a96e]/40 shadow-2xl overflow-hidden">
+        <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-[#5ecece]/40 shadow-2xl overflow-hidden">
           {/* header */}
-          <div className="flex items-center justify-between px-3 py-2 bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 border-b border-[#c9a96e]/20">
-            <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#c9a96e]">
+          <div className="flex items-center justify-between px-3 py-2 bg-[#5ecece]/10 dark:bg-[#5ecece]/15 border-b border-[#5ecece]/20">
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#5ecece]">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -795,8 +795,8 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
           {/* body */}
           <div className="p-3 space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-[#c9a96e]/15 border border-[#c9a96e]/30 flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-[#c9a96e]" />
+              <div className="w-9 h-9 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-[#5ecece]" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
@@ -836,7 +836,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                   const p = appointmentPatients['kozlov']
                   if (p) onOpenPatient({ ...p, hasNewAnalyses: false })
                 }}
-                className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-[#c9a96e] bg-[#c9a96e]/10 border border-[#c9a96e]/30 rounded-md hover:bg-[#c9a96e]/20 transition-colors whitespace-nowrap"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-[#5ecece] bg-[#5ecece]/10 border border-[#5ecece]/30 rounded-md hover:bg-[#5ecece]/20 transition-colors whitespace-nowrap"
               >
                 Открыть карту
               </button>
@@ -882,11 +882,11 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
 
             {/* body */}
             <div className="p-6 space-y-4">
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 border border-[#c9a96e]/20 rounded-lg">
-                <Clock className="w-4 h-4 text-[#c9a96e] shrink-0" />
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-[#5ecece]/10 dark:bg-[#5ecece]/15 border border-[#5ecece]/20 rounded-lg">
+                <Clock className="w-4 h-4 text-[#5ecece] shrink-0" />
                 <p className="text-xs text-gray-700 dark:text-gray-300">
                   Бронирование свободного слота{' '}
-                  <span className="font-semibold text-[#c9a96e]">
+                  <span className="font-semibold text-[#5ecece]">
                     {emergencySlot}
                   </span>
                   . Будет создана задача для администратора.
@@ -904,7 +904,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                     value={emergencyFio}
                     onChange={(e) => setEmergencyFio(e.target.value)}
                     placeholder="Введите ФИО пациента..."
-                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]"
+                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
                   />
                 </div>
               </div>
@@ -918,7 +918,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
                   onChange={(e) => setEmergencyReason(e.target.value)}
                   rows={3}
                   placeholder="Опишите причину экстренного приёма..."
-                  className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e] resize-none"
+                  className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] resize-none"
                 />
               </div>
 
@@ -942,7 +942,7 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
               <button
                 disabled={!emergencyFio.trim() || !emergencyReason.trim()}
                 onClick={() => setShowEmergencyModal(false)}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#c9a96e] rounded-lg hover:bg-[#b89558] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="px-4 py-2 text-sm font-medium text-white bg-[#5ecece] rounded-lg hover:bg-[#4bb8b8] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 Забронировать слот
               </button>

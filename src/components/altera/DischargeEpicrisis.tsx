@@ -126,7 +126,7 @@ export function DischargeEpicrisis() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-4">
             <button
-              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-[#c9a96e] dark:hover:text-[#c9a96e] transition-colors mb-4"
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-[#5ecece] dark:hover:text-[#5ecece] transition-colors mb-4"
               type="button"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -138,12 +138,12 @@ export function DischargeEpicrisis() {
             </h1>
 
             <div className="flex items-center gap-3 mt-3 p-3 bg-gray-50 dark:bg-[#1e293b] rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-[#c9a96e] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-[#5ecece] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                 ПА
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 <span className="font-medium text-gray-900 dark:text-gray-100">Петрова Анна Сергеевна</span>
-                {', 45 лет · Корпус 2, № 314 · Дней: 18 из 21 · Диагноз: M54.5'}
+                {', 45 лет · Корпус 2, № 314 · Дней: 12 из 14 · Диагноз: M54.5'}
               </div>
             </div>
           </div>
@@ -157,8 +157,8 @@ export function DischargeEpicrisis() {
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-lg bg-[#c9a96e]/10 flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-[#c9a96e]" />
+                <div className="w-10 h-10 rounded-lg bg-[#5ecece]/10 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-[#5ecece]" />
                 </div>
                 <div>
                   <h2 className="text-lg font-serif font-bold text-gray-900 dark:text-gray-100">
@@ -178,7 +178,7 @@ export function DischargeEpicrisis() {
                   <select
                     value={selectedTemplate}
                     onChange={(e) => setSelectedTemplate(e.target.value)}
-                    className="w-full bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e] transition-colors"
+                    className="w-full bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors"
                   >
                     {templateOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -228,7 +228,7 @@ export function DischargeEpicrisis() {
               {!showPdfPreview && (
                 <button
                   onClick={() => setShowPdfPreview(true)}
-                  className="mb-5 text-sm text-[#c9a96e] hover:text-[#b8944d] dark:hover:text-[#d4b87e] transition-colors"
+                  className="mb-5 text-sm text-[#5ecece] hover:text-[#4bb8b8] dark:hover:text-[#5ecece] transition-colors"
                   type="button"
                 >
                   Показать предпросмотр
@@ -237,7 +237,7 @@ export function DischargeEpicrisis() {
 
               {/* Generate button */}
               <button
-                className="inline-flex items-center gap-2.5 bg-[#c9a96e] hover:bg-[#b8944d] text-white px-6 py-3 rounded-lg font-medium text-sm transition-colors shadow-sm"
+                className="inline-flex items-center gap-2.5 bg-[#5ecece] hover:bg-[#4bb8b8] text-white px-6 py-3 rounded-lg font-medium text-sm transition-colors shadow-sm"
                 type="button"
               >
                 <Printer className="w-4 h-4" />
@@ -320,7 +320,7 @@ export function DischargeEpicrisis() {
             {/* Toggle link for demo */}
             <button
               onClick={() => setHasDebt(!hasDebt)}
-              className="mt-3 block mx-auto text-xs text-gray-400 dark:text-gray-500 hover:text-[#c9a96e] dark:hover:text-[#c9a96e] transition-colors underline underline-offset-2"
+              className="mt-3 block mx-auto text-xs text-gray-400 dark:text-gray-500 hover:text-[#5ecece] dark:hover:text-[#5ecece] transition-colors underline underline-offset-2"
               type="button"
             >
               Показать/скрыть долг
@@ -333,8 +333,8 @@ export function DischargeEpicrisis() {
           <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
             <div className="p-6 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#c9a96e]/10 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-[#c9a96e]" />
+                <div className="w-10 h-10 rounded-lg bg-[#5ecece]/10 flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-[#5ecece]" />
                 </div>
                 <div>
                   <h2 className="text-lg font-serif font-bold text-gray-900 dark:text-gray-100">

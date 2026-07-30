@@ -89,7 +89,7 @@ export function SchedulePage() {
         <ChevronRight className="w-3 h-3" />
         <span>Кабинет пациента</span>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#c9a96e] font-medium">Расписание процедур</span>
+        <span className="text-[#5ecece] font-medium">Расписание процедур</span>
       </div>
 
       {/* Calendar + Timeline Grid */}
@@ -98,7 +98,7 @@ export function SchedulePage() {
         <div className="xl:col-span-1 bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <CalendarDays className="w-4 h-4 text-[#c9a96e]" />
+              <CalendarDays className="w-4 h-4 text-[#5ecece]" />
               <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
                 Май 2026
               </h2>
@@ -134,23 +134,23 @@ export function SchedulePage() {
                       !d.isCurrentMonth
                         ? 'text-gray-300 dark:text-gray-700'
                         : d.isToday && d.day === selectedDate
-                          ? 'bg-[#c9a96e] text-white font-bold shadow-md'
+                          ? 'bg-[#5ecece] text-white font-bold shadow-md'
                           : d.day === selectedDate
-                            ? 'bg-[#c9a96e]/15 dark:bg-[#c9a96e]/20 text-[#c9a96e] font-bold ring-1 ring-[#c9a96e]/30'
+                            ? 'bg-[#5ecece]/15 dark:bg-[#5ecece]/20 text-[#5ecece] font-bold ring-1 ring-[#5ecece]/30'
                             : d.isToday
-                              ? 'bg-gray-100 dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 font-medium ring-1 ring-[#c9a96e]/30'
+                              ? 'bg-gray-100 dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 font-medium ring-1 ring-[#5ecece]/30'
                               : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1e293b]'
                     }`}
                   >
                     <span>{d.day}</span>
                     {d.hasAppointments && d.isCurrentMonth && (
                       <div className="flex gap-0.5 mt-0.5">
-                        <span className={`w-1 h-1 rounded-full ${d.hasUnpaid ? 'bg-amber-500' : 'bg-[#c9a96e]'}`} />
+                        <span className={`w-1 h-1 rounded-full ${d.hasUnpaid ? 'bg-amber-500' : 'bg-[#5ecece]'}`} />
                         {d.appointmentCount && d.appointmentCount > 1 && (
-                          <span className="w-1 h-1 rounded-full bg-[#c9a96e]" />
+                          <span className="w-1 h-1 rounded-full bg-[#5ecece]" />
                         )}
                         {d.appointmentCount && d.appointmentCount > 2 && (
-                          <span className="w-1 h-1 rounded-full bg-[#c9a96e]" />
+                          <span className="w-1 h-1 rounded-full bg-[#5ecece]" />
                         )}
                       </div>
                     )}
@@ -163,7 +163,7 @@ export function SchedulePage() {
           {/* Legend */}
           <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[#253041] flex items-center gap-4 text-[11px] text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-1.5">
-              <Coins className="w-3 h-3 text-[#c9a96e]" />
+              <Coins className="w-3 h-3 text-[#5ecece]" />
               <span>Платная</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -194,7 +194,7 @@ export function SchedulePage() {
                 <Shield className="w-4 h-4" />
                 <span className="hidden sm:inline">Отменить</span>
               </button>
-              <button onClick={() => setShowBuilderModal(true)} className="flex items-center gap-2 px-4 py-2 bg-[#c9a96e] text-white rounded-lg text-sm font-medium hover:bg-[#b89558] transition-colors">
+              <button onClick={() => setShowBuilderModal(true)} className="flex items-center gap-2 px-4 py-2 bg-[#5ecece] text-white rounded-lg text-sm font-medium hover:bg-[#4bb8b8] transition-colors">
                 <Plus className="w-4 h-4" />
                 Назначить
               </button>
@@ -209,17 +209,17 @@ export function SchedulePage() {
                 className={`bg-white dark:bg-[#151e2e] rounded-xl border transition-all duration-200 ${
                   apt.status === 'cancelled'
                     ? 'border-gray-200 dark:border-[#253041] opacity-60'
-                    : 'border-gray-200 dark:border-[#253041] hover:border-[#c9a96e]/30 dark:hover:border-[#c9a96e]/30'
+                    : 'border-gray-200 dark:border-[#253041] hover:border-[#5ecece]/30 dark:hover:border-[#5ecece]/30'
                 }`}
               >
                 <div className="flex items-center gap-4 p-4">
                   {/* Time block */}
                   <div className="w-16 shrink-0 text-center">
-                    <span className="text-lg font-bold text-[#c9a96e]">{apt.time}</span>
+                    <span className="text-lg font-bold text-[#5ecece]">{apt.time}</span>
                   </div>
 
                   {/* Vertical line */}
-                  <div className={`w-0.5 h-12 rounded-full ${apt.status === 'completed' ? 'bg-emerald-500/30' : apt.status === 'cancelled' ? 'bg-gray-300 dark:bg-gray-600' : 'bg-[#c9a96e]/30'}`} />
+                  <div className={`w-0.5 h-12 rounded-full ${apt.status === 'completed' ? 'bg-emerald-500/30' : apt.status === 'cancelled' ? 'bg-gray-300 dark:bg-gray-600' : 'bg-[#5ecece]/30'}`} />
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
@@ -242,7 +242,7 @@ export function SchedulePage() {
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     {!apt.isFree && (
                       <div className="flex items-center gap-1">
-                        <Coins className="w-3 h-3 text-[#c9a96e]" />
+                        <Coins className="w-3 h-3 text-[#5ecece]" />
                         <span className="text-sm font-bold text-gray-900 dark:text-gray-100">
                           {apt.price.toLocaleString('ru-RU')} ₽
                         </span>
@@ -303,7 +303,7 @@ export function SchedulePage() {
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   Тип действия <span className="text-red-500">*</span>
                 </label>
-                <select className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]">
+                <select className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]">
                   <option>Отмена назначения</option>
                   <option>Перенос на другую дату</option>
                   <option>Перенос на прошлое (корректировка)</option>
@@ -314,7 +314,7 @@ export function SchedulePage() {
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   Назначение <span className="text-red-500">*</span>
                 </label>
-                <select className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]">
+                <select className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]">
                   <option>Грязевые аппликации — 15.05, 11:00</option>
                   <option>Подводный душ-массаж — 15.05, 14:00</option>
                   <option>Электросон — 15.05, 15:30</option>
@@ -330,7 +330,7 @@ export function SchedulePage() {
                   onChange={(e) => setAuditReason(e.target.value)}
                   rows={3}
                   placeholder="Укажите причину отмены или переноса..."
-                  className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e] resize-none"
+                  className="w-full px-3 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] resize-none"
                 />
               </div>
             </div>
@@ -342,7 +342,7 @@ export function SchedulePage() {
               </button>
               <button
                 disabled={!auditReason.trim()}
-                className="px-4 py-2 text-sm font-medium text-white bg-[#c9a96e] rounded-lg hover:bg-[#b89558] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="px-4 py-2 text-sm font-medium text-white bg-[#5ecece] rounded-lg hover:bg-[#4bb8b8] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 Подтвердить и записать
               </button>
@@ -361,7 +361,7 @@ export function SchedulePage() {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-[#253041]">
               <div className="flex items-center gap-2">
-                <Plus className="w-5 h-5 text-[#c9a96e]" />
+                <Plus className="w-5 h-5 text-[#5ecece]" />
                 <h2 className="text-base font-serif font-bold text-gray-900 dark:text-gray-100">
                   Конструктор назначений
                 </h2>
@@ -383,7 +383,7 @@ export function SchedulePage() {
                     value={builderSearch}
                     onChange={(e) => setBuilderSearch(e.target.value)}
                     placeholder="Начните вводить название процедуры..."
-                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]"
+                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#0b1120] border border-gray-300 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
                   />
                 </div>
               </div>
@@ -399,7 +399,7 @@ export function SchedulePage() {
                       <p className="text-[11px] text-gray-500 dark:text-gray-400">Грязелечебница, каб. 8 · 20 мин</p>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Coins className="w-3.5 h-3.5 text-[#c9a96e]" />
+                      <Coins className="w-3.5 h-3.5 text-[#5ecece]" />
                       <span className="text-sm font-bold text-gray-900 dark:text-gray-100">1 800 ₽</span>
                     </div>
                     <button className="p-1 rounded text-gray-400 hover:text-red-500 transition-colors">
@@ -413,7 +413,7 @@ export function SchedulePage() {
                       <p className="text-[11px] text-gray-500 dark:text-gray-400">Водолечебница, каб. 2 · 15 мин</p>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Coins className="w-3.5 h-3.5 text-[#c9a96e]" />
+                      <Coins className="w-3.5 h-3.5 text-[#5ecece]" />
                       <span className="text-sm font-bold text-gray-900 dark:text-gray-100">2 500 ₽</span>
                     </div>
                     <button className="p-1 rounded text-gray-400 hover:text-red-500 transition-colors">
@@ -435,7 +435,7 @@ export function SchedulePage() {
                   <button
                     onClick={() => setIsFree(false)}
                     className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                      !isFree ? 'bg-[#c9a96e] text-white' : 'bg-white dark:bg-[#151e2e] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#253041]'
+                      !isFree ? 'bg-[#5ecece] text-white' : 'bg-white dark:bg-[#151e2e] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#253041]'
                     }`}>
                     <span className="flex items-center gap-1"><Coins className="w-3 h-3" /> Платно</span>
                   </button>
@@ -450,11 +450,11 @@ export function SchedulePage() {
               </div>
 
               {/* Total */}
-              <div className="flex items-center justify-between px-4 py-3 bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 rounded-lg border border-[#c9a96e]/20">
+              <div className="flex items-center justify-between px-4 py-3 bg-[#5ecece]/10 dark:bg-[#5ecece]/15 rounded-lg border border-[#5ecece]/20">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Итого:</span>
                 <div className="flex items-center gap-1">
-                  <Coins className="w-4 h-4 text-[#c9a96e]" />
-                  <span className="text-lg font-bold text-[#c9a96e]">4 300 ₽</span>
+                  <Coins className="w-4 h-4 text-[#5ecece]" />
+                  <span className="text-lg font-bold text-[#5ecece]">4 300 ₽</span>
                 </div>
               </div>
 
@@ -470,7 +470,7 @@ export function SchedulePage() {
               <button onClick={() => setShowBuilderModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-[#1e293b] rounded-lg hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">
                 Отмена
               </button>
-              <button className="px-4 py-2 text-sm font-medium text-white bg-[#c9a96e] rounded-lg hover:bg-[#b89558] transition-colors">
+              <button className="px-4 py-2 text-sm font-medium text-white bg-[#5ecece] rounded-lg hover:bg-[#4bb8b8] transition-colors">
                 Назначить услуги
               </button>
             </div>

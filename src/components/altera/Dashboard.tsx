@@ -5,10 +5,8 @@ import {
   Clock,
   Calendar,
   MapPin,
-  X,
+  FileText,
   Search,
-  LayoutGrid,
-  Table,
   ArrowRight,
 } from 'lucide-react'
 
@@ -27,6 +25,8 @@ interface Patient {
   doctor: string
   progress: number
   daysLeft: number
+  totalDays: number
+  paymentStatus: 'paid' | 'partial' | 'debt'
   hasNewAnalyses: boolean
 }
 
@@ -66,14 +66,14 @@ const todayAppointments: Appointment[] = [
 ]
 
 const patients: Patient[] = [
-  { id: 1, fio: 'Петрова Анна Сергеевна', shortName: 'Петрова А.С.', initials: 'ПА', age: 45, diagnosis: 'M54.5 — Боль в пояснице', room: '314', doctor: 'Иванов И.М.', progress: 86, daysLeft: 3, hasNewAnalyses: true },
-  { id: 2, fio: 'Козлов Дмитрий Александрович', shortName: 'Козлов Д.А.', initials: 'КД', age: 58, diagnosis: 'I10 — Эссенциальная гипертензия', room: '215', doctor: 'Иванов И.М.', progress: 80, daysLeft: -3, hasNewAnalyses: false },
-  { id: 3, fio: 'Волкова Марина Николаевна', shortName: 'Волкова М.Н.', initials: 'ВМ', age: 38, diagnosis: 'M79.3 — Панникулит', room: '307', doctor: 'Сидорова О.Н.', progress: 100, daysLeft: 0, hasNewAnalyses: true },
-  { id: 4, fio: 'Новиков Алексей Викторович', shortName: 'Новиков А.В.', initials: 'НА', age: 62, diagnosis: 'I10 — Гипертензия', room: '223', doctor: 'Иванов И.М.', progress: 40, daysLeft: 8, hasNewAnalyses: false },
-  { id: 5, fio: 'Кузнецова Ольга Андреевна', shortName: 'Кузнецова О.А.', initials: 'КО', age: 52, diagnosis: 'K29.5 — Хронический гастрит', room: '409', doctor: 'Иванов И.М.', progress: 50, daysLeft: 12, hasNewAnalyses: false },
-  { id: 6, fio: 'Соколов Павел Дмитриевич', shortName: 'Соколов П.Д.', initials: 'СП', age: 63, diagnosis: 'M79.1 — Миалгия', room: '116', doctor: 'Иванов И.М.', progress: 30, daysLeft: 15, hasNewAnalyses: true },
-  { id: 7, fio: 'Смирнова Елена Владимировна', shortName: 'Смирнова Е.В.', initials: 'СЕ', age: 48, diagnosis: 'G43 — Мигрень', room: '412', doctor: 'Иванов И.М.', progress: 60, daysLeft: 5, hasNewAnalyses: false },
-  { id: 8, fio: 'Морозов Игорь Петрович', shortName: 'Морозов И.П.', initials: 'МИ', age: 55, diagnosis: 'M17 — Гонартроз', room: '118', doctor: 'Сидорова О.Н.', progress: 70, daysLeft: 7, hasNewAnalyses: false },
+  { id: 1, fio: 'Петрова Анна Сергеевна', shortName: 'Петрова А.С.', initials: 'ПА', age: 45, diagnosis: 'M54.5 — Боль в пояснице', room: '314', doctor: 'Иванов И.М.', progress: 86, daysLeft: 2, totalDays: 14, paymentStatus: 'paid' as const, hasNewAnalyses: true },
+  { id: 2, fio: 'Козлов Дмитрий Александрович', shortName: 'Козлов Д.А.', initials: 'КД', age: 58, diagnosis: 'I10 — Эссенциальная гипертензия', room: '215', doctor: 'Иванов И.М.', progress: 100, daysLeft: 0, totalDays: 10, paymentStatus: 'debt' as const, hasNewAnalyses: false },
+  { id: 3, fio: 'Волкова Марина Николаевна', shortName: 'Волкова М.Н.', initials: 'ВМ', age: 38, diagnosis: 'M79.3 — Панникулит', room: '307', doctor: 'Сидорова О.Н.', progress: 100, daysLeft: 0, totalDays: 7, paymentStatus: 'paid' as const, hasNewAnalyses: true },
+  { id: 4, fio: 'Новиков Алексей Викторович', shortName: 'Новиков А.В.', initials: 'НА', age: 62, diagnosis: 'I10 — Гипертензия', room: '223', doctor: 'Иванов И.М.', progress: 40, daysLeft: 8, totalDays: 14, paymentStatus: 'paid' as const, hasNewAnalyses: false },
+  { id: 5, fio: 'Кузнецова Ольга Андреевна', shortName: 'Кузнецова О.А.', initials: 'КО', age: 52, diagnosis: 'K29.5 — Хронический гастрит', room: '409', doctor: 'Иванов И.М.', progress: 50, daysLeft: 7, totalDays: 14, paymentStatus: 'partial' as const, hasNewAnalyses: false },
+  { id: 6, fio: 'Соколов Павел Дмитриевич', shortName: 'Соколов П.Д.', initials: 'СП', age: 63, diagnosis: 'M79.1 — Миалгия', room: '116', doctor: 'Иванов И.М.', progress: 30, daysLeft: 10, totalDays: 14, paymentStatus: 'paid' as const, hasNewAnalyses: true },
+  { id: 7, fio: 'Смирнова Елена Владимировна', shortName: 'Смирнова Е.В.', initials: 'СЕ', age: 48, diagnosis: 'G43 — Мигрень', room: '412', doctor: 'Иванов И.М.', progress: 60, daysLeft: 5, totalDays: 10, paymentStatus: 'paid' as const, hasNewAnalyses: false },
+  { id: 8, fio: 'Морозов Игорь Петрович', shortName: 'Морозов И.П.', initials: 'МИ', age: 55, diagnosis: 'M17 — Гонартроз', room: '118', doctor: 'Сидорова О.Н.', progress: 70, daysLeft: 4, totalDays: 14, paymentStatus: 'debt' as const, hasNewAnalyses: false },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -95,10 +95,18 @@ function getRussianDate(): string {
   return `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}, ${days[now.getDay()]}`
 }
 
-function daysLabel(days: number): string {
-  if (days > 0) return `осталось ${days} дн.`
+function daysLabel(days: number, total: number): string {
+  if (days > 0) return `${days} из ${total} дн.`
   if (days === 0) return 'последний день'
-  return `прошло ${Math.abs(days)} дн.`
+  return `выписан`
+}
+
+function PaymentBadge({ status }: { status: Patient['paymentStatus'] }) {
+  if (status === 'paid') return null
+  const cfg = status === 'debt'
+    ? { label: 'Задолженность', cls: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' }
+    : { label: 'Частично', cls: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400' }
+  return <span className={`shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${cfg.cls}`}>{cfg.label}</span>
 }
 
 function openPatient(p: Patient, cb: DashboardProps['onOpenPatient']) {
@@ -123,7 +131,6 @@ function StatusDot({ status }: { status: Appointment['status'] }) {
 /* ------------------------------------------------------------------ */
 
 export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardProps) {
-  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards')
   const [filterMode, setFilterMode] = useState<'mine' | 'all'>('all')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -149,17 +156,17 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   /* ================================================================ */
 
   const widgetNext = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] border-l-4 border-l-[#c9a96e] p-5 flex flex-col gap-4 md:col-span-1">
+    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] border-l-4 border-l-[#5ecece] p-5 flex flex-col gap-4 md:col-span-1">
       {/* header */}
       <div className="flex items-center gap-2">
-        <Clock className="h-4 w-4 text-[#c9a96e]" />
+        <Clock className="h-4 w-4 text-[#5ecece]" />
         <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Следующий приём</span>
       </div>
 
       {nextPatient ? (
         <>
           {/* time */}
-          <p className="font-serif text-2xl text-[#c9a96e]">08:30</p>
+          <p className="font-serif text-2xl text-[#5ecece]">08:30</p>
           <p className="text-xs text-gray-500 dark:text-gray-400">Приём идёт</p>
 
           {/* patient info */}
@@ -174,7 +181,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
           {/* CTA */}
           <button
             onClick={() => openPatient(nextPatient, onOpenPatient)}
-            className="mt-auto w-full rounded-lg bg-[#c9a96e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#b89558]"
+            className="mt-auto w-full rounded-lg bg-[#5ecece] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#4bb8b8]"
           >
             Начать приём
           </button>
@@ -194,7 +201,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-[#c9a96e]" />
+          <Calendar className="h-4 w-4 text-[#5ecece]" />
           <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Мой день</span>
         </div>
         <span className="text-xs text-gray-500 dark:text-gray-400">{getRussianDate()}</span>
@@ -211,7 +218,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
               onClick={() => patient && openPatient(patient, onOpenPatient)}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors text-sm ${
                 isCurrent
-                  ? 'bg-[#c9a96e]/10'
+                  ? 'bg-[#5ecece]/10'
                   : 'hover:bg-gray-100 dark:hover:bg-[#1e293b]'
               } ${appt.status === 'completed' ? 'opacity-60' : ''}`}
             >
@@ -225,26 +232,6 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                 <p className="truncate font-medium text-gray-900 dark:text-gray-100">{appt.patient}</p>
                 <p className="truncate text-xs text-gray-500 dark:text-gray-400">{appt.procedure}</p>
               </div>
-
-              {/* action icons for upcoming */}
-              {appt.status === 'upcoming' && (
-                <div className="flex items-center gap-1 shrink-0">
-                  <button
-                    onClick={(e) => { e.stopPropagation() }}
-                    className="rounded-md p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                    title="Отменить"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation() }}
-                    className="rounded-md p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                    title="Перенести"
-                  >
-                    <Calendar className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              )}
             </li>
           )
         })}
@@ -258,7 +245,55 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   )
 
   /* ================================================================ */
-  /*  Widget 3 — Реестр пациентов                                      */
+  /*  Widget 3 — К заполнению                                           */
+  /* ================================================================ */
+
+  const toCompleteItems = [
+    { id: 't1', patient: 'Козлов Д.А.', label: 'Эпикриз', timeAgo: '2 дня назад' },
+    { id: 't2', patient: 'Петрова А.С.', label: 'Заключение приёма', timeAgo: 'вчера' },
+    { id: 't3', patient: 'Волкова М.Н.', label: 'Результаты анализов', timeAgo: 'вчера' },
+  ]
+
+  const widgetToComplete = (
+    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-3 md:col-span-1">
+      {/* header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <FileText className="h-4 w-4 text-[#5ecece]" />
+          <span className="text-sm font-bold text-gray-900 dark:text-gray-100">К заполнению</span>
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5ecece]/15 text-[11px] font-semibold text-[#5ecece]">
+            {toCompleteItems.length}
+          </span>
+        </div>
+      </div>
+
+      {/* list */}
+      <ul className="flex flex-col gap-1">
+        {toCompleteItems.map((item) => (
+          <li
+            key={item.id}
+            className="flex items-center justify-between gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-[#1e293b]"
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.patient}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{item.label}</p>
+            </div>
+            <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">{item.timeAgo}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* show all link */}
+      <button
+        className="flex items-center gap-1 text-sm font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors mt-auto"
+      >
+        Показать все <ArrowRight className="h-4 w-4" />
+      </button>
+    </div>
+  )
+
+  /* ================================================================ */
+  /*  Widget 4 — Реестр пациентов                                      */
   /* ================================================================ */
 
   const patientRow = (p: Patient) => (
@@ -267,7 +302,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       className="flex items-center gap-4 rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-4 transition-colors hover:shadow-sm"
     >
       {/* avatar */}
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#c9a96e]/15 text-sm font-semibold text-[#c9a96e]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#5ecece]/15 text-sm font-semibold text-[#5ecece]">
         {p.initials}
       </div>
 
@@ -280,6 +315,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
           {p.hasNewAnalyses && (
             <span className="shrink-0 h-2 w-2 rounded-full bg-sky-500" title="Новые анализы" />
           )}
+          <PaymentBadge status={p.paymentStatus} />
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
           {p.diagnosis} · пал. {p.room} · {p.age} лет
@@ -289,12 +325,12 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
         <div className="flex items-center gap-3 mt-1.5">
           <div className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
             <div
-              className="h-full rounded-full bg-[#c9a96e] transition-all"
+              className="h-full rounded-full bg-[#5ecece] transition-all"
               style={{ width: `${p.progress}%` }}
             />
           </div>
           <span className="text-[11px] text-gray-500 dark:text-gray-400 shrink-0">
-            {p.progress}% · {daysLabel(p.daysLeft)}
+            {p.progress}% · {daysLabel(p.daysLeft, p.totalDays)}
           </span>
         </div>
       </div>
@@ -309,51 +345,6 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
     </div>
   )
 
-  const patientTableRow = (p: Patient) => (
-    <tr
-      key={p.id}
-      className="border-b border-gray-200 dark:border-[#253041] last:border-b-0 transition-colors hover:bg-gray-50 dark:hover:bg-[#1e293b]"
-    >
-      <td className="py-2.5 pr-3">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#c9a96e]/15 text-xs font-semibold text-[#c9a96e]">
-            {p.initials}
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                {p.shortName}
-              </span>
-              {p.hasNewAnalyses && (
-                <span className="shrink-0 h-1.5 w-1.5 rounded-full bg-sky-500" />
-              )}
-            </div>
-            <span className="text-xs text-gray-500 dark:text-gray-400">{p.age} лет</span>
-          </div>
-        </div>
-      </td>
-      <td className="py-2.5 pr-3 text-xs text-gray-500 dark:text-gray-400">пал. {p.room}</td>
-      <td className="py-2.5 pr-3 text-xs text-gray-500 dark:text-gray-400 max-w-[200px] truncate">{p.diagnosis}</td>
-      <td className="py-2.5 pr-3">
-        <div className="flex items-center gap-2">
-          <div className="w-20 h-1.5 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
-            <div className="h-full rounded-full bg-[#c9a96e]" style={{ width: `${p.progress}%` }} />
-          </div>
-          <span className="text-xs text-gray-500 dark:text-gray-400">{p.progress}%</span>
-        </div>
-      </td>
-      <td className="py-2.5 pr-3 text-xs text-gray-500 dark:text-gray-400">{daysLabel(p.daysLeft)}</td>
-      <td className="py-2.5 text-right">
-        <button
-          onClick={() => openPatient(p, onOpenPatient)}
-          className="rounded-lg border border-gray-300 dark:border-[#253041] px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-100 dark:hover:bg-[#1e293b]"
-        >
-          Открыть
-        </button>
-      </td>
-    </tr>
-  )
-
   const widgetRegistry = (
     <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-4">
       {/* header */}
@@ -364,7 +355,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
         </div>
         <button
           onClick={onOpenRegistry}
-          className="flex items-center gap-1 text-sm font-medium text-[#c9a96e] hover:text-[#b89558] transition-colors"
+          className="flex items-center gap-1 text-sm font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors"
         >
           Все пациенты <ArrowRight className="h-4 w-4" />
         </button>
@@ -372,29 +363,14 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
 
       {/* toolbar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        {/* view mode + filter */}
+        {/* filter */}
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border border-gray-200 dark:border-[#253041] p-0.5">
-            <button
-              onClick={() => setViewMode('cards')}
-              className={`rounded-md p-1.5 transition-colors ${viewMode === 'cards' ? 'bg-[#c9a96e]/15 text-[#c9a96e]' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
-            >
-              <LayoutGrid className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setViewMode('table')}
-              className={`rounded-md p-1.5 transition-colors ${viewMode === 'table' ? 'bg-[#c9a96e]/15 text-[#c9a96e]' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
-            >
-              <Table className="h-4 w-4" />
-            </button>
-          </div>
-
           <div className="flex rounded-lg border border-gray-200 dark:border-[#253041] p-0.5">
             <button
               onClick={() => setFilterMode('mine')}
               className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
                 filterMode === 'mine'
-                  ? 'bg-[#c9a96e] text-white'
+                  ? 'bg-[#5ecece] text-white'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
@@ -404,7 +380,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
               onClick={() => setFilterMode('all')}
               className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
                 filterMode === 'all'
-                  ? 'bg-[#c9a96e] text-white'
+                  ? 'bg-[#5ecece] text-white'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
@@ -420,31 +396,13 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Поиск по ФИО или номеру палаты..."
-            className="w-full rounded-md border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-1.5 pl-8 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e] transition-colors"
+            className="w-full rounded-md border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-1.5 pl-8 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors"
           />
         </div>
       </div>
 
-      {/* patient list / table */}
-      {viewMode === 'cards' ? (
-        <div className="flex flex-col gap-3">{filteredPatients.map(patientRow)}</div>
-      ) : (
-        <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] overflow-hidden">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-gray-200 dark:border-[#253041]">
-                <th className="px-3 py-2 text-xs font-medium text-gray-400">Пациент</th>
-                <th className="px-3 py-2 text-xs font-medium text-gray-400">Палата</th>
-                <th className="px-3 py-2 text-xs font-medium text-gray-400">Диагноз</th>
-                <th className="px-3 py-2 text-xs font-medium text-gray-400">Прогресс</th>
-                <th className="px-3 py-2 text-xs font-medium text-gray-400">Срок</th>
-                <th className="px-3 py-2 text-xs font-medium text-gray-400 text-right">Действие</th>
-              </tr>
-            </thead>
-            <tbody>{filteredPatients.map(patientTableRow)}</tbody>
-          </table>
-        </div>
-      )}
+      {/* patient list */}
+      <div className="flex flex-col gap-3">{filteredPatients.map(patientRow)}</div>
     </div>
   )
 
@@ -457,6 +415,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {widgetNext}
         {widgetDay}
+        {widgetToComplete}
       </div>
       {widgetRegistry}
     </div>

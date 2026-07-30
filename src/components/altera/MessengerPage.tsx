@@ -139,7 +139,7 @@ export function MessengerPage() {
         <ChevronRight className="w-3 h-3" />
         <span>Рабочее место</span>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#c9a96e] font-medium">Сообщения</span>
+        <span className="text-[#5ecece] font-medium">Сообщения</span>
       </div>
 
       {/* Messenger Layout */}
@@ -158,7 +158,7 @@ export function MessengerPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Поиск пациентов..."
-                className="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]"
+                className="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
               />
             </div>
           </div>
@@ -178,7 +178,7 @@ export function MessengerPage() {
                 onClick={() => setSelectedPatient(patient)}
                 className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 ${
                   selectedPatient.id === patient.id
-                    ? 'bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 border-l-2 border-[#c9a96e]'
+                    ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 border-l-2 border-[#5ecece]'
                     : 'hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 border-l-2 border-transparent'
                 }`}
               >
@@ -186,8 +186,8 @@ export function MessengerPage() {
                 <div className="relative shrink-0">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold ${
                     selectedPatient.id === patient.id
-                      ? 'bg-[#c9a96e] text-white'
-                      : 'bg-[#c9a96e]/15 text-[#c9a96e]'
+                      ? 'bg-[#5ecece] text-white'
+                      : 'bg-[#5ecece]/15 text-[#5ecece]'
                   }`}>
                     {patient.avatar}
                   </div>
@@ -201,7 +201,7 @@ export function MessengerPage() {
                   <div className="flex items-center justify-between">
                     <span className={`text-sm font-medium truncate ${
                       selectedPatient.id === patient.id
-                        ? 'text-[#c9a96e]'
+                        ? 'text-[#5ecece]'
                         : 'text-gray-900 dark:text-gray-100'
                     }`}>
                       {patient.name}
@@ -215,7 +215,7 @@ export function MessengerPage() {
                       {patient.lastMessage}
                     </span>
                     {patient.unread > 0 && (
-                      <span className="w-4.5 h-4.5 rounded-full bg-[#c9a96e] text-white text-[10px] font-bold flex items-center justify-center shrink-0 ml-1 px-1">
+                      <span className="w-4.5 h-4.5 rounded-full bg-[#5ecece] text-white text-[10px] font-bold flex items-center justify-center shrink-0 ml-1 px-1">
                         {patient.unread}
                       </span>
                     )}
@@ -231,7 +231,7 @@ export function MessengerPage() {
           {/* Chat header */}
           <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 dark:border-[#253041]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#c9a96e] flex items-center justify-center text-xs font-bold text-white">
+              <div className="w-10 h-10 rounded-full bg-[#5ecece] flex items-center justify-center text-xs font-bold text-white">
                 {selectedPatient.avatar}
               </div>
               <div>
@@ -241,7 +241,7 @@ export function MessengerPage() {
                 <div className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400">
                   <span>{selectedPatient.room}</span>
                   <span className="text-gray-300 dark:text-gray-600">·</span>
-                  <span className="text-[#c9a96e]">Консультирую</span>
+                  <span className="text-[#5ecece]">Консультирую</span>
                 </div>
               </div>
             </div>
@@ -274,7 +274,7 @@ export function MessengerPage() {
                     <span className="text-[10px] text-gray-400 dark:text-gray-500">{msg.time}</span>
                     {msg.senderId === 'doctor' && (
                       msg.isRead ? (
-                        <CheckCheck className="w-3 h-3 text-[#c9a96e]" />
+                        <CheckCheck className="w-3 h-3 text-[#5ecece]" />
                       ) : (
                         <Check className="w-3 h-3 text-gray-400" />
                       )
@@ -284,7 +284,7 @@ export function MessengerPage() {
                   {/* Message bubble */}
                   <div className={`rounded-xl px-4 py-2.5 ${
                     msg.senderId === 'doctor'
-                      ? 'bg-[#c9a96e] text-white rounded-br-sm'
+                      ? 'bg-[#5ecece] text-white rounded-br-sm'
                       : 'bg-gray-100 dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 rounded-bl-sm'
                   }`}>
                     <p className="text-sm leading-relaxed">{msg.text}</p>
@@ -345,12 +345,12 @@ export function MessengerPage() {
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Напишите сообщение..."
-                className="flex-1 px-4 py-2.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e]"
+                className="flex-1 px-4 py-2.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
               />
               <button
                 onClick={handleSend}
                 disabled={!newMessage.trim()}
-                className="px-4 py-2.5 bg-[#c9a96e] text-white rounded-lg text-sm font-medium hover:bg-[#b89558] disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+                className="px-4 py-2.5 bg-[#5ecece] text-white rounded-lg text-sm font-medium hover:bg-[#4bb8b8] disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>

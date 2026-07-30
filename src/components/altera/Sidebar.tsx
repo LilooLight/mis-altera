@@ -62,8 +62,8 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
       {/* User info */}
       <div className="p-4 border-b border-gray-200 dark:border-[#253041]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#c9a96e]/15 border border-[#c9a96e]/30 flex items-center justify-center shrink-0">
-            <span className="text-sm font-bold text-[#c9a96e]">ИИ</span>
+          <div className="w-10 h-10 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+            <span className="text-sm font-bold text-[#5ecece]">ИИ</span>
           </div>
           {isOpen && (
             <div className="flex flex-col min-w-0">
@@ -78,7 +78,7 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
         </div>
         {isOpen && (
           <div className="mt-3 flex items-center gap-2">
-            <span className="text-xl font-serif italic text-[#c9a96e]">Моё</span>
+            <span className="text-xl font-serif italic text-[#5ecece]">Моё</span>
             <span className="text-xl font-serif text-gray-900 dark:text-gray-100">здоровье</span>
           </div>
         )}
@@ -92,7 +92,7 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
             onClick={() => onPageChange(item.id)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-all duration-200 group relative ${
               activePage === item.id
-                ? 'bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 text-[#c9a96e] border-l-2 border-[#c9a96e]'
+                ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece] border-l-2 border-[#5ecece]'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] hover:text-gray-900 dark:hover:text-gray-200 border-l-2 border-transparent'
             } ${!isOpen ? 'justify-center px-0' : ''}`}
             title={!isOpen ? item.label : undefined}
@@ -102,19 +102,19 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
                 {String(idx + 1).padStart(2, '0')}
               </span>
             )}
-            <span className={`shrink-0 ${activePage === item.id ? 'text-[#c9a96e]' : 'group-hover:text-[#c9a96e]/70'}`}>
+            <span className={`shrink-0 ${activePage === item.id ? 'text-[#5ecece]' : 'group-hover:text-[#5ecece]/70'}`}>
               {item.icon}
             </span>
             {isOpen && (
               <span className="text-sm font-medium truncate">{item.label}</span>
             )}
             {item.badge && isOpen && (
-              <span className="ml-auto w-5 h-5 rounded-full bg-[#c9a96e] text-white text-[10px] font-bold flex items-center justify-center">
+              <span className="ml-auto w-5 h-5 rounded-full bg-[#5ecece] text-white text-[10px] font-bold flex items-center justify-center">
                 {item.badge}
               </span>
             )}
             {!isOpen && item.badge && (
-              <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#c9a96e] text-white text-[8px] font-bold flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#5ecece] text-white text-[8px] font-bold flex items-center justify-center">
                 {item.badge}
               </span>
             )}

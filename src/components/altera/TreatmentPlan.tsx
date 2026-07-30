@@ -235,8 +235,8 @@ export function TreatmentPlan() {
                     occupied
                       ? 'px-3 py-2 rounded-lg text-xs bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                       : isSelected
-                        ? 'px-3 py-2 rounded-lg text-xs bg-[#c9a96e] text-white font-medium shadow-sm'
-                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors cursor-pointer'
+                        ? 'px-3 py-2 rounded-lg text-xs bg-[#5ecece] text-white font-medium shadow-sm'
+                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
                   }
                 >
                   <Clock className="inline-block w-3 h-3 mr-1" />
@@ -262,8 +262,8 @@ export function TreatmentPlan() {
                     occupied
                       ? 'px-3 py-2 rounded-lg text-xs bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                       : isSelected
-                        ? 'px-3 py-2 rounded-lg text-xs bg-[#c9a96e] text-white font-medium shadow-sm'
-                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#c9a96e] hover:text-[#c9a96e] transition-colors cursor-pointer'
+                        ? 'px-3 py-2 rounded-lg text-xs bg-[#5ecece] text-white font-medium shadow-sm'
+                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
                   }
                 >
                   <Clock className="inline-block w-3 h-3 mr-1" />
@@ -322,7 +322,7 @@ export function TreatmentPlan() {
             </h2>
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#c9a96e] text-white text-sm font-medium hover:bg-[#b89558] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#5ecece] text-white text-sm font-medium hover:bg-[#4bb8b8] transition-colors"
             >
               <Plus className="w-4 h-4" />
               Добавить назначение
@@ -336,7 +336,7 @@ export function TreatmentPlan() {
               onClick={() => { setActiveTab('medication'); setSelectedSlot(null) }}
               className={
                 activeTab === 'medication'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -348,7 +348,7 @@ export function TreatmentPlan() {
               onClick={() => { setActiveTab('specialist'); setSelectedSlot(null) }}
               className={
                 activeTab === 'specialist'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -360,7 +360,7 @@ export function TreatmentPlan() {
               onClick={() => { setActiveTab('procedure'); setSelectedSlot(null) }}
               className={
                 activeTab === 'procedure'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -384,7 +384,7 @@ export function TreatmentPlan() {
                     onChange={(e) => { setMedicationSearch(e.target.value); setShowMedDropdown(true) }}
                     onFocus={() => setShowMedDropdown(true)}
                     placeholder="Поиск препарата..."
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 {showMedDropdown && filteredMedications.length > 0 && (
@@ -404,7 +404,7 @@ export function TreatmentPlan() {
                           <Pill className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                           <span className="text-gray-900 dark:text-gray-100">{med.name}</span>
                         </div>
-                        <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-[#c9a96e]">{med.category}</span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500 group-hover:text-[#5ecece]">{med.category}</span>
                       </button>
                     ))}
                   </div>
@@ -421,7 +421,7 @@ export function TreatmentPlan() {
                     value={dosage}
                     onChange={(e) => setDosage(e.target.value)}
                     placeholder="100 мг"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 <div>
@@ -431,7 +431,7 @@ export function TreatmentPlan() {
                   <select
                     value={frequency}
                     onChange={(e) => setFrequency(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors appearance-none cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors appearance-none cursor-pointer"
                   >
                     <option value="">Выберите...</option>
                     {FREQUENCY_OPTIONS.map((opt) => (
@@ -448,7 +448,7 @@ export function TreatmentPlan() {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     placeholder="14 дней"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
               </div>
@@ -463,8 +463,8 @@ export function TreatmentPlan() {
                     role="switch"
                     aria-checked={isPaid}
                     onClick={() => setIsPaid(!isPaid)}
-                    className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent shadow-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a96e]/50 cursor-pointer ${
-                      isPaid ? 'bg-[#c9a96e]' : 'bg-gray-300 dark:bg-gray-600'
+                    className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent shadow-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5ecece]/50 cursor-pointer ${
+                      isPaid ? 'bg-[#5ecece]' : 'bg-gray-300 dark:bg-gray-600'
                     }`}
                   >
                     <span
@@ -479,7 +479,7 @@ export function TreatmentPlan() {
                 </div>
                 {isPaid && (
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Coins className="w-4 h-4 text-[#c9a96e]" />
+                    <Coins className="w-4 h-4 text-[#5ecece]" />
                     <span>Цена: <span className="font-semibold text-gray-900 dark:text-gray-100">350 ₽</span></span>
                   </div>
                 )}
@@ -494,14 +494,14 @@ export function TreatmentPlan() {
                   onChange={(e) => setComment(e.target.value)}
                   rows={2}
                   placeholder="Дополнительные указания..."
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors resize-none"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
                 />
               </div>
 
               <div className="flex justify-end">
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#c9a96e] text-white text-sm font-medium hover:bg-[#b89558] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#5ecece] text-white text-sm font-medium hover:bg-[#4bb8b8] transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
                   Добавить в план
@@ -520,7 +520,7 @@ export function TreatmentPlan() {
                 <button
                   type="button"
                   onClick={() => setShowSpecDropdown(!showSpecDropdown)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-left text-sm flex items-center justify-between focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                  className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-left text-sm flex items-center justify-between focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Stethoscope className="w-4 h-4 text-gray-400 dark:text-gray-500" />
@@ -561,7 +561,7 @@ export function TreatmentPlan() {
                   onChange={(e) => setComment(e.target.value)}
                   rows={2}
                   placeholder="Цель визита, жалобы..."
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors resize-none"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
                 />
               </div>
 
@@ -582,7 +582,7 @@ export function TreatmentPlan() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                  className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                 />
               </div>
 
@@ -598,7 +598,7 @@ export function TreatmentPlan() {
               <div className="flex justify-end">
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#c9a96e] text-white text-sm font-medium hover:bg-[#b89558] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#5ecece] text-white text-sm font-medium hover:bg-[#4bb8b8] transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
                   Добавить в план
@@ -619,7 +619,7 @@ export function TreatmentPlan() {
                     onChange={(e) => { setProcedureSearch(e.target.value); setShowProcDropdown(true) }}
                     onFocus={() => setShowProcDropdown(true)}
                     placeholder="Поиск процедуры..."
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 {showProcDropdown && filteredProcedures.length > 0 && (
@@ -639,7 +639,7 @@ export function TreatmentPlan() {
                           <Activity className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                           <span className="text-gray-900 dark:text-gray-100">{proc.name}</span>
                         </div>
-                        <span className="text-xs font-medium text-[#c9a96e]">
+                        <span className="text-xs font-medium text-[#5ecece]">
                           {proc.price.toLocaleString('ru-RU')} ₽
                         </span>
                       </button>
@@ -651,7 +651,7 @@ export function TreatmentPlan() {
               {selectedProcedure && (
                 <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] space-y-4">
                   <div className="flex items-center gap-3">
-                    <Coins className="w-5 h-5 text-[#c9a96e]" />
+                    <Coins className="w-5 h-5 text-[#5ecece]" />
                     <div>
                       <p className="text-xs text-gray-500 dark:text-gray-400">Стоимость</p>
                       <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
@@ -669,8 +669,8 @@ export function TreatmentPlan() {
                       role="switch"
                       aria-checked={isPaid}
                       onClick={() => setIsPaid(!isPaid)}
-                      className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent shadow-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a96e]/50 cursor-pointer ${
-                        isPaid ? 'bg-[#c9a96e]' : 'bg-gray-300 dark:bg-gray-600'
+                      className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent shadow-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5ecece]/50 cursor-pointer ${
+                        isPaid ? 'bg-[#5ecece]' : 'bg-gray-300 dark:bg-gray-600'
                       }`}
                     >
                       <span
@@ -701,7 +701,7 @@ export function TreatmentPlan() {
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#c9a96e] focus:ring-1 focus:ring-[#c9a96e]/30 transition-colors"
+                      className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                     />
                   </div>
 
@@ -719,7 +719,7 @@ export function TreatmentPlan() {
               <div className="flex justify-end">
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#c9a96e] text-white text-sm font-medium hover:bg-[#b89558] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#5ecece] text-white text-sm font-medium hover:bg-[#4bb8b8] transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
                   Добавить в план
@@ -766,7 +766,7 @@ export function TreatmentPlan() {
               Назначено, время не согласовано
             </div>
             <div className="flex items-center gap-1.5">
-              <Coins className="w-3.5 h-3.5 text-[#c9a96e]" />
+              <Coins className="w-3.5 h-3.5 text-[#5ecece]" />
               Платное
             </div>
             <div className="flex items-center gap-1.5">
@@ -802,7 +802,7 @@ export function TreatmentPlan() {
                       !cell.isCurrentMonth
                         ? 'bg-gray-50 dark:bg-[#0b1120]/50'
                         : isDropTarget
-                          ? 'bg-[#c9a96e]/5 dark:bg-[#c9a96e]/10 border-2 border-dashed border-[#c9a96e]'
+                          ? 'bg-[#5ecece]/5 dark:bg-[#5ecece]/10 border-2 border-dashed border-[#5ecece]'
                           : hasUnpaid
                             ? 'border-t-2 border-t-red-400 dark:border-t-orange-500'
                             : ''
@@ -843,7 +843,7 @@ export function TreatmentPlan() {
                                 ? 'opacity-80 shadow-lg scale-105 cursor-grabbing z-10 relative'
                                 : 'cursor-grab hover:opacity-80'
                             } ${
-                              appt.status !== 'cancelled' ? 'hover:ring-1 hover:ring-[#c9a96e]/30' : ''
+                              appt.status !== 'cancelled' ? 'hover:ring-1 hover:ring-[#5ecece]/30' : ''
                             }`
                           }
                         >
@@ -852,7 +852,7 @@ export function TreatmentPlan() {
                             <Check className="w-2.5 h-2.5 shrink-0 text-green-600 dark:text-green-400" />
                           )}
                           {appt.isPaid && appt.status !== 'cancelled' && !isDragging && (
-                            <Coins className="w-2.5 h-2.5 shrink-0 text-[#c9a96e]" />
+                            <Coins className="w-2.5 h-2.5 shrink-0 text-[#5ecece]" />
                           )}
                           {appt.label}
                           {appt.time && !isDragging && (
@@ -949,7 +949,7 @@ export function TreatmentPlan() {
 
               {modalAppointment.cost !== undefined && modalAppointment.cost > 0 && (
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Coins className="w-4 h-4 text-[#c9a96e]" />
+                  <Coins className="w-4 h-4 text-[#5ecece]" />
                   <span>
                     Стоимость:{' '}
                     <span className="font-semibold text-gray-900 dark:text-gray-100">

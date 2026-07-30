@@ -109,7 +109,7 @@ function ProgressBar({ progress, daysTotal }: { progress: number; daysTotal: num
       </div>
       <div className="w-full h-1.5 rounded-full bg-gray-100 dark:bg-gray-700/50">
         <div
-          className="h-full rounded-full bg-[#c9a96e] transition-all duration-500"
+          className="h-full rounded-full bg-[#5ecece] transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -222,8 +222,8 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
   function SortIcon({ col }: { col: SortKey }) {
     if (sortKey !== col) return <ChevronDown className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
     return sortDir === 'asc'
-      ? <ChevronUp className="w-3.5 h-3.5 text-[#c9a96e]" />
-      : <ChevronDown className="w-3.5 h-3.5 text-[#c9a96e]" />
+      ? <ChevronUp className="w-3.5 h-3.5 text-[#5ecece]" />
+      : <ChevronDown className="w-3.5 h-3.5 text-[#5ecece]" />
   }
 
   const tableColumns: { key: SortKey; label: string; sortable: boolean }[] = [
@@ -258,7 +258,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 onClick={() => { setViewMode(key); setCurrentPage(1) }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                   viewMode === key
-                    ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                    ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
                 aria-label={label}
@@ -275,7 +275,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
               onClick={() => { setFilterMode('my'); setCurrentPage(1) }}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                 filterMode === 'my'
-                  ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                  ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
@@ -285,7 +285,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
               onClick={() => { setFilterMode('all'); setCurrentPage(1) }}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                 filterMode === 'all'
-                  ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                  ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
@@ -305,7 +305,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 onFocus={() => { setSearchFocused(true); setShowSearchDropdown(true) }}
                 onBlur={() => setTimeout(() => { setSearchFocused(false); setShowSearchDropdown(false) }, 200) }
                 placeholder="Поиск по ФИО..."
-                className="w-full sm:w-64 pl-9 pr-3 py-2 text-sm bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/40 focus:border-[#c9a96e] transition-colors"
+                className="w-full sm:w-64 pl-9 pr-3 py-2 text-sm bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
               />
             </div>
 
@@ -346,7 +346,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
             <div
               key={patient.id}
               onClick={() => handleOpenPatient(patient)}
-              className="group relative bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-xl p-5 hover:shadow-lg hover:shadow-[#c9a96e]/5 transition-all duration-200 hover:border-l-[#c9a96e] cursor-pointer"
+              className="group relative bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-xl p-5 hover:shadow-lg hover:shadow-[#5ecece]/5 transition-all duration-200 hover:border-l-[#5ecece] cursor-pointer"
             >
               {patient.hasNewAnalyses && (
                 <span className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30">
@@ -355,8 +355,8 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 </span>
               )}
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-[#c9a96e]/10 border-2 border-[#c9a96e]/40 flex items-center justify-center flex-shrink-0">
-                  <span className="text-sm font-semibold text-[#c9a96e]">
+                <div className="w-10 h-10 rounded-full bg-[#5ecece]/10 border-2 border-[#5ecece]/40 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-semibold text-[#5ecece]">
                     {getInitials(patient.fio)}
                   </span>
                 </div>
@@ -409,8 +409,8 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                     <span className="w-2.5 h-2.5 rounded-full bg-blue-500" title="Новые анализы" />
                   )}
                 </div>
-                <div className="w-8 h-8 rounded-full bg-[#c9a96e]/10 border border-[#c9a96e]/30 flex items-center justify-center flex-shrink-0">
-                  <span className="text-[10px] font-semibold text-[#c9a96e]">
+                <div className="w-8 h-8 rounded-full bg-[#5ecece]/10 border border-[#5ecece]/30 flex items-center justify-center flex-shrink-0">
+                  <span className="text-[10px] font-semibold text-[#5ecece]">
                     {getInitials(patient.fio)}
                   </span>
                 </div>
@@ -466,7 +466,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                       key={col.key}
                       onClick={() => col.sortable && handleSort(col.key)}
                       className={`px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${
-                        col.sortable ? 'cursor-pointer hover:text-[#c9a96e] dark:hover:text-[#c9a96e] select-none' : ''
+                        col.sortable ? 'cursor-pointer hover:text-[#5ecece] dark:hover:text-[#5ecece] select-none' : ''
                       }`}
                     >
                       <div className="flex items-center gap-1">
@@ -555,7 +555,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                     onClick={() => setCurrentPage(page)}
                     className={`w-8 h-8 flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
                       currentPage === page
-                        ? 'bg-[#c9a96e] text-white'
+                        ? 'bg-[#5ecece] text-white'
                         : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#253041]'
                     }`}
                   >

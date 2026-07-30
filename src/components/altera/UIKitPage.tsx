@@ -34,7 +34,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-8">
       <h2 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100">{children}</h2>
-      <div className="mt-2 h-0.5 w-16 bg-[#c9a96e] rounded-full" />
+      <div className="mt-2 h-0.5 w-16 bg-[#5ecece] rounded-full" />
     </div>
   )
 }
@@ -91,7 +91,7 @@ export function UIKitPage() {
           </div>
           <div className="bg-gray-50 dark:bg-[#1e293b] rounded-lg px-3 py-2">
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Accent</span>
-            <p className="text-sm text-[#c9a96e] font-medium mt-0.5">#C9A96E (Gold)</p>
+            <p className="text-sm text-[#5ecece] font-medium mt-0.5">#C9A96E (Gold)</p>
           </div>
           <div className="bg-gray-50 dark:bg-[#1e293b] rounded-lg px-3 py-2">
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Spacing</span>
@@ -113,7 +113,7 @@ export function UIKitPage() {
                 onClick={() => setActiveSection(s.id)}
                 className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-left transition-all text-sm ${
                   activeSection === s.id
-                    ? 'bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 text-[#c9a96e] border-l-2 border-[#c9a96e]'
+                    ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece] border-l-2 border-[#5ecece]'
                     : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b]'
                 }`}
               >
@@ -142,7 +142,7 @@ export function UIKitPage() {
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Рамки (Borders)" code={`border-gray-200          /* Light borders */\ndark:border-[#253041]    /* Dark borders */\nborder-[#c9a96e]         /* Accent border */`}>
+            <ComponentDemo title="Рамки (Borders)" code={`border-gray-200          /* Light borders */\ndark:border-[#253041]    /* Dark borders */\nborder-[#5ecece]         /* Accent border */`}>
               <div className="grid grid-cols-3 gap-3">
                 <div className="h-12 rounded-lg border-2 border-gray-200 flex items-center justify-center">
                   <span className="text-[10px] font-mono text-gray-500">gray-200</span>
@@ -150,24 +150,24 @@ export function UIKitPage() {
                 <div className="h-12 rounded-lg border-2 border-[#253041] flex items-center justify-center">
                   <span className="text-[10px] font-mono text-gray-400">#253041</span>
                 </div>
-                <div className="h-12 rounded-lg border-2 border-[#c9a96e] flex items-center justify-center">
-                  <span className="text-[10px] font-mono text-[#c9a96e]">#c9a96e</span>
+                <div className="h-12 rounded-lg border-2 border-[#5ecece] flex items-center justify-center">
+                  <span className="text-[10px] font-mono text-[#5ecece]">#5ecece</span>
                 </div>
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Текст (Text)" code={`text-gray-900             /* Heading (L) */\ntext-gray-600             /* Body (L) */\ntext-gray-500             /* Muted (L) */\ndark:text-gray-100        /* Heading (D) */\ndark:text-gray-300        /* Body (D) */\ndark:text-gray-400        /* Muted (D) */\ntext-[#c9a96e]            /* Accent text */`}>
+            <ComponentDemo title="Текст (Text)" code={`text-gray-900             /* Heading (L) */\ntext-gray-600             /* Body (L) */\ntext-gray-500             /* Muted (L) */\ndark:text-gray-100        /* Heading (D) */\ndark:text-gray-300        /* Body (D) */\ndark:text-gray-400        /* Muted (D) */\ntext-[#5ecece]            /* Accent text */`}>
               <div className="space-y-3">
                 <p className="text-gray-900 dark:text-gray-100 font-semibold">text-gray-900 dark:text-gray-100 — Заголовок</p>
                 <p className="text-gray-600 dark:text-gray-300">text-gray-600 dark:text-gray-300 — Основной текст</p>
                 <p className="text-gray-500 dark:text-gray-400">text-gray-500 dark:text-gray-400 — Вспомогательный</p>
-                <p className="text-[#c9a96e] font-medium">text-[#c9a96e] — Акцентный текст</p>
+                <p className="text-[#5ecece] font-medium">text-[#5ecece] — Акцентный текст</p>
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Акцент и Статусы" code={`bg-[#c9a96e]             /* Accent (Gold) */\nbg-emerald-500           /* Success */\nbg-amber-500              /* Warning */\nbg-red-500                /* Error/Cancel */\nbg-blue-500               /* Info */\nbg-purple-500             /* Lab/Specialist */`}>
+            <ComponentDemo title="Акцент и Статусы" code={`bg-[#5ecece]             /* Accent (Gold) */\nbg-emerald-500           /* Success */\nbg-amber-500              /* Warning */\nbg-red-500                /* Error/Cancel */\nbg-blue-500               /* Info */\nbg-purple-500             /* Lab/Specialist */`}>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                <ColorSwatch color="bg-[#c9a96e]" label="Accent" hex="#C9A96E" />
+                <ColorSwatch color="bg-[#5ecece]" label="Accent" hex="#C9A96E" />
                 <ColorSwatch color="bg-emerald-500" label="Success" hex="#10B981" />
                 <ColorSwatch color="bg-amber-500" label="Warning" hex="#F59E0B" />
                 <ColorSwatch color="bg-red-500" label="Error" hex="#EF4444" />
@@ -187,10 +187,10 @@ export function UIKitPage() {
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-gray-100">Заголовок H2 — text-2xl font-serif font-bold</h2>
                 <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100">Заголовок H3 — text-xl font-serif font-semibold</h3>
                 <div className="flex items-center gap-2">
-                  <span className="text-xl font-serif italic text-[#c9a96e]">Моё</span>
+                  <span className="text-xl font-serif italic text-[#5ecece]">Моё</span>
                   <span className="text-xl font-serif text-gray-900 dark:text-gray-100">здоровье</span>
                 </div>
-                <p className="text-[10px]">↑ font-serif italic text-[#c9a96e] — брендовый стиль</p>
+                <p className="text-[10px]">↑ font-serif italic text-[#5ecece] — брендовый стиль</p>
               </div>
             </ComponentDemo>
 
@@ -216,16 +216,16 @@ export function UIKitPage() {
             <SectionTitle>Кнопки</SectionTitle>
 
             <div className="space-y-8">
-              <ComponentDemo title="Primary" code={`<button className="px-4 py-2 bg-[#c9a96e] text-white text-sm font-medium rounded-lg hover:bg-[#b89558] transition-colors">\n  Сохранить\n</button>`}>
-                <button className="px-4 py-2 bg-[#c9a96e] text-white text-sm font-medium rounded-lg hover:bg-[#b89558] transition-colors">Сохранить</button>
+              <ComponentDemo title="Primary" code={`<button className="px-4 py-2 bg-[#5ecece] text-white text-sm font-medium rounded-lg hover:bg-[#4bb8b8] transition-colors">\n  Сохранить\n</button>`}>
+                <button className="px-4 py-2 bg-[#5ecece] text-white text-sm font-medium rounded-lg hover:bg-[#4bb8b8] transition-colors">Сохранить</button>
               </ComponentDemo>
 
               <ComponentDemo title="Secondary" code={`<button className="px-4 py-2 bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">\n  Отмена\n</button>`}>
                 <button className="px-4 py-2 bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">Отмена</button>
               </ComponentDemo>
 
-              <ComponentDemo title="Outline (Accent)" code={`<button className="px-4 py-2 border border-[#c9a96e] text-[#c9a96e] text-sm font-medium rounded-lg hover:bg-[#c9a96e]/10 transition-colors">\n  Добавить назначение\n</button>`}>
-                <button className="px-4 py-2 border border-[#c9a96e] text-[#c9a96e] text-sm font-medium rounded-lg hover:bg-[#c9a96e]/10 transition-colors">Добавить назначение</button>
+              <ComponentDemo title="Outline (Accent)" code={`<button className="px-4 py-2 border border-[#5ecece] text-[#5ecece] text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">\n  Добавить назначение\n</button>`}>
+                <button className="px-4 py-2 border border-[#5ecece] text-[#5ecece] text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">Добавить назначение</button>
               </ComponentDemo>
 
               <ComponentDemo title="Danger" code={`<button className="px-4 py-2 border border-red-500 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">\n  Отменить\n</button>`}>
@@ -244,12 +244,12 @@ export function UIKitPage() {
                 </div>
               </ComponentDemo>
 
-              <ComponentDemo title="Disabled" code={`<button disabled className="px-4 py-2 bg-[#c9a96e]/50 text-white/50 text-sm font-medium rounded-lg cursor-not-allowed">\n  Недоступно\n</button>`}>
-                <button disabled className="px-4 py-2 bg-[#c9a96e]/50 text-white/50 text-sm font-medium rounded-lg cursor-not-allowed">Недоступно</button>
+              <ComponentDemo title="Disabled" code={`<button disabled className="px-4 py-2 bg-[#5ecece]/50 text-white/50 text-sm font-medium rounded-lg cursor-not-allowed">\n  Недоступно\n</button>`}>
+                <button disabled className="px-4 py-2 bg-[#5ecece]/50 text-white/50 text-sm font-medium rounded-lg cursor-not-allowed">Недоступно</button>
               </ComponentDemo>
 
-              <ComponentDemo title="Small" code={`<button className="px-3 py-1 text-xs font-medium rounded-md bg-[#c9a96e] text-white hover:bg-[#b89558] transition-colors">\n  Маленькая\n</button>`}>
-                <button className="px-3 py-1 text-xs font-medium rounded-md bg-[#c9a96e] text-white hover:bg-[#b89558] transition-colors">Маленькая</button>
+              <ComponentDemo title="Small" code={`<button className="px-3 py-1 text-xs font-medium rounded-md bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">\n  Маленькая\n</button>`}>
+                <button className="px-3 py-1 text-xs font-medium rounded-md bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">Маленькая</button>
               </ComponentDemo>
             </div>
           </section>
@@ -258,23 +258,23 @@ export function UIKitPage() {
           <section id="inputs">
             <SectionTitle>Поля ввода</SectionTitle>
 
-            <ComponentDemo title="Text Input" code={`<input className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e] transition-colors" placeholder="Введите текст..." />`}>
-              <input className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e] transition-colors" placeholder="Введите текст..." />
+            <ComponentDemo title="Text Input" code={`<input className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors" placeholder="Введите текст..." />`}>
+              <input className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors" placeholder="Введите текст..." />
             </ComponentDemo>
 
-            <ComponentDemo title="Search Input (with icon)" code={`<div className="relative">\n  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />\n  <input className="w-full pl-10 pr-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e]" placeholder="Поиск..." />\n</div>`}>
+            <ComponentDemo title="Search Input (with icon)" code={`<div className="relative">\n  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />\n  <input className="w-full pl-10 pr-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]" placeholder="Поиск..." />\n</div>`}>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input className="w-full pl-10 pr-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e] transition-colors" placeholder="Поиск по ФИО..." />
+                <input className="w-full pl-10 pr-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors" placeholder="Поиск по ФИО..." />
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Textarea" code={`<textarea className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 resize-y min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e]" placeholder="Описание..." />`}>
-              <textarea className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 resize-y min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e] transition-colors" placeholder="Опишите жалобы пациента..." />
+            <ComponentDemo title="Textarea" code={`<textarea className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 resize-y min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]" placeholder="Описание..." />`}>
+              <textarea className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 resize-y min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors" placeholder="Опишите жалобы пациента..." />
             </ComponentDemo>
 
-            <ComponentDemo title="Select / Dropdown" code={`<select className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e]">`}>
-              <select className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#c9a96e]/30 focus:border-[#c9a96e]">
+            <ComponentDemo title="Select / Dropdown" code={`<select className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]">`}>
+              <select className="w-full px-3 py-2 bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]">
                 <option>Выберите специалиста...</option>
                 <option>Иванов И.М. — Терапевт</option>
                 <option>Сидорова О.Н. — Невролог</option>
@@ -282,20 +282,20 @@ export function UIKitPage() {
               </select>
             </ComponentDemo>
 
-            <ComponentDemo title="Checkbox" code={`<label className="flex items-center gap-3 cursor-pointer">\n  <input type="checkbox" className="w-4 h-4 rounded border-gray-300 dark:border-[#253041] text-[#c9a96e] focus:ring-[#c9a96e]/30" />\n  <span className="text-sm text-gray-700 dark:text-gray-300">Я согласен</span>\n</label>`}>
+            <ComponentDemo title="Checkbox" code={`<label className="flex items-center gap-3 cursor-pointer">\n  <input type="checkbox" className="w-4 h-4 rounded border-gray-300 dark:border-[#253041] text-[#5ecece] focus:ring-[#5ecece]/30" />\n  <span className="text-sm text-gray-700 dark:text-gray-300">Я согласен</span>\n</label>`}>
               <div className="space-y-3">
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" checked={checkboxChecked} onChange={(e) => setCheckboxChecked(e.target.checked)} className="w-4 h-4 rounded border-gray-300 dark:border-[#253041] text-[#c9a96e] focus:ring-[#c9a96e]/30 accent-[#c9a96e]" />
+                  <input type="checkbox" checked={checkboxChecked} onChange={(e) => setCheckboxChecked(e.target.checked)} className="w-4 h-4 rounded border-gray-300 dark:border-[#253041] text-[#5ecece] focus:ring-[#5ecece]/30 accent-[#5ecece]" />
                   <span className="text-sm text-gray-700 dark:text-gray-300">Я подтверждаю ответственность</span>
                 </label>
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Toggle / Switch" code={`/* On */\nbg-[#c9a96e]\n\n/* Off */\nbg-gray-300 dark:bg-[#253041]`}>
+            <ComponentDemo title="Toggle / Switch" code={`/* On */\nbg-[#5ecece]\n\n/* Off */\nbg-gray-300 dark:bg-[#253041]`}>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setToggleOn(!toggleOn)}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${toggleOn ? 'bg-[#c9a96e]' : 'bg-gray-300 dark:bg-[#253041]'}`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${toggleOn ? 'bg-[#5ecece]' : 'bg-gray-300 dark:bg-[#253041]'}`}
                 >
                   <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${toggleOn ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
@@ -357,17 +357,17 @@ export function UIKitPage() {
                 <h3 className="text-lg font-serif font-semibold text-gray-900 dark:text-gray-100">Заголовок карточки</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">Содержимое карточки с подробным описанием элемента интерфейса.</p>
                 <div className="flex gap-2 mt-4">
-                  <button className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#c9a96e] text-white hover:bg-[#b89558]">Действие</button>
+                  <button className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#5ecece] text-white hover:bg-[#4bb8b8]">Действие</button>
                   <button className="px-3 py-1.5 text-xs font-medium rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b]">Закрыть</button>
                 </div>
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Card with Gold Left Border (hover)" code={`<div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-l-4 hover:border-l-[#c9a96e] hover:shadow-md transition-all">`}>
-              <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-l-4 hover:border-l-[#c9a96e] hover:shadow-md transition-all cursor-pointer">
+            <ComponentDemo title="Card with Gold Left Border (hover)" code={`<div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-l-4 hover:border-l-[#5ecece] hover:shadow-md transition-all">`}>
+              <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-l-4 hover:border-l-[#5ecece] hover:shadow-md transition-all cursor-pointer">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#c9a96e]/15 border border-[#c9a96e]/30 flex items-center justify-center shrink-0">
-                    <User className="w-5 h-5 text-[#c9a96e]" />
+                  <div className="w-10 h-10 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+                    <User className="w-5 h-5 text-[#5ecece]" />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Петрова Анна Сергеевна</h3>
@@ -420,7 +420,7 @@ export function UIKitPage() {
                 {/* Footer */}
                 <div className="flex items-center justify-end gap-2 p-4 border-t border-gray-200 dark:border-[#253041]">
                   <button className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">Отмена</button>
-                  <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#c9a96e] text-white hover:bg-[#b89558] transition-colors">Подтвердить</button>
+                  <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">Подтвердить</button>
                 </div>
               </div>
             </ComponentDemo>
@@ -534,17 +534,17 @@ export function UIKitPage() {
           <section id="navigation">
             <SectionTitle>Навигация</SectionTitle>
 
-            <ComponentDemo title="Tab Navigation" code={`<div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-1">\n  <button className="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm">Active</button>\n  <button className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400">Inactive</button>\n</div>`}>
+            <ComponentDemo title="Tab Navigation" code={`<div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-1">\n  <button className="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm">Active</button>\n  <button className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400">Inactive</button>\n</div>`}>
               <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-1">
-                <button className="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm">Хронология</button>
+                <button className="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm">Хронология</button>
                 <button className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400">Документы <span className="ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#253041]">6</span></button>
                 <button className="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400">План лечения</button>
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Sidebar Nav Item (Active)" code={`<button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md\n  bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 text-[#c9a96e] border-l-2 border-[#c9a96e]">`}>
+            <ComponentDemo title="Sidebar Nav Item (Active)" code={`<button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md\n  bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece] border-l-2 border-[#5ecece]">`}>
               <div className="max-w-[220px]">
-                <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md bg-[#c9a96e]/10 dark:bg-[#c9a96e]/15 text-[#c9a96e] border-l-2 border-[#c9a96e]">
+                <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece] border-l-2 border-[#5ecece]">
                   <span className="text-[10px] font-mono text-gray-400 w-4 text-right">01</span>
                   <Heart className="w-5 h-5" />
                   <span className="text-sm font-medium">Программа лечения</span>
@@ -557,19 +557,19 @@ export function UIKitPage() {
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="View Switcher" code={`<div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-0.5">\n  <button className="px-3 py-1.5 text-xs font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm">Card</button>\n  ...\n</div>`}>
+            <ComponentDemo title="View Switcher" code={`<div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-0.5">\n  <button className="px-3 py-1.5 text-xs font-medium rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm">Card</button>\n  ...\n</div>`}>
               <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-0.5">
                 {['Карточки', 'Список', 'Таблица'].map((v, i) => (
-                  <button key={v} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${i === 0 ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm' : 'text-gray-600 dark:text-gray-400'}`}>{v}</button>
+                  <button key={v} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${i === 0 ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm' : 'text-gray-600 dark:text-gray-400'}`}>{v}</button>
                 ))}
               </div>
             </ComponentDemo>
 
-            <ComponentDemo title="Breadcrumb" code={`<div className="flex items-center gap-2 text-sm">\n  <span className="text-gray-400 dark:text-gray-500">МИС Практика</span>\n  <span className="text-gray-300 dark:text-gray-600">/</span>\n  <span className="text-[#c9a96e] font-medium">Текущий раздел</span>\n</div>`}>
+            <ComponentDemo title="Breadcrumb" code={`<div className="flex items-center gap-2 text-sm">\n  <span className="text-gray-400 dark:text-gray-500">МИС Практика</span>\n  <span className="text-gray-300 dark:text-gray-600">/</span>\n  <span className="text-[#5ecece] font-medium">Текущий раздел</span>\n</div>`}>
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-gray-400 dark:text-gray-500">МИС Практика</span>
                 <span className="text-gray-300 dark:text-gray-600">/</span>
-                <span className="text-[#c9a96e] font-medium">Реестр пациентов</span>
+                <span className="text-[#5ecece] font-medium">Реестр пациентов</span>
               </div>
             </ComponentDemo>
           </section>

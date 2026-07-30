@@ -184,7 +184,7 @@ export function AnalysesPage() {
         <ChevronRight className="w-3 h-3" />
         <span>Кабинет пациента</span>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-[#c9a96e] font-medium">Анализы и заключения</span>
+        <span className="text-[#5ecece] font-medium">Анализы и заключения</span>
       </div>
 
       {/* Section tabs */}
@@ -194,7 +194,7 @@ export function AnalysesPage() {
             onClick={() => setActiveSection('lab')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeSection === 'lab'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
@@ -207,7 +207,7 @@ export function AnalysesPage() {
             onClick={() => setActiveSection('conclusions')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeSection === 'conclusions'
-                ? 'bg-white dark:bg-[#151e2e] text-[#c9a96e] shadow-sm'
+                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
@@ -225,7 +225,7 @@ export function AnalysesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Поиск..."
-            className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#c9a96e]/50 focus:border-[#c9a96e] w-48"
+            className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
           />
         </div>
       </div>
@@ -302,7 +302,7 @@ export function AnalysesPage() {
                     <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Бесплатно</span>
                   ) : (
                     <div className="flex items-center justify-end gap-0.5">
-                      <Coins className="w-3 h-3 text-[#c9a96e]" />
+                      <Coins className="w-3 h-3 text-[#5ecece]" />
                       <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{lab.price.toLocaleString('ru-RU')}</span>
                     </div>
                   )}
@@ -321,11 +321,11 @@ export function AnalysesPage() {
                     </span>
                   )}
                   {lab.hasReport && (
-                    <button className="p-1.5 rounded-md text-gray-400 hover:text-[#c9a96e] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                    <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
                       <Eye className="w-3.5 h-3.5" />
                     </button>
                   )}
-                  <button className="p-1.5 rounded-md text-gray-400 hover:text-[#c9a96e] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
                     <Download className="w-3.5 h-3.5" />
                   </button>
                   <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${expandedLab === lab.id ? 'rotate-180' : ''}`} />
@@ -340,11 +340,11 @@ export function AnalysesPage() {
       {activeSection === 'conclusions' && (
         <div className="space-y-4">
           {conclusions.map((c) => (
-            <div key={c.id} className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-5 hover:border-[#c9a96e]/20 transition-colors">
+            <div key={c.id} className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-5 hover:border-[#5ecece]/20 transition-colors">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <BadgeCheck className="w-4 h-4 text-[#c9a96e]" />
+                    <BadgeCheck className="w-4 h-4 text-[#5ecece]" />
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{c.title}</h3>
                   </div>
                   <div className="flex items-center gap-3 text-[11px] text-gray-500 dark:text-gray-400">
@@ -356,10 +356,10 @@ export function AnalysesPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-2 rounded-md text-gray-400 hover:text-[#c9a96e] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
                     <Eye className="w-4 h-4" />
                   </button>
-                  <button className="p-2 rounded-md text-gray-400 hover:text-[#c9a96e] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
                     <Download className="w-4 h-4" />
                   </button>
                 </div>

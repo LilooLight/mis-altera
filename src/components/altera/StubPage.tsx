@@ -28,7 +28,7 @@ export function StubPage({ role, onSwitchToDoctor }: StubPageProps) {
       <div className="max-w-md w-full mx-6 text-center">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-16 h-16 rounded-full bg-[#c9a96e] flex items-center justify-center shadow-lg shadow-[#c9a96e]/20">
+          <div className="w-16 h-16 rounded-full bg-[#5ecece] flex items-center justify-center shadow-lg shadow-[#5ecece]/20">
             <Stethoscope className="w-8 h-8 text-white" />
           </div>
         </div>
@@ -43,7 +43,7 @@ export function StubPage({ role, onSwitchToDoctor }: StubPageProps) {
 
         {/* Card */}
         <div className="bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] p-8 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-[#c9a96e]/10 flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 rounded-xl bg-[#5ecece]/10 flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">{role === 'patient' ? '🏥' : '⚙️'}</span>
           </div>
           <h2 className="text-lg font-serif font-semibold text-gray-900 dark:text-gray-100 mb-1">
@@ -59,7 +59,7 @@ export function StubPage({ role, onSwitchToDoctor }: StubPageProps) {
           {/* Switch to doctor */}
           <button
             onClick={onSwitchToDoctor}
-            className="mt-6 w-full px-4 py-2.5 bg-[#c9a96e] text-white text-sm font-medium rounded-lg hover:bg-[#b89558] transition-colors"
+            className="mt-6 w-full px-4 py-2.5 bg-[#5ecece] text-white text-sm font-medium rounded-lg hover:bg-[#4bb8b8] transition-colors"
           >
             Перейти в рабочий стол врача
           </button>
