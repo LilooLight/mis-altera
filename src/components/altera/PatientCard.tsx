@@ -59,7 +59,7 @@ const documents = [
 type DocAttachment = { name: string; type: 'pdf' | 'xlsx' | 'image' | 'video' }
 type TimelineEntry = (typeof timeline)[number]
 type DocItem = (typeof documents)[number]
-type MainTab = 'results' | 'history' | 'plan' | 'discharge'
+type MainTab = 'visit' | 'results' | 'history' | 'plan' | 'discharge'
 type HistorySubTab = 'timeline' | 'documents'
 type DocFilter = 'all' | 'imaging' | 'pdf' | 'video'
 type DocViewMode = 'grid' | 'table'
@@ -67,6 +67,7 @@ type DocViewMode = 'grid' | 'table'
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 const mainTabs: { key: MainTab; label: string }[] = [
+  { key: 'visit', label: 'Форма приёма' },
   { key: 'results', label: 'Результаты исследований' },
   { key: 'history', label: 'История' },
   { key: 'plan', label: 'План лечения' },
@@ -267,7 +268,13 @@ function AttachmentButton({
 // ─── Main Component ─────────────────────────────────────────────────────────
 
 export function PatientCard() {
-  const [activeTab, setActiveTab] = useState<MainTab>('results')
+  const [activeTab, setActiveTab] = useState<MainTab>('visit')
+  const [visitData, setVisitData] = useState({
+    complaints: '',
+    examination: '',
+    conclusion: '',
+    fillLater: false,
+  })
   const [historySubTab, setHistorySubTab] = useState<HistorySubTab>('timeline')
   const [docFilter, setDocFilter] = useState<DocFilter>('all')
   const [docViewMode, setDocViewMode] = useState<DocViewMode>('grid')
@@ -360,6 +367,107 @@ export function PatientCard() {
 
       {/* ── Tab Content ──────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto">
+        {/* ======== Tab 0: Форма приёма ======== */}
+        {activeTab === 'visit' && (
+          <div className="p-6 max-w-3xl">
+            {/* Header with fill-later switch */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100">
+                Осмотр пациента
+              </h2>
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Заполнить позднее</span>
+                <button
+                  role="switch"
+                  aria-checked={visitData.fillLater}
+                  onClick={() => setVisitData(d => ({ ...d, fillLater: !d.fillLater }))}
+                  className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 ${
+                    visitData.fillLater
+                      ? 'bg-amber-500'
+                      : 'bg-gray-300 dark:bg-[#253041]'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                      visitData.fillLater ? 'translate-x-4.5' : 'translate-x-0.5'
+                    }`}
+                  />
+                </button>
+              </label>
+            </div>
+
+            {/* Fill-later notice */}
+            {visitData.fillLater && (
+              <div className="mb-6 rounded-lg border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 px-4 py-3 flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Отложенное заполнение</p>
+                  <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
+                    Форма будет добавлена в список «К заполнению» на главной панели. Не забудьте завершить оформление после приёма.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Complaints */}
+            <div className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Жалобы пациента
+                </label>
+                <textarea
+                  value={visitData.complaints}
+                  onChange={e => setVisitData(d => ({ ...d, complaints: e.target.value }))}
+                  placeholder="Опишите текущие жалобы пациента…"
+                  rows={3}
+                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                />
+              </div>
+
+              {/* Examination / Objective status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Объективный статус (осмотр)
+                </label>
+                <textarea
+                  value={visitData.examination}
+                  onChange={e => setVisitData(d => ({ ...d, examination: e.target.value }))}
+                  placeholder="Данные осмотра: кожные покровы, ЧДД, АД, пульс, перкуссия, аускультация, пальпация…"
+                  rows={4}
+                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                />
+              </div>
+
+              {/* Clinical conclusion */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Клиническое заключение
+                </label>
+                <textarea
+                  value={visitData.conclusion}
+                  onChange={e => setVisitData(d => ({ ...d, conclusion: e.target.value }))}
+                  placeholder="Заключение по результатам осмотра, рекомендации…"
+                  rows={4}
+                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                />
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#253041]">
+              <button
+                onClick={() => visitData.fillLater ? setActiveTab('results') : setActiveTab('results')}
+                className="px-5 py-2.5 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors"
+              >
+                {visitData.fillLater ? 'Сохранить и закрыть' : 'Сохранить'}
+              </button>
+              <button className="px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-200 dark:border-[#253041] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors">
+                Отмена
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ======== Tab 1: Research Results ======== */}
         {activeTab === 'results' && (
           <div className="p-6 space-y-8">

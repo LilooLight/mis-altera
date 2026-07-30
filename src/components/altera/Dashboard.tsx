@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   Clock,
   Calendar,
@@ -156,7 +156,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   /* ================================================================ */
 
   const widgetNext = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] border-l-4 border-l-[#5ecece] p-5 flex flex-col gap-4 md:col-span-1">
+    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] border-l-4 border-l-[#5ecece] p-5 flex flex-col gap-4">
       {/* header */}
       <div className="flex items-center gap-2">
         <Clock className="h-4 w-4 text-[#5ecece]" />
@@ -167,7 +167,6 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
         <>
           {/* time */}
           <p className="font-serif text-2xl text-[#5ecece]">08:30</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Приём идёт</p>
 
           {/* patient info */}
           <div className="flex flex-col gap-1">
@@ -197,7 +196,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   /* ================================================================ */
 
   const widgetDay = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-4 md:col-span-2">
+    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-4 h-full">
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -254,41 +253,64 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
     { id: 't3', patient: 'Волкова М.Н.', label: 'Результаты анализов', timeAgo: 'вчера' },
   ]
 
+  const toCompleteListRef = useRef<HTMLUListElement>(null)
+  const [showAllBtn, setShowAllBtn] = useState(true)
+
+  useEffect(() => {
+    const el = toCompleteListRef.current
+    if (!el || toCompleteItems.length === 0) {
+      setShowAllBtn(false)
+      return
+    }
+    // Show button only if list overflows its container
+    setShowAllBtn(el.scrollHeight > el.clientHeight + 1)
+  }, [toCompleteItems.length])
+
   const widgetToComplete = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-3 md:col-span-1">
+    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-3">
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <FileText className="h-4 w-4 text-[#5ecece]" />
           <span className="text-sm font-bold text-gray-900 dark:text-gray-100">К заполнению</span>
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5ecece]/15 text-[11px] font-semibold text-[#5ecece]">
-            {toCompleteItems.length}
-          </span>
+          {toCompleteItems.length > 0 && (
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5ecece]/15 text-[11px] font-semibold text-[#5ecece]">
+              {toCompleteItems.length}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* list */}
-      <ul className="flex flex-col gap-1">
-        {toCompleteItems.map((item) => (
-          <li
-            key={item.id}
-            className="flex items-center justify-between gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-[#1e293b]"
-          >
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.patient}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{item.label}</p>
-            </div>
-            <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">{item.timeAgo}</span>
-          </li>
-        ))}
-      </ul>
+      {toCompleteItems.length === 0 ? (
+        <p className="text-sm text-gray-400 dark:text-gray-500">Нет незаполненных форм</p>
+      ) : (
+        <>
+          {/* list */}
+          <ul ref={toCompleteListRef} className="flex flex-col gap-1 overflow-hidden">
+            {toCompleteItems.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-center justify-between gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-[#1e293b]"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.patient}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{item.label}</p>
+                </div>
+                <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">{item.timeAgo}</span>
+              </li>
+            ))}
+          </ul>
 
-      {/* show all link */}
-      <button
-        className="flex items-center gap-1 text-sm font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors mt-auto"
-      >
-        Показать все <ArrowRight className="h-4 w-4" />
-      </button>
+          {/* show all link — hidden when everything fits or list is empty */}
+          {showAllBtn && (
+            <button
+              className="flex items-center gap-1 text-sm font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors mt-auto"
+            >
+              Показать все <ArrowRight className="h-4 w-4" />
+            </button>
+          )}
+        </>
+      )}
     </div>
   )
 
@@ -412,10 +434,14 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {widgetNext}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left column: stacked widgets */}
+        <div className="flex flex-col gap-6">
+          {widgetNext}
+          {widgetToComplete}
+        </div>
+        {/* Right column: full-height day widget */}
         {widgetDay}
-        {widgetToComplete}
       </div>
       {widgetRegistry}
     </div>
