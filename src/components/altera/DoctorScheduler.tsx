@@ -840,10 +840,10 @@ export function DoctorScheduler({ onOpenPatient }: DoctorSchedulerProps) {
               >
                 Открыть карту
               </button>
-              <button className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 bg-transparent border border-gray-300 dark:border-[#253041] rounded-md hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-900 dark:text-gray-100 bg-transparent border border-[#5ecece] rounded-md hover:bg-[#5ecece]/10 transition-colors">
                 <Pause className="w-3 h-3" />
               </button>
-              <button className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 bg-transparent border border-gray-300 dark:border-[#253041] rounded-md hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-900 dark:text-gray-100 bg-transparent border border-[#5ecece] rounded-md hover:bg-[#5ecece]/10 transition-colors">
                 <X className="w-3 h-3" />
                 Отменить
               </button>

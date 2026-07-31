@@ -217,7 +217,7 @@ function AttachmentLightbox({
         <div className="flex items-center gap-3 justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 dark:border-[#253041] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors"
           >
             Закрыть
           </button>
@@ -334,10 +334,10 @@ export function PatientCard() {
           <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">
             Назначить процедуру
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-[#5ecece] hover:bg-[#5ecece]/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
             План лечения
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 dark:border-[#253041] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
             Выписать
           </button>
         </div>
@@ -461,7 +461,7 @@ export function PatientCard() {
               >
                 {visitData.fillLater ? 'Сохранить и закрыть' : 'Сохранить'}
               </button>
-              <button className="px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-200 dark:border-[#253041] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="px-5 py-2.5 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
                 Отмена
               </button>
             </div>

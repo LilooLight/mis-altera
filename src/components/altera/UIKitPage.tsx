@@ -224,8 +224,8 @@ export function UIKitPage() {
                 <button className="px-4 py-2 bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">Отмена</button>
               </ComponentDemo>
 
-              <ComponentDemo title="Outline (Accent)" code={`<button className="px-4 py-2 border border-[#5ecece] text-[#5ecece] text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">\n  Добавить назначение\n</button>`}>
-                <button className="px-4 py-2 border border-[#5ecece] text-[#5ecece] text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">Добавить назначение</button>
+              <ComponentDemo title="Outline" code={`<button className="px-4 py-2 border border-[#5ecece] text-gray-900 dark:text-gray-100 text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">\n  План лечения\n</button>`}>
+                <button className="px-4 py-2 border border-[#5ecece] text-gray-900 dark:text-gray-100 text-sm font-medium rounded-lg hover:bg-[#5ecece]/10 transition-colors">План лечения</button>
               </ComponentDemo>
 
               <ComponentDemo title="Danger" code={`<button className="px-4 py-2 border border-red-500 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">\n  Отменить\n</button>`}>

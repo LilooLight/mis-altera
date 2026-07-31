@@ -360,7 +360,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       {/* open button */}
       <button
         onClick={() => openPatient(p, onOpenPatient)}
-        className="shrink-0 rounded-lg border border-gray-300 dark:border-[#253041] px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-100 dark:hover:bg-[#1e293b]"
+        className="shrink-0 rounded-lg border border-[#5ecece] px-3 py-1.5 text-xs font-medium text-gray-900 dark:text-gray-100 transition-colors hover:bg-[#5ecece]/10"
       >
         Открыть
       </button>
