@@ -70,7 +70,7 @@ const INITIAL_TABS: Tab[] = [
 
 export default function Home() {
   const [role, setRole] = useState<Role>('doctor')
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [tabs, setTabs] = useState<Tab[]>(INITIAL_TABS)
   const [activeTabId, setActiveTabId] = useState('dashboard')
   const [searchQuery, setSearchQuery] = useState('')
@@ -132,8 +132,8 @@ export default function Home() {
   const tabLabel = activeTab?.label || ''
 
   const breadcrumbText = isPatientTab
-    ? `МИС Практика / ${tabLabel} / № ${(activeTab as PatientTab)?.room}`
-    : `МИС Практика / ${tabLabel}`
+    ? `МИС Альтера / ${tabLabel} / № ${(activeTab as PatientTab)?.room}`
+    : `МИС Альтера / ${tabLabel}`
 
   /* ─── Render: Patient / Admin Stub ─── */
 

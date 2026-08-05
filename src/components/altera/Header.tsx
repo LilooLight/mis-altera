@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { Sun, Moon, Menu, Stethoscope } from 'lucide-react'
+import { Sun, Moon, Menu } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 interface HeaderProps {
@@ -35,15 +35,17 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
         </button>
 
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#5ecece] flex items-center justify-center">
-            <Stethoscope className="w-4 h-4 text-white" />
-          </div>
+          <img
+            src="/mis-altera/logo.svg"
+            alt=""
+            className="w-8 h-8 rounded-lg shrink-0"
+          />
           <div className="flex flex-col">
             <span className="text-xs font-medium text-gray-900 dark:text-gray-100 leading-tight">
-              МИС Практика
+              Санаторий «Буревестник»
             </span>
             <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
-              Санаторий v 0.2
+              МИС Альтера
             </span>
           </div>
         </div>
