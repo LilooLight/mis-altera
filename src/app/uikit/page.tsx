@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTheme } from 'next-themes'
 import {
   Search,
@@ -42,7 +42,9 @@ function DemoCard({ title, children }: { title: string; children: React.ReactNod
 /* ------------------------------------------------------------------ */
 
 export default function UIKitReferencePage() {
-  const { theme, setTheme, mounted } = useTheme()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   const [switchOn, setSwitchOn] = useState(true)
   const [toggleChecked, setToggleChecked] = useState(true)
   const [radio, setRadio] = useState('option1')
@@ -69,7 +71,7 @@ export default function UIKitReferencePage() {
               className="p-2 rounded-md text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
               aria-label="Toggle theme"
             >
-              {!mounted ? <div className="w-4 h-4" /> : theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {!mounted ? <Sun className="w-4 h-4" /> : theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </div>
