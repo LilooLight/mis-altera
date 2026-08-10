@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useTheme } from 'next-themes'
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS
@@ -54,12 +55,13 @@ function CredentialsBlock() {
 
 /* ═══════════════════════════════════════════════════
    PHASE 1: SPLASH / LOGIN SCREEN
-   Two-phase layout inside the left panel:
-   - Loading:  brand → credentials → progress bar
-   - Ready:    brand → form (centered) → credentials (bottom)
+   Theme-aware: respects the user's chosen theme instead
+   of forcing light/dark.
    ═══════════════════════════════════════════════════ */
 
 function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const [loaded, setLoaded] = useState(false)
   const [progress, setProgress] = useState(0)
   const [messageIndex, setMessageIndex] = useState(0)
@@ -129,20 +131,11 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
     }, 600)
   }
 
-  /* ─── Force light theme on auth page ─── */
-  useEffect(() => {
-    const html = document.documentElement
-    html.classList.remove('dark')
-    return () => {
-      html.classList.add('dark')
-    }
-  }, [])
-
   /* ─── Guard: prevent flash of unstyled content ─── */
   if (!loaded) return null
 
   return (
-    <div className="auth-wrapper">
+    <div className={`auth-wrapper ${isDark ? 'auth-wrapper--dark' : 'auth-wrapper--light'}`}>
       {/* ── Background layers (fixed, decorative) ── */}
       <div className="auth-bg-image" />
       <div className="biomorph-layer">
@@ -153,7 +146,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
       <div className="noise-overlay" />
 
       {/* ── Main auth card ── */}
-      <div className="auth-card">
+      <div className={`auth-card ${isDark ? 'auth-card--dark' : 'auth-card--light'}`}>
         {/* ═══════════ LEFT PANEL ═══════════ */}
         <div className="auth-left">
 
@@ -164,12 +157,8 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
             </div>
           </div>
 
-          {/* ═══════ SPLASH PHASE ═══════
-              Visible during loading: credentials right under brand,
-              then progress bar beneath them.
-              When loading completes → this whole block hides. */}
+          {/* ═══════ SPLASH PHASE ═══════ */}
           <div className={`splash-body ${phase === 'ready' ? 'splash-done' : ''}`}>
-            {/* Credentials (org name + legal) — during splash, right under brand */}
             <div className="splash-credentials">
               <CredentialsBlock />
             </div>
@@ -189,11 +178,8 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
             </div>
           </div>
 
-          {/* ═══════ LOGIN PHASE ═══════
-              Visible after loading: form centered in the middle area,
-              credentials pushed to the very bottom. */}
+          {/* ═══════ LOGIN PHASE ═══════ */}
           <div className={`login-body ${phase === 'ready' ? 'login-visible' : ''}`}>
-            {/* Form — centered in flex:1 area */}
             <div className="login-form-wrapper">
               <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -234,7 +220,6 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
               </form>
             </div>
 
-            {/* Credentials — at the bottom of login phase */}
             <div className="login-footer">
               <CredentialsBlock />
             </div>
@@ -249,11 +234,10 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
 }
 
 /* ═══════════════════════════════════════════════════
-   DASHBOARD — imports happen at module level
-   but components render only when authenticated
+   DASHBOARD IMPORTS
    ═══════════════════════════════════════════════════ */
 
-import { Search, X } from 'lucide-react'
+import { Search, X, User, Settings, LogOut, ChevronDown } from 'lucide-react'
 import { Header } from '@/components/altera/Header'
 import { PatientRegistry } from '@/components/altera/PatientRegistry'
 import { PatientCard } from '@/components/altera/PatientCard'
@@ -316,7 +300,7 @@ const INITIAL_TABS: Tab[] = [
    PHASE 2: DOCTOR DASHBOARD
    ═══════════════════════════════════════════════════ */
 
-function DoctorDashboard() {
+function DoctorDashboard({ onLogout }: { onLogout: () => void }) {
   const [role, setRole] = useState<Role>('doctor')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [tabs, setTabs] = useState<Tab[]>(INITIAL_TABS)
@@ -324,11 +308,7 @@ function DoctorDashboard() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
   const [patientBackTarget, setPatientBackTarget] = useState<string>('dashboard')
-
-  /* ─── Ensure dark theme on dashboard ─── */
-  useEffect(() => {
-    document.documentElement.classList.add('dark')
-  }, [])
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   /* ─── Tab Management ─── */
 
@@ -391,6 +371,19 @@ function DoctorDashboard() {
   const breadcrumbText = isPatientTab
     ? `МИС Альтера / ${tabLabel} / № ${(activeTab as PatientTab)?.room}`
     : `МИС Альтера / ${tabLabel}`
+
+  /* ─── Close user menu on outside click ─── */
+  useEffect(() => {
+    if (!userMenuOpen) return
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (!target.closest('.user-menu-container')) {
+        setUserMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [userMenuOpen])
 
   /* ─── Render: Patient / Admin Stub ─── */
 
@@ -541,12 +534,51 @@ function DoctorDashboard() {
             ))}
           </nav>
 
-          {/* Exit */}
-          <div className="p-2 border-t border-gray-200 dark:border-[#373E47]">
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-              <span className="text-sm shrink-0">🚪</span>
-              {sidebarOpen && <span className="text-xs font-medium">Выход</span>}
+          {/* ═══ USER MENU (bottom of sidebar) ═══ */}
+          <div className="p-2 border-t border-gray-200 dark:border-[#373E47] user-menu-container relative">
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors ${!sidebarOpen ? 'justify-center' : ''}`}
+            >
+              <div className="w-7 h-7 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-[#5ecece]">ИИ</span>
+              </div>
+              {sidebarOpen && (
+                <>
+                  <div className="flex-1 min-w-0 text-left">
+                    <div className="text-xs font-medium truncate">Иванов И.А.</div>
+                    <div className="text-[10px] text-gray-500 dark:text-gray-400 truncate">Терапевт</div>
+                  </div>
+                  <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                </>
+              )}
             </button>
+
+            {/* Dropdown */}
+            {userMenuOpen && sidebarOpen && (
+              <div className="absolute bottom-full left-2 right-2 mb-1 bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl shadow-lg overflow-hidden z-50">
+                <button
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
+                >
+                  <User className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Мой профиль</span>
+                </button>
+                <button
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
+                >
+                  <Settings className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Настройки</span>
+                </button>
+                <div className="border-t border-gray-100 dark:border-[#373E47]" />
+                <button
+                  onClick={onLogout}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                >
+                  <LogOut className="w-4 h-4 text-red-500" />
+                  <span className="text-xs font-medium text-red-600 dark:text-red-400">Выход</span>
+                </button>
+              </div>
+            )}
           </div>
         </aside>
 
@@ -587,6 +619,8 @@ function DoctorDashboard() {
    MAIN APP — ORCHESTRATOR
    Controls the unified flow:
      auth (splash → login) → dashboard
+   Theme is synchronized: auth screen reads the
+   user's theme preference and applies matching styles.
    ═══════════════════════════════════════════════════ */
 
 export default function Home() {
@@ -594,19 +628,24 @@ export default function Home() {
   const [transitioning, setTransitioning] = useState(false)
 
   const handleAuthenticated = useCallback(() => {
-    // Restore dark theme before showing dashboard
-    document.documentElement.classList.add('dark')
     setTransitioning(true)
-    // Brief fade-out transition, then show dashboard
     setTimeout(() => {
       setAuthenticated(true)
       setTransitioning(false)
     }, 400)
   }, [])
 
+  const handleLogout = useCallback(() => {
+    setTransitioning(true)
+    setTimeout(() => {
+      setAuthenticated(false)
+      setTransitioning(false)
+    }, 400)
+  }, [])
+
   if (transitioning) {
     return (
-      <div className="fixed inset-0 z-50 bg-white flex items-center justify-center fade-out-splash">
+      <div className="fixed inset-0 z-50 bg-gray-900 dark:bg-gray-100 flex items-center justify-center fade-out-splash">
         <span className="spinner-large" />
       </div>
     )
@@ -616,5 +655,5 @@ export default function Home() {
     return <AuthScreen onAuthenticated={handleAuthenticated} />
   }
 
-  return <DoctorDashboard />
+  return <DoctorDashboard onLogout={handleLogout} />
 }

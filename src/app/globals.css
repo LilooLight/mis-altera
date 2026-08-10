@@ -147,6 +147,17 @@
   padding: 2rem;
   background: #1a2a2e;
   overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+/* Light theme: soft gradient bg (when dark bg-image is hidden) */
+.auth-wrapper--light .auth-bg-image {
+  opacity: 0.15;
+}
+
+/* Dark theme: bg image visible at full */
+.auth-wrapper--dark .auth-bg-image {
+  opacity: 1;
 }
 
 /* ── Fixed background layers ── */
@@ -223,6 +234,18 @@
     0 20px 48px rgba(0, 0, 0, 0.08),
     0 25px 64px rgba(48, 66, 65, 0.12);
   overflow: hidden;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark auth card */
+.auth-card--dark {
+  background: rgba(22, 27, 34, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 10px 24px rgba(0, 0, 0, 0.3),
+    0 20px 48px rgba(0, 0, 0, 0.25);
 }
 
 /* ═══════════ LEFT PANEL ═══════════ */
@@ -393,6 +416,62 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* ── Dark theme overrides for auth card content ── */
+.auth-card--dark .footer-org {
+  color: #d1d5db;
+}
+
+.auth-card--dark .footer-legal {
+  color: #6b7280;
+}
+
+.auth-card--dark .footer-legal a {
+  color: rgba(96, 165, 250, 1);
+}
+
+.auth-card--dark .footer-legal a:hover {
+  color: rgba(59, 130, 246, 1);
+}
+
+.auth-card--dark .form-group label {
+  color: #d1d5db;
+}
+
+.auth-card--dark .form-group input {
+  border-color: #373E47;
+  background: #161B22;
+  color: #f3f4f6;
+}
+
+.auth-card--dark .form-group input::placeholder {
+  color: #4b5563;
+}
+
+.auth-card--dark .form-group input:focus {
+  border-color: #5ECEC1;
+  box-shadow: 0 0 0 3px rgba(94, 206, 193, 0.15);
+}
+
+.auth-card--dark .progress-label {
+  color: #d1d5db;
+}
+
+.auth-card--dark .progress-status {
+  color: #6b7280;
+}
+
+.auth-card--dark .progress-bar {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.auth-card--dark .progress-percent {
+  color: #d1d5db;
+}
+
+.auth-card--dark .login-footer {
+  border-top-color: #30363D;
 }
 
 /* ── Footer (shared styles for both phases) ── */
