@@ -32,41 +32,19 @@ function BrandLogo({ size = 64 }: { size?: number }) {
       xmlns="http://www.w3.org/2000/svg"
       className="shrink-0 cursor-pointer"
     >
-      {/* Stylized "A" leaf / cross hybrid */}
-      <path
-        d="M32 6C32 6 18 22 18 36C18 44 24 52 32 56C40 52 46 44 46 36C46 22 32 6 32 6Z"
-        fill="#0CAE9B"
-        fillOpacity="0.15"
-        stroke="#0CAE9B"
-        strokeWidth="2.5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M32 6V56"
-        stroke="#0CAE9B"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M22 32H42"
-        stroke="#0CAE9B"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M24 22H40"
-        stroke="#0CAE9B"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-      <path
-        d="M24 42H40"
-        stroke="#0CAE9B"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
+      {/* Circle background */}
+      <circle cx="32" cy="32" r="30" fill="#0CAE9B" fillOpacity="0.12" stroke="#0CAE9B" strokeWidth="1.5" />
+      {/* Globe / sphere curved lines */}
+      <ellipse cx="32" cy="32" rx="16" ry="22" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
+      <path d="M16 26 Q32 22 48 26" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
+      <path d="M16 32 Q32 28 48 32" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
+      <path d="M16 38 Q32 34 48 38" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
+      <line x1="32" y1="10" x2="32" y2="54" stroke="#0CAE9B" strokeWidth="1.5" />
+      {/* Cross / medical symbol overlay */}
+      <rect x="28" y="14" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="28" y="47" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="12" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="44" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
     </svg>
   )
 }
