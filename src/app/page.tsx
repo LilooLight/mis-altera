@@ -238,7 +238,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
    DASHBOARD IMPORTS
    ═══════════════════════════════════════════════════ */
 
-import { Search, X, User, Settings, LogOut, ChevronDown } from 'lucide-react'
+import { Search, X, User, Settings, LogOut, ChevronDown, Stethoscope, UserCog, Shield } from 'lucide-react'
 import { Header } from '@/components/altera/Header'
 import { PatientRegistry } from '@/components/altera/PatientRegistry'
 import { PatientCard } from '@/components/altera/PatientCard'
@@ -391,7 +391,7 @@ function DoctorDashboard({ onLogout }: { onLogout: () => void }) {
   if (role !== 'doctor') {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-[#161B22]">
-        <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <StubPage role={role} onSwitchToDoctor={() => setRole('doctor')} />
       </div>
     )
@@ -404,7 +404,7 @@ function DoctorDashboard({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#161B22] transition-colors duration-300">
       {/* ═══ HEADER ═══ */}
-      <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
       {/* ═══ TAB BAR ═══ */}
       <div className="glass-card flex items-center border-b border-gray-200 dark:border-[#373E47] overflow-x-auto">
@@ -570,6 +570,32 @@ function DoctorDashboard({ onLogout }: { onLogout: () => void }) {
                   <Settings className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Настройки</span>
                 </button>
+                <div className="border-t border-gray-100 dark:border-[#373E47]" />
+                {/* Role switcher */}
+                <div className="px-3 pt-2 pb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Роль</span>
+                </div>
+                {([
+                  { role: 'doctor' as Role, label: 'Врач', icon: Stethoscope },
+                  { role: 'patient' as Role, label: 'Пациент', icon: UserCog },
+                  { role: 'admin' as Role, label: 'Администратор', icon: Shield },
+                ]).map(({ role: r, label, icon: Icon }) => (
+                  <button
+                    key={r}
+                    onClick={() => { setRole(r); setUserMenuOpen(false) }}
+                    className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${
+                      role === r
+                        ? 'bg-[#5ecece]/10 text-[#5ecece]'
+                        : 'hover:bg-gray-50 dark:hover:bg-[#30363D]'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${role === r ? 'text-[#5ecece]' : 'text-gray-500 dark:text-gray-400'}`} />
+                    <span className={`text-xs font-medium ${role === r ? 'text-[#5ecece]' : 'text-gray-700 dark:text-gray-300'}`}>{label}</span>
+                    {role === r && (
+                      <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#5ecece]" />
+                    )}
+                  </button>
+                ))}
                 <div className="border-t border-gray-100 dark:border-[#373E47]" />
                 <button
                   onClick={onLogout}
