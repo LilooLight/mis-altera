@@ -19,13 +19,13 @@ const SPLASH_DURATION = 10000 // 10 seconds
 const MESSAGE_INTERVAL = SPLASH_DURATION / PROGRESS_MESSAGES.length // 2s each
 
 /* ═══════════════════════════════════════════════════
-   BRAND LOGO — external SVG with built-in name + descriptor
+   BRAND LOGO — external SVG, theme-aware (light/dark variants)
    ═══════════════════════════════════════════════════ */
 
-function BrandLogo({ height = 160 }: { height?: number }) {
+function BrandLogo({ height = 160, dark = false }: { height?: number; dark?: boolean }) {
   return (
     <img
-      src="/mis-altera/logo-vert-text.svg"
+      src={dark ? '/mis-altera/logo-vert-text-dark.svg' : '/mis-altera/logo-vert-text.svg'}
       alt="Альтера — медицинская информационная система"
       height={height}
       className="shrink-0 cursor-pointer object-contain"
@@ -153,7 +153,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
           {/* ── Brand block (always at top) ── */}
           <div className="brand-block">
             <div onClick={handleLogoClick}>
-              <BrandLogo height={160} />
+              <BrandLogo height={160} dark={isDark} />
             </div>
           </div>
 

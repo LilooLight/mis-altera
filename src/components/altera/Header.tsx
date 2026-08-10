@@ -35,7 +35,7 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
         </button>
 
         <img
-          src="/mis-altera/logo.svg"
+          src={theme === 'dark' ? '/mis-altera/logo-dark.svg' : '/mis-altera/logo.svg'}
           alt="МИС Альтера"
           className="h-7 w-auto shrink-0"
         />
