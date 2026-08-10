@@ -1,7 +1,284 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { Search, X, MessageSquare, Palette } from 'lucide-react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+
+/* ═══════════════════════════════════════════════════
+   CONSTANTS
+   ═══════════════════════════════════════════════════ */
+
+const PROGRESS_MESSAGES = [
+  'Выполняется интеграция с CRM...',
+  'Загрузка модуля расписания...',
+  'Синхронизация справочников...',
+  'Проверка лицензии...',
+  'Инициализация интерфейса...',
+]
+
+const SPLASH_DURATION = 10000 // 10 seconds
+const MESSAGE_INTERVAL = SPLASH_DURATION / PROGRESS_MESSAGES.length // 2s each
+
+/* ═══════════════════════════════════════════════════
+   SVG LOGO (inline, 64×64 viewBox, fill #0CAE9B)
+   ═══════════════════════════════════════════════════ */
+
+function BrandLogo({ size = 64 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0 cursor-pointer"
+    >
+      {/* Circle background */}
+      <circle cx="32" cy="32" r="30" fill="#0CAE9B" fillOpacity="0.12" stroke="#0CAE9B" strokeWidth="1.5" />
+      {/* Globe / sphere curved lines */}
+      <ellipse cx="32" cy="32" rx="16" ry="22" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
+      <path d="M16 26 Q32 22 48 26" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
+      <path d="M16 32 Q32 28 48 32" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
+      <path d="M16 38 Q32 34 48 38" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
+      <line x1="32" y1="10" x2="32" y2="54" stroke="#0CAE9B" strokeWidth="1.5" />
+      {/* Cross / medical symbol overlay */}
+      <rect x="28" y="14" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="28" y="47" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="12" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+      <rect x="44" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
+    </svg>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   CREDENTIALS BLOCK (shared between phases)
+   ═══════════════════════════════════════════════════ */
+
+function CredentialsBlock() {
+  return (
+    <>
+      <p className="footer-org">Санаторий &laquo;Буревестник&raquo;</p>
+      <p className="footer-legal">
+        &copy; 1985&ndash;2026 ДРПО ГлавНИВЦ. Товарный знак &laquo;Альтера&raquo; зарегистрирован.
+        <br />
+        <a href="#" onClick={(e) => e.preventDefault()}>Свидетельство о регистрации</a>
+        {' · '}
+        <a href="#" onClick={(e) => e.preventDefault()}>Информация о лицензии</a>
+      </p>
+    </>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   PHASE 1: SPLASH / LOGIN SCREEN
+   Two-phase layout inside the left panel:
+   - Loading:  brand → credentials → progress bar
+   - Ready:    brand → form (centered) → credentials (bottom)
+   ═══════════════════════════════════════════════════ */
+
+function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
+  const [loaded, setLoaded] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [messageIndex, setMessageIndex] = useState(0)
+  const [phase, setPhase] = useState<'loading' | 'ready'>('loading')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startRef = useRef<number>(0)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  /* ─── Progress animation ─── */
+  const startProgress = useCallback(() => {
+    setProgress(0)
+    setMessageIndex(0)
+    setPhase('loading')
+    startRef.current = Date.now()
+
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      const elapsed = Date.now() - startRef.current
+      const raw = elapsed / SPLASH_DURATION
+      const pct = Math.min(raw * 100, 100)
+      setProgress(pct)
+
+      const msgIdx = Math.min(
+        Math.floor(elapsed / MESSAGE_INTERVAL),
+        PROGRESS_MESSAGES.length - 1
+      )
+      setMessageIndex(msgIdx)
+
+      if (pct >= 100) {
+        if (timerRef.current) clearInterval(timerRef.current)
+        timerRef.current = null
+        setPhase('ready')
+      }
+    }, 50)
+  }, [])
+
+  useEffect(() => {
+    setLoaded(true)
+    startProgress()
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [startProgress])
+
+  /* ─── Focus email input after form appears ─── */
+  useEffect(() => {
+    if (phase === 'ready') {
+      const t = setTimeout(() => inputRef.current?.focus(), 500)
+      return () => clearTimeout(t)
+    }
+  }, [phase])
+
+  /* ─── Restart on logo click ─── */
+  const handleLogoClick = () => {
+    startProgress()
+  }
+
+  /* ─── Form submit ─── */
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setTimeout(() => {
+      onAuthenticated()
+    }, 600)
+  }
+
+  /* ─── Force light theme on auth page ─── */
+  useEffect(() => {
+    const html = document.documentElement
+    html.classList.remove('dark')
+    return () => {
+      html.classList.add('dark')
+    }
+  }, [])
+
+  /* ─── Guard: prevent flash of unstyled content ─── */
+  if (!loaded) return null
+
+  return (
+    <div className="auth-wrapper">
+      {/* ── Background layers (fixed, decorative) ── */}
+      <div className="auth-bg-image" />
+      <div className="biomorph-layer">
+        <div className="biomorph-blob blob-1" />
+        <div className="biomorph-blob blob-2" />
+        <div className="biomorph-blob blob-3" />
+      </div>
+      <div className="noise-overlay" />
+
+      {/* ── Main auth card ── */}
+      <div className="auth-card">
+        {/* ═══════════ LEFT PANEL ═══════════ */}
+        <div className="auth-left">
+
+          {/* ── Brand block (always at top) ── */}
+          <div className="brand-block">
+            <div onClick={handleLogoClick}>
+              <BrandLogo size={64} />
+            </div>
+            <h1 className="brand-name">Альтера</h1>
+            <p className="brand-subtitle">
+              текст
+              <br />
+              медицинская
+              <br />
+              информационная
+              <br />
+              система
+            </p>
+          </div>
+
+          {/* ═══════ SPLASH PHASE ═══════
+              Visible during loading: credentials right under brand,
+              then progress bar beneath them.
+              When loading completes → this whole block hides. */}
+          <div className={`splash-body ${phase === 'ready' ? 'splash-done' : ''}`}>
+            {/* Credentials (org name + legal) — during splash, right under brand */}
+            <div className="splash-credentials">
+              <CredentialsBlock />
+            </div>
+
+            {/* Progress bar */}
+            <div className="progress-line">
+              <div className="progress-row">
+                <span className="progress-label">Загрузка:</span>
+                <span className="progress-status">{PROGRESS_MESSAGES[messageIndex]}</span>
+              </div>
+              <div className="progress-bar-track">
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{ width: `${progress}%` }} />
+                </div>
+                <span className="progress-percent">{Math.round(progress)}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ═══════ LOGIN PHASE ═══════
+              Visible after loading: form centered in the middle area,
+              credentials pushed to the very bottom. */}
+          <div className={`login-body ${phase === 'ready' ? 'login-visible' : ''}`}>
+            {/* Form — centered in flex:1 area */}
+            <div className="login-form-wrapper">
+              <form className="login-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="login-email">Имя пользователя</label>
+                  <input
+                    ref={inputRef}
+                    id="login-email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e-mail"
+                    autoComplete="username"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="login-password">Пароль</label>
+                  <input
+                    id="login-password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="........"
+                    autoComplete="current-password"
+                  />
+                </div>
+
+                <button type="submit" className="btn-login" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <span className="spinner" />
+                      Вход...
+                    </span>
+                  ) : (
+                    'Войти'
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Credentials — at the bottom of login phase */}
+            <div className="login-footer">
+              <CredentialsBlock />
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════ RIGHT PANEL (photo) ═══════════ */}
+        <div className="auth-right" />
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   DASHBOARD — imports happen at module level
+   but components render only when authenticated
+   ═══════════════════════════════════════════════════ */
+
+import { Search, X } from 'lucide-react'
 import { Header } from '@/components/altera/Header'
 import { PatientRegistry } from '@/components/altera/PatientRegistry'
 import { PatientCard } from '@/components/altera/PatientCard'
@@ -11,9 +288,7 @@ import { UIKitPage } from '@/components/altera/UIKitPage'
 import { MessengerPage } from '@/components/altera/MessengerPage'
 import { StubPage } from '@/components/altera/StubPage'
 
-/* ═══════════════════════════════════════════════════
-   TYPES
-   ═══════════════════════════════════════════════════ */
+/* ─── Types ─── */
 
 type Role = 'doctor' | 'patient' | 'admin'
 
@@ -44,9 +319,7 @@ interface PatientTab {
 
 type Tab = SystemTab | PatientTab
 
-/* ═══════════════════════════════════════════════════
-   DATA
-   ═══════════════════════════════════════════════════ */
+/* ─── Data ─── */
 
 export const PATIENTS: PatientInfo[] = [
   { id: 1, name: 'Петрова Анна Сергеевна', shortName: 'Петрова А.С.', initials: 'ПА', room: '314', hasNewAnalyses: true },
@@ -65,10 +338,10 @@ const INITIAL_TABS: Tab[] = [
 ]
 
 /* ═══════════════════════════════════════════════════
-   MAIN COMPONENT
+   PHASE 2: DOCTOR DASHBOARD
    ═══════════════════════════════════════════════════ */
 
-export default function Home() {
+function DoctorDashboard() {
   const [role, setRole] = useState<Role>('doctor')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [tabs, setTabs] = useState<Tab[]>(INITIAL_TABS)
@@ -77,11 +350,15 @@ export default function Home() {
   const [searchFocused, setSearchFocused] = useState(false)
   const [patientBackTarget, setPatientBackTarget] = useState<string>('dashboard')
 
+  /* ─── Ensure dark theme on dashboard ─── */
+  useEffect(() => {
+    document.documentElement.classList.add('dark')
+  }, [])
+
   /* ─── Tab Management ─── */
 
   const openPatient = useCallback((patient: PatientInfo) => {
     const tabId = `patient-${patient.id}`
-    // remember which tab the doctor came from
     setPatientBackTarget(prev => {
       if (activeTabId !== tabId) return activeTabId
       return prev
@@ -133,7 +410,6 @@ export default function Home() {
   /* ─── Active tab info ─── */
 
   const activeTab = tabs.find(t => t.id === activeTabId)
-  const isSystemTab = activeTab?.type === 'system'
   const isPatientTab = activeTab?.type === 'patient'
   const tabLabel = activeTab?.label || ''
 
@@ -146,9 +422,9 @@ export default function Home() {
   if (role !== 'doctor') {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-[#161B22]">
-          <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <StubPage role={role} onSwitchToDoctor={() => setRole('doctor')} />
-        </div>
+        <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <StubPage role={role} onSwitchToDoctor={() => setRole('doctor')} />
+      </div>
     )
   }
 
@@ -158,178 +434,212 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#161B22] transition-colors duration-300">
-        {/* ═══ HEADER ═══ */}
-        <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      {/* ═══ HEADER ═══ */}
+      <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-        {/* ═══ TAB BAR ═══ */}
-        <div className="glass-card flex items-center border-b border-gray-200 dark:border-[#373E47] overflow-x-auto">
-          {tabs.map((tab) => {
-            const isActive = tab.id === activeTabId
-            const isClosable = tab.type === 'patient' || (tab.type === 'system' && tab.id !== 'dashboard' && tab.id !== 'registry')
+      {/* ═══ TAB BAR ═══ */}
+      <div className="glass-card flex items-center border-b border-gray-200 dark:border-[#373E47] overflow-x-auto">
+        {tabs.map((tab) => {
+          const isActive = tab.id === activeTabId
+          const isClosable = tab.type === 'patient' || (tab.type === 'system' && tab.id !== 'dashboard' && tab.id !== 'registry')
 
-            return (
-              <div
-                key={tab.id}
-                className={`group flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium whitespace-nowrap cursor-pointer border-b-2 transition-colors select-none shrink-0 ${
-                  isActive
-                    ? 'border-[#5ecece] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#161B22]'
-                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#21262D]'
-                }`}
-                onClick={() => setActiveTabId(tab.id)}
-              >
-                <span className="text-sm">{tab.icon}</span>
-                <span>{tab.label}</span>
-                {tab.type === 'patient' && (
-                  <span className={`text-[10px] px-1 py-px rounded font-medium ${
-                    isActive ? 'bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400' : 'bg-gray-100 dark:bg-[#30363D] text-gray-400 dark:text-gray-500'
-                  }`}>
-                    {(tab as PatientTab).room}
-                  </span>
-                )}
-                {isClosable && (
-                  <button
-                    onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }}
-                    className={`ml-1 p-0.5 rounded transition-colors ${
-                      isActive
-                        ? 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#373E47]'
-                        : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#373E47]'
-                    }`}
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            )
-          })}
-        </div>
-
-        {/* ═══ MAIN LAYOUT ═══ */}
-        <div className="flex" style={{ height: 'calc(100vh - 56px - 42px)' }}>
-
-          {/* ═══ SIDEBAR ═══ */}
-          <aside className={`glass-card ${sidebarOpen ? 'w-60' : 'w-14'} border-r border-gray-200 dark:border-[#373E47] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}>
-            {/* Quick Search */}
-            <div className="p-3 border-b border-gray-200 dark:border-[#373E47]">
-              {sidebarOpen && (
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setSearchFocused(true)}
-                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-                    placeholder="Быстрый поиск..."
-                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
-                  />
-                  {searchFocused && searchResults.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl shadow-lg z-50 overflow-hidden">
-                      {searchResults.map((p) => (
-                        <button
-                          key={p.id}
-                          onMouseDown={() => handleSearchSelect(p)}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
-                        >
-                          <div className="w-7 h-7 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
-                            <span className="text-[10px] font-bold text-[#5ecece]">{p.initials}</span>
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{p.shortName}</div>
-                            <div className="text-[10px] text-gray-500 dark:text-gray-400">№ {p.room}</div>
-                          </div>
-                          {p.hasNewAnalyses && (
-                            <span className="ml-auto w-2 h-2 rounded-full bg-blue-500 shrink-0" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+          return (
+            <div
+              key={tab.id}
+              className={`group flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium whitespace-nowrap cursor-pointer border-b-2 transition-colors select-none shrink-0 ${
+                isActive
+                  ? 'border-[#5ecece] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#161B22]'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#21262D]'
+              }`}
+              onClick={() => setActiveTabId(tab.id)}
+            >
+              <span className="text-sm">{tab.icon}</span>
+              <span>{tab.label}</span>
+              {tab.type === 'patient' && (
+                <span className={`text-[10px] px-1 py-px rounded font-medium ${
+                  isActive ? 'bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400' : 'bg-gray-100 dark:bg-[#30363D] text-gray-400 dark:text-gray-500'
+                }`}>
+                  {(tab as PatientTab).room}
+                </span>
               )}
-              {!sidebarOpen && (
-                <button className="w-full flex justify-center p-1.5 text-gray-400 hover:text-[#5ecece] transition-colors">
-                  <Search className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
-            {/* Sidebar Nav */}
-            <nav className="flex-1 py-2 px-2 space-y-0.5 overflow-y-auto">
-              {sidebarOpen && (
-                <div className="px-3 py-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Инструменты</span>
-                </div>
-              )}
-              {[
-                { id: 'scheduler', label: 'Шедулер', icon: '⏱️' },
-                { id: 'uikit', label: 'UI-Kit', icon: '🎨' },
-                { id: 'messenger', label: 'Мессенджер', icon: '💬' },
-              ].map((item) => (
+              {isClosable && (
                 <button
-                  key={item.id}
-                  onClick={() => openToolTab(item.id, item.label)}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all group ${
-                    activeTabId === item.id
-                      ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece]'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] hover:text-gray-900 dark:hover:text-gray-200'
-                  } ${!sidebarOpen ? 'justify-center' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }}
+                  className={`ml-1 p-0.5 rounded transition-colors ${
+                    isActive
+                      ? 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#373E47]'
+                      : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#373E47]'
+                  }`}
                 >
-                  <span className="text-sm shrink-0">{item.icon}</span>
-                  {sidebarOpen && (
-                    <>
-                      <span className="text-sm font-medium truncate">{item.label}</span>
-                      {item.id === 'messenger' && (
-                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">MVP</span>
-                      )}
-                      {item.id === 'scheduler' && (
-                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">PRO</span>
-                      )}
-                    </>
-                  )}
+                  <X className="w-3.5 h-3.5" />
                 </button>
-              ))}
-            </nav>
-
-            {/* Exit */}
-            <div className="p-2 border-t border-gray-200 dark:border-[#373E47]">
-              <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-                <span className="text-sm shrink-0">🚪</span>
-                {sidebarOpen && <span className="text-xs font-medium">Выход</span>}
-              </button>
+              )}
             </div>
-          </aside>
+          )
+        })}
+      </div>
 
-          {/* ═══ CONTENT AREA ═══ */}
-          <main className="flex-1 overflow-y-auto">
-            {/* Breadcrumb */}
-            <div className="sticky top-0 z-10 bg-gray-50/80 dark:bg-[#161B22]/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-[#373E47]/50 px-6 py-2">
-              <div className="flex items-center gap-2 text-xs">
-                {breadcrumbText.split(' / ').map((part, i, arr) => (
-                  <span key={i} className={i === arr.length - 1 ? 'text-[#5ecece] font-medium' : 'text-gray-400 dark:text-gray-500'}>
-                    {part}
-                  </span>
-                ))}
+      {/* ═══ MAIN LAYOUT ═══ */}
+      <div className="flex" style={{ height: 'calc(100vh - 56px - 42px)' }}>
+
+        {/* ═══ SIDEBAR ═══ */}
+        <aside className={`glass-card ${sidebarOpen ? 'w-60' : 'w-14'} border-r border-gray-200 dark:border-[#373E47] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}>
+          {/* Quick Search */}
+          <div className="p-3 border-b border-gray-200 dark:border-[#373E47]">
+            {sidebarOpen && (
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
+                  placeholder="Быстрый поиск..."
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
+                />
+                {searchFocused && searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl shadow-lg z-50 overflow-hidden">
+                    {searchResults.map((p) => (
+                      <button
+                        key={p.id}
+                        onMouseDown={() => handleSearchSelect(p)}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
+                      >
+                        <div className="w-7 h-7 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
+                          <span className="text-[10px] font-bold text-[#5ecece]">{p.initials}</span>
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{p.shortName}</div>
+                          <div className="text-[10px] text-gray-500 dark:text-gray-400">№ {p.room}</div>
+                        </div>
+                        {p.hasNewAnalyses && (
+                          <span className="ml-auto w-2 h-2 rounded-full bg-blue-500 shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
+            )}
+            {!sidebarOpen && (
+              <button className="w-full flex justify-center p-1.5 text-gray-400 hover:text-[#5ecece] transition-colors">
+                <Search className="w-4 h-4" />
+              </button>
+            )}
+          </div>
 
-            {/* Content */}
-            <div className="p-6">
-              {/* System tabs: render only active */}
-              {activeTabId === 'dashboard' && <Dashboard onOpenPatient={openPatient} onOpenRegistry={() => setActiveTabId('registry')} />}
-              {activeTabId === 'scheduler' && <DoctorScheduler onOpenPatient={openPatient} />}
-              {activeTabId === 'registry' && <PatientRegistry onOpenPatient={openPatient} />}
-              {activeTabId === 'uikit' && <UIKitPage />}
-              {activeTabId === 'messenger' && <MessengerPage />}
+          {/* Sidebar Nav */}
+          <nav className="flex-1 py-2 px-2 space-y-0.5 overflow-y-auto">
+            {sidebarOpen && (
+              <div className="px-3 py-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Инструменты</span>
+              </div>
+            )}
+            {[
+              { id: 'scheduler', label: 'Шедулер', icon: '⏱️' },
+              { id: 'uikit', label: 'UI-Kit', icon: '🎨' },
+              { id: 'messenger', label: 'Мессенджер', icon: '💬' },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => openToolTab(item.id, item.label)}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all group ${
+                  activeTabId === item.id
+                    ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece]'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] hover:text-gray-900 dark:hover:text-gray-200'
+                } ${!sidebarOpen ? 'justify-center' : ''}`}
+              >
+                <span className="text-sm shrink-0">{item.icon}</span>
+                {sidebarOpen && (
+                  <>
+                    <span className="text-sm font-medium truncate">{item.label}</span>
+                    {item.id === 'messenger' && (
+                      <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">MVP</span>
+                    )}
+                    {item.id === 'scheduler' && (
+                      <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">PRO</span>
+                    )}
+                  </>
+                )}
+              </button>
+            ))}
+          </nav>
 
-              {/* Patient tabs: render ALL, hide inactive (preserves sub-tab state) */}
-              {patientTabs.map((tab) => (
-                <div key={tab.id} className={tab.id === activeTabId ? '' : 'hidden'}>
-                  <PatientCard onBack={() => setActiveTabId(patientBackTarget)} />
-                </div>
+          {/* Exit */}
+          <div className="p-2 border-t border-gray-200 dark:border-[#373E47]">
+            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+              <span className="text-sm shrink-0">🚪</span>
+              {sidebarOpen && <span className="text-xs font-medium">Выход</span>}
+            </button>
+          </div>
+        </aside>
+
+        {/* ═══ CONTENT AREA ═══ */}
+        <main className="flex-1 overflow-y-auto">
+          {/* Breadcrumb */}
+          <div className="sticky top-0 z-10 bg-gray-50/80 dark:bg-[#161B22]/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-[#373E47]/50 px-6 py-2">
+            <div className="flex items-center gap-2 text-xs">
+              {breadcrumbText.split(' / ').map((part, i, arr) => (
+                <span key={i} className={i === arr.length - 1 ? 'text-[#5ecece] font-medium' : 'text-gray-400 dark:text-gray-500'}>
+                  {part}
+                </span>
               ))}
             </div>
-          </main>
-        </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6">
+            {activeTabId === 'dashboard' && <Dashboard onOpenPatient={openPatient} onOpenRegistry={() => setActiveTabId('registry')} />}
+            {activeTabId === 'scheduler' && <DoctorScheduler onOpenPatient={openPatient} />}
+            {activeTabId === 'registry' && <PatientRegistry onOpenPatient={openPatient} />}
+            {activeTabId === 'uikit' && <UIKitPage />}
+            {activeTabId === 'messenger' && <MessengerPage />}
+
+            {patientTabs.map((tab) => (
+              <div key={tab.id} className={tab.id === activeTabId ? '' : 'hidden'}>
+                <PatientCard onBack={() => setActiveTabId(patientBackTarget)} />
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
     </div>
   )
+}
+
+/* ═══════════════════════════════════════════════════
+   MAIN APP — ORCHESTRATOR
+   Controls the unified flow:
+     auth (splash → login) → dashboard
+   ═══════════════════════════════════════════════════ */
+
+export default function Home() {
+  const [authenticated, setAuthenticated] = useState(false)
+  const [transitioning, setTransitioning] = useState(false)
+
+  const handleAuthenticated = useCallback(() => {
+    // Restore dark theme before showing dashboard
+    document.documentElement.classList.add('dark')
+    setTransitioning(true)
+    // Brief fade-out transition, then show dashboard
+    setTimeout(() => {
+      setAuthenticated(true)
+      setTransitioning(false)
+    }, 400)
+  }, [])
+
+  if (transitioning) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white flex items-center justify-center fade-out-splash">
+        <span className="spinner-large" />
+      </div>
+    )
+  }
+
+  if (!authenticated) {
+    return <AuthScreen onAuthenticated={handleAuthenticated} />
+  }
+
+  return <DoctorDashboard />
 }
