@@ -34,27 +34,11 @@ export function Header({ currentRole, onRoleChange, onToggleSidebar }: HeaderPro
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <img
-            src="/mis-altera/logo.svg"
-            alt=""
-            className="w-8 h-8 rounded-lg shrink-0"
-          />
-          <div className="flex flex-col">
-            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 leading-tight">
-              Санаторий «Буревестник»
-            </span>
-            <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
-              МИС Альтера
-            </span>
-          </div>
-        </div>
-
-        <div className="hidden md:flex items-center gap-1.5 ml-4 text-xs text-gray-500 dark:text-gray-400">
-          <span>Курортный комплекс</span>
-          <span className="text-[#5ecece]">·</span>
-          <span>Здоровье и отдых</span>
-        </div>
+        <img
+          src="/mis-altera/logo.svg"
+          alt="МИС Альтера"
+          className="h-7 w-auto shrink-0"
+        />
       </div>
 
       {/* Right side */}
