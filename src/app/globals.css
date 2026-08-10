@@ -266,12 +266,60 @@
   margin-top: 0.35rem;
 }
 
-/* ── Middle area (form container) ── */
-.middle-area {
+/* ═══════════════════════════════════════════════════
+   PHASE 1: SPLASH (logo → credentials → progress)
+   PHASE 2: LOGIN  (logo → form centered → credentials)
+   ═══════════════════════════════════════════════════ */
+
+/* ── Splash body: visible during loading ── */
+.splash-body {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
+  max-height: 300px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.splash-body.splash-done {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.splash-credentials {
+  flex-shrink: 0;
+}
+
+/* ── Login body: hidden during loading, visible after ── */
+.login-body {
   flex: 1;
   display: flex;
-  align-items: flex-start;
-  padding-top: 2rem;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.login-body.login-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.login-form-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.login-footer {
+  flex-shrink: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
 }
 
 /* ── Login form ── */
@@ -280,16 +328,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  opacity: 0;
-  transform: translateY(16px);
-  pointer-events: none;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.login-form.form-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
 }
 
 .form-group {
@@ -376,11 +414,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Footer ── */
-.auth-footer {
-  flex-shrink: 0;
-  margin-bottom: 0.75rem;
-}
+/* ── Footer (shared styles for both phases) ── */
 
 .footer-org {
   font-size: 13px;
@@ -411,23 +445,12 @@
   color: rgba(37, 99, 235, 1);
 }
 
-/* ── Progress line ── */
+/* ── Progress line (always inside splash-body, no separate hide needed) ── */
 .progress-line {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: opacity 0.5s ease, max-height 0.5s ease, margin 0.5s ease;
-  max-height: 80px;
-  opacity: 1;
-}
-
-.progress-line.progress-hidden {
-  opacity: 0;
-  max-height: 0;
-  margin: 0;
-  overflow: hidden;
-  pointer-events: none;
 }
 
 .progress-row {
@@ -540,8 +563,8 @@
     width: 100%;
   }
 
-  .middle-area {
-    padding-top: 1.75rem;
+  .splash-body {
+    margin-top: 1.75rem;
   }
 
   .form-group label {
@@ -599,8 +622,8 @@
     line-height: 18px;
   }
 
-  .middle-area {
-    padding-top: 1.25rem;
+  .splash-body {
+    margin-top: 1.25rem;
   }
 
   .form-group label {
@@ -638,11 +661,8 @@
 
 /* ── prefers-reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .login-form {
-    transition: none;
-  }
-
-  .progress-line {
+  .splash-body,
+  .login-body {
     transition: none;
   }
 

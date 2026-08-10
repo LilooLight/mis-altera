@@ -140,22 +140,20 @@ export default function LoginPage() {
   return (
     <div className="auth-wrapper">
       {/* ── Background layers (fixed, decorative) ── */}
-      {/* Semi-transparent photo bg */}
       <div className="auth-bg-image" />
-      {/* Biomorph blobs */}
       <div className="biomorph-layer">
         <div className="biomorph-blob blob-1" />
         <div className="biomorph-blob blob-2" />
         <div className="biomorph-blob blob-3" />
       </div>
-      {/* Noise overlay */}
       <div className="noise-overlay" />
 
       {/* ── Main auth card ── */}
       <div className="auth-card">
         {/* ═══════════ LEFT PANEL ═══════════ */}
         <div className="auth-left">
-          {/* ── Brand block ── */}
+
+          {/* ── Brand block (always at top) ── */}
           <div className="brand-block">
             <div onClick={handleLogoClick}>
               <BrandLogo size={64} />
@@ -172,81 +170,99 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* ── Form area (hidden during loading) ── */}
-          <div className="middle-area">
-            <form
-              className={`login-form ${phase === 'ready' ? 'form-visible' : ''}`}
-              onSubmit={handleSubmit}
-            >
-              <div className="form-group">
-                <label htmlFor="login-email">Имя пользователя</label>
-                <input
-                  ref={inputRef}
-                  id="login-email"
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e-mail"
-                  autoComplete="username"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="login-password">Пароль</label>
-                <input
-                  id="login-password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="........"
-                  autoComplete="current-password"
-                />
-              </div>
-
-              <button type="submit" className="btn-login" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <span className="spinner" />
-                    Вход...
-                  </span>
-                ) : (
-                  'Войти'
-                )}
-              </button>
-            </form>
-          </div>
-
-          {/* ── Footer ── */}
-          <div className="auth-footer">
-            <p className="footer-org">Санаторий &laquo;Буревестник&raquo;</p>
-            <p className="footer-legal">
-              &copy; 1985&ndash;2026 ДРПО ГлавНИВЦ. Товарный знак &laquo;Альтера&raquo; зарегистрирован.
-              <br />
-              <a href="#" onClick={(e) => e.preventDefault()}>Свидетельство о регистрации</a>
-              {' · '}
-              <a href="#" onClick={(e) => e.preventDefault()}>Информация о лицензии</a>
-            </p>
-          </div>
-
-          {/* ── Progress bar (hidden after loading) ── */}
-          <div className={`progress-line ${phase === 'ready' ? 'progress-hidden' : ''}`}>
-            <div className="progress-row">
-              <span className="progress-label">Загрузка:</span>
-              <span className="progress-status">{PROGRESS_MESSAGES[messageIndex]}</span>
+          {/* ═══════ SPLASH PHASE ═══════
+              Visible during loading: credentials right under brand,
+              then progress bar beneath them.
+              When loading completes → this whole block hides. */}
+          <div className={`splash-body ${phase === 'ready' ? 'splash-done' : ''}`}>
+            {/* Credentials (org name + legal) — during splash, right under brand */}
+            <div className="splash-credentials">
+              <p className="footer-org">Санаторий &laquo;Буревестник&raquo;</p>
+              <p className="footer-legal">
+                &copy; 1985&ndash;2026 ДРПО ГлавНИВЦ. Товарный знак &laquo;Альтера&raquo; зарегистрирован.
+                <br />
+                <a href="#" onClick={(e) => e.preventDefault()}>Свидетельство о регистрации</a>
+                {' · '}
+                <a href="#" onClick={(e) => e.preventDefault()}>Информация о лицензии</a>
+              </p>
             </div>
-            <div className="progress-bar-track">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${progress}%` }} />
+
+            {/* Progress bar */}
+            <div className="progress-line">
+              <div className="progress-row">
+                <span className="progress-label">Загрузка:</span>
+                <span className="progress-status">{PROGRESS_MESSAGES[messageIndex]}</span>
               </div>
-              <span className="progress-percent">{Math.round(progress)}%</span>
+              <div className="progress-bar-track">
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{ width: `${progress}%` }} />
+                </div>
+                <span className="progress-percent">{Math.round(progress)}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ═══════ LOGIN PHASE ═══════
+              Visible after loading: form centered in the middle area,
+              credentials pushed to the very bottom. */}
+          <div className={`login-body ${phase === 'ready' ? 'login-visible' : ''}`}>
+            {/* Form — centered in flex:1 area */}
+            <div className="login-form-wrapper">
+              <form className="login-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="login-email">Имя пользователя</label>
+                  <input
+                    ref={inputRef}
+                    id="login-email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e-mail"
+                    autoComplete="username"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="login-password">Пароль</label>
+                  <input
+                    id="login-password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="........"
+                    autoComplete="current-password"
+                  />
+                </div>
+
+                <button type="submit" className="btn-login" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <span className="spinner" />
+                      Вход...
+                    </span>
+                  ) : (
+                    'Войти'
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Credentials — at the bottom of login phase */}
+            <div className="login-footer">
+              <p className="footer-org">Санаторий &laquo;Буревестник&raquo;</p>
+              <p className="footer-legal">
+                &copy; 1985&ndash;2026 ДРПО ГлавНИВЦ. Товарный знак &laquo;Альтера&raquo; зарегистрирован.
+                <br />
+                <a href="#" onClick={(e) => e.preventDefault()}>Свидетельство о регистрации</a>
+                {' · '}
+                <a href="#" onClick={(e) => e.preventDefault()}>Информация о лицензии</a>
+              </p>
             </div>
           </div>
         </div>
 
         {/* ═══════════ RIGHT PANEL (photo) ═══════════ */}
-        <div className="auth-right">
-          <div className="auth-right-overlay" />
-        </div>
+        <div className="auth-right" />
       </div>
     </div>
   )
