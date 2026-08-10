@@ -75,11 +75,17 @@ export default function Home() {
   const [activeTabId, setActiveTabId] = useState('dashboard')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
+  const [patientBackTarget, setPatientBackTarget] = useState<string>('dashboard')
 
   /* ─── Tab Management ─── */
 
   const openPatient = useCallback((patient: PatientInfo) => {
     const tabId = `patient-${patient.id}`
+    // remember which tab the doctor came from
+    setPatientBackTarget(prev => {
+      if (activeTabId !== tabId) return activeTabId
+      return prev
+    })
     setTabs(prev => {
       if (!prev.find(t => t.id === tabId)) {
         return [...prev, {
@@ -91,7 +97,7 @@ export default function Home() {
       return prev
     })
     setActiveTabId(tabId)
-  }, [])
+  }, [activeTabId])
 
   const closeTab = useCallback((tabId: string) => {
     setTabs(prev => {
@@ -318,7 +324,7 @@ export default function Home() {
               {/* Patient tabs: render ALL, hide inactive (preserves sub-tab state) */}
               {patientTabs.map((tab) => (
                 <div key={tab.id} className={tab.id === activeTabId ? '' : 'hidden'}>
-                  <PatientCard onBack={() => closeTab(tab.id)} />
+                  <PatientCard onBack={() => setActiveTabId(patientBackTarget)} />
                 </div>
               ))}
             </div>
