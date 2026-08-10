@@ -1,261 +1,273 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Eye, EyeOff } from 'lucide-react'
 
-const SPLASH_MESSAGES = [
-  'Интеграция с CRM...',
+/* ═══════════════════════════════════════════════════
+   CONSTANTS
+   ═══════════════════════════════════════════════════ */
+
+const PROGRESS_MESSAGES = [
+  'Выполняется интеграция с CRM...',
   'Загрузка модуля расписания...',
   'Синхронизация справочников...',
+  'Проверка лицензии...',
   'Инициализация интерфейса...',
 ]
 
-const SPLASH_DURATION = 6000
+const SPLASH_DURATION = 10000 // 10 seconds
+const MESSAGE_INTERVAL = SPLASH_DURATION / PROGRESS_MESSAGES.length // 2s each
+
+/* ═══════════════════════════════════════════════════
+   SVG LOGO (inline, 64×64 viewBox, fill #0CAE9B)
+   ═══════════════════════════════════════════════════ */
+
+function BrandLogo({ size = 64 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0 cursor-pointer"
+    >
+      {/* Stylized "A" leaf / cross hybrid */}
+      <path
+        d="M32 6C32 6 18 22 18 36C18 44 24 52 32 56C40 52 46 44 46 36C46 22 32 6 32 6Z"
+        fill="#0CAE9B"
+        fillOpacity="0.15"
+        stroke="#0CAE9B"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M32 6V56"
+        stroke="#0CAE9B"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M22 32H42"
+        stroke="#0CAE9B"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M24 22H40"
+        stroke="#0CAE9B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+      <path
+        d="M24 42H40"
+        stroke="#0CAE9B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+    </svg>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   MAIN COMPONENT
+   ═══════════════════════════════════════════════════ */
 
 export default function LoginPage() {
   const router = useRouter()
-  const [phase, setPhase] = useState<'splash' | 'login'>('splash')
+  const [loaded, setLoaded] = useState(false)
   const [progress, setProgress] = useState(0)
   const [messageIndex, setMessageIndex] = useState(0)
+  const [phase, setPhase] = useState<'loading' | 'ready'>('loading')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startRef = useRef<number>(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    const start = Date.now()
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - start
+  /* ─── Progress animation ─── */
+  const startProgress = useCallback(() => {
+    setProgress(0)
+    setMessageIndex(0)
+    setPhase('loading')
+    startRef.current = Date.now()
+
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      const elapsed = Date.now() - startRef.current
       const raw = elapsed / SPLASH_DURATION
-      const eased = 1 - Math.pow(1 - Math.min(raw, 1), 3)
-      setProgress(eased * 100)
-      setMessageIndex(Math.min(Math.floor(eased * SPLASH_MESSAGES.length), SPLASH_MESSAGES.length - 1))
-      if (elapsed >= SPLASH_DURATION) {
-        clearInterval(interval)
-        setPhase('login')
+      const pct = Math.min(raw * 100, 100)
+      setProgress(pct)
+
+      const msgIdx = Math.min(
+        Math.floor(elapsed / MESSAGE_INTERVAL),
+        PROGRESS_MESSAGES.length - 1
+      )
+      setMessageIndex(msgIdx)
+
+      if (pct >= 100) {
+        if (timerRef.current) clearInterval(timerRef.current)
+        timerRef.current = null
+        setPhase('ready')
       }
     }, 50)
-    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
-    if (phase === 'login') {
-      setTimeout(() => inputRef.current?.focus(), 400)
+    setLoaded(true)
+    startProgress()
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [startProgress])
+
+  /* ─── Focus email input after form appears ─── */
+  useEffect(() => {
+    if (phase === 'ready') {
+      const t = setTimeout(() => inputRef.current?.focus(), 500)
+      return () => clearTimeout(t)
     }
   }, [phase])
 
+  /* ─── Restart on logo click ─── */
+  const handleLogoClick = () => {
+    startProgress()
+  }
+
+  /* ─── Form submit ─── */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
+    setIsSubmitting(true)
     setTimeout(() => {
       router.push('/')
     }, 600)
   }
 
+  /* ─── Force light theme on auth page ─── */
+  useEffect(() => {
+    const html = document.documentElement
+    html.classList.remove('dark')
+    return () => {
+      // Restore dark theme when leaving auth page
+      html.classList.add('dark')
+    }
+  }, [])
+
+  /* ─── Guard: prevent flash of unstyled content ─── */
+  if (!loaded) return null
+
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-[#161B22] transition-colors duration-500">
+    <div className="auth-wrapper">
+      {/* ── Background layers (fixed, decorative) ── */}
+      {/* Semi-transparent photo bg */}
+      <div className="auth-bg-image" />
       {/* Biomorph blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#5ecece] opacity-[0.12] dark:opacity-[0.06] blur-[100px]"
-          style={{ animation: 'biomorph-float 20s ease-in-out infinite 0s' }}
-        />
-        <div
-          className="absolute top-1/3 -right-24 w-[400px] h-[400px] rounded-full bg-[#5ecece] opacity-[0.10] dark:opacity-[0.05] blur-[120px]"
-          style={{ animation: 'biomorph-float 25s ease-in-out infinite -5s' }}
-        />
-        <div
-          className="absolute -bottom-20 left-1/3 w-[450px] h-[450px] rounded-full bg-[#5ecece] opacity-[0.08] dark:opacity-[0.04] blur-[110px]"
-          style={{ animation: 'biomorph-float 22s ease-in-out infinite -10s' }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full bg-[#5ecece] opacity-[0.06] dark:opacity-[0.03] blur-[80px]"
-          style={{ animation: 'biomorph-float 18s ease-in-out infinite -15s' }}
-        />
+      <div className="biomorph-layer">
+        <div className="biomorph-blob blob-1" />
+        <div className="biomorph-blob blob-2" />
+        <div className="biomorph-blob blob-3" />
       </div>
+      {/* Noise overlay */}
+      <div className="noise-overlay" />
 
-      {/* Left Panel */}
-      <div className="relative z-10 flex-1 flex flex-col min-h-screen">
-        {/* Logo */}
-        <div
-          className={`flex flex-col items-center transition-all duration-700 ease-out ${
-            phase === 'splash'
-              ? 'flex-1 justify-center'
-              : 'pt-10 pb-0 justify-start'
-          }`}
-        >
-          <img
-            src="/mis-altera/logo-vertical.svg"
-            alt="МИС Альтера"
-            className={`transition-all duration-700 ease-out ${
-              phase === 'splash'
-                ? 'w-48 h-48'
-                : 'w-28 h-28'
-            }`}
-          />
-          <h1
-            className={`font-serif text-[#5ecece] mt-4 transition-all duration-700 ease-out ${
-              phase === 'splash'
-                ? 'text-3xl font-bold'
-                : 'text-xl font-semibold'
-            }`}
-          >
-            Альтера
-          </h1>
-          <p
-            className={`text-gray-500 dark:text-gray-400 mt-1 transition-all duration-700 ease-out ${
-              phase === 'splash' ? 'text-sm' : 'text-xs'
-            }`}
-          >
-            Медицинская информационная система
-          </p>
-        </div>
-
-        {/* Splash progress bar */}
-        <div
-          className={`px-10 transition-all duration-700 ease-out ${
-            phase === 'splash' ? 'mb-40' : 'mb-0 h-0 overflow-hidden opacity-0'
-          }`}
-        >
-          <div className="w-full max-w-xs mx-auto">
-            <div className="h-1 bg-gray-200 dark:bg-[#30363D] rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#5ecece] rounded-full transition-all duration-100 ease-linear"
-                style={{ width: `${progress}%` }}
-              />
+      {/* ── Main auth card ── */}
+      <div className="auth-card">
+        {/* ═══════════ LEFT PANEL ═══════════ */}
+        <div className="auth-left">
+          {/* ── Brand block ── */}
+          <div className="brand-block">
+            <div onClick={handleLogoClick}>
+              <BrandLogo size={64} />
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center animate-pulse">
-              {SPLASH_MESSAGES[messageIndex]}
+            <h1 className="brand-name">Альтера</h1>
+            <p className="brand-subtitle">
+              текст
+              <br />
+              медицинская
+              <br />
+              информационная
+              <br />
+              система
             </p>
           </div>
-        </div>
 
-        {/* Login form */}
-        <div
-          className={`flex-1 flex flex-col justify-center px-10 transition-all duration-700 ease-out ${
-            phase === 'splash'
-              ? 'opacity-0 translate-y-8'
-              : 'opacity-100 translate-y-0'
-          }`}
-        >
-          <div className="glass-card rounded-2xl border border-gray-200 dark:border-[#373E47] p-8 max-w-sm mx-auto w-full">
-            <h2 className="font-serif text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
-              Вход в систему
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Введите данные для авторизации
-            </p>
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5"
-                >
-                  Имя пользователя или электронная почта
-                </label>
+          {/* ── Form area (hidden during loading) ── */}
+          <div className="middle-area">
+            <form
+              className={`login-form ${phase === 'ready' ? 'form-visible' : ''}`}
+              onSubmit={handleSubmit}
+            >
+              <div className="form-group">
+                <label htmlFor="login-email">Имя пользователя</label>
                 <input
                   ref={inputRef}
-                  id="email"
+                  id="login-email"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors"
-                  placeholder="doctor@sanatory.ru"
+                  placeholder="e-mail"
                   autoComplete="username"
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5"
-                >
-                  Пароль
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] px-4 py-2.5 pr-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors"
-                    placeholder="........"
-                    autoComplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                    tabIndex={-1}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
+              <div className="form-group">
+                <label htmlFor="login-password">Пароль</label>
+                <input
+                  id="login-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="........"
+                  autoComplete="current-password"
+                />
               </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="mt-2 w-full rounded-xl bg-[#5ecece] btn-enamel px-4 py-2.5 text-sm font-medium text-white hover:bg-[#4bb8b8] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <button type="submit" className="btn-login" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <span className="spinner" />
                     Вход...
-                  </>
+                  </span>
                 ) : (
                   'Войти'
                 )}
               </button>
             </form>
+          </div>
 
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 text-center">
-              Забыли пароль?{' '}
-              <button type="button" className="text-[#5ecece] hover:text-[#4bb8b8] transition-colors">
-                Восстановить
-              </button>
+          {/* ── Footer ── */}
+          <div className="auth-footer">
+            <p className="footer-org">Санаторий &laquo;Буревестник&raquo;</p>
+            <p className="footer-legal">
+              &copy; 1985&ndash;2026 ДРПО ГлавНИВЦ. Товарный знак &laquo;Альтера&raquo; зарегистрирован.
+              <br />
+              <a href="#" onClick={(e) => e.preventDefault()}>Свидетельство о регистрации</a>
+              {' · '}
+              <a href="#" onClick={(e) => e.preventDefault()}>Информация о лицензии</a>
             </p>
           </div>
 
-          {/* Footer */}
-          <div
-            className={`text-center pb-6 mt-6 transition-all duration-700 ease-out delay-300 ${
-              phase === 'splash' ? 'opacity-0' : 'opacity-100'
-            }`}
-          >
-            <p className="text-xs text-gray-400 dark:text-gray-500">
-              Санаторий «Буревестник»
-            </p>
-            <p className="text-[10px] text-gray-300 dark:text-gray-600 mt-1">
-              {'© '}{new Date().getFullYear()} МИС Альтера. Все права защищены.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Panel - illustration */}
-      <div
-        className="relative z-10 hidden lg:flex lg:w-[45%] items-center justify-center p-10 transition-all duration-700"
-      >
-        <div className="relative w-full h-full max-w-lg">
-          <div className="glass-card rounded-2xl border border-gray-200 dark:border-[#373E47] overflow-hidden h-full flex flex-col">
-            <img
-              src="/mis-altera/splash-illustration.png"
-              alt=""
-              className="flex-1 object-cover w-full h-full"
-            />
-            <div className="p-6 bg-white/60 dark:bg-[#21262D]/60 backdrop-blur-md">
-              <p className="font-serif text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Единая платформа
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Управление пациентами, расписанием и документацией в одном интерфейсе
-              </p>
+          {/* ── Progress bar (hidden after loading) ── */}
+          <div className={`progress-line ${phase === 'ready' ? 'progress-hidden' : ''}`}>
+            <div className="progress-row">
+              <span className="progress-label">Загрузка:</span>
+              <span className="progress-status">{PROGRESS_MESSAGES[messageIndex]}</span>
+            </div>
+            <div className="progress-bar-track">
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ width: `${progress}%` }} />
+              </div>
+              <span className="progress-percent">{Math.round(progress)}%</span>
             </div>
           </div>
+        </div>
+
+        {/* ═══════════ RIGHT PANEL (photo) ═══════════ */}
+        <div className="auth-right">
+          <div className="auth-right-overlay" />
         </div>
       </div>
     </div>
