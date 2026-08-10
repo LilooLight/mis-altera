@@ -120,9 +120,9 @@ export function DischargeEpicrisis() {
   const canConfirmDischarge = dischargeConfirmed && dischargeReason.trim().length > 0
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0b1120] pb-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#161B22] pb-8">
       {/* Page Header */}
-      <header className="bg-white dark:bg-[#151e2e] border-b border-gray-200 dark:border-[#253041]">
+      <header className="bg-white dark:bg-[#21262D] border-b border-gray-200 dark:border-[#373E47]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-4">
             <button
@@ -137,7 +137,7 @@ export function DischargeEpicrisis() {
               Выписка пациента
             </h1>
 
-            <div className="flex items-center gap-3 mt-3 p-3 bg-gray-50 dark:bg-[#1e293b] rounded-lg">
+            <div className="flex items-center gap-3 mt-3 p-3 bg-gray-50 dark:bg-[#30363D] rounded-lg">
               <div className="w-10 h-10 rounded-full bg-[#5ecece] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                 ПА
               </div>
@@ -155,7 +155,7 @@ export function DischargeEpicrisis() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Section 1 — Generate Epicrisis */}
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6">
+            <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-6">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 rounded-lg bg-[#5ecece]/10 flex items-center justify-center">
                   <FileText className="w-5 h-5 text-[#5ecece]" />
@@ -178,7 +178,7 @@ export function DischargeEpicrisis() {
                   <select
                     value={selectedTemplate}
                     onChange={(e) => setSelectedTemplate(e.target.value)}
-                    className="w-full bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors"
+                    className="w-full bg-white dark:bg-[#1C2128] border border-gray-200 dark:border-[#373E47] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors"
                   >
                     {templateOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -191,7 +191,7 @@ export function DischargeEpicrisis() {
               </div>
 
               {/* Template descriptions */}
-              <div className="mb-5 p-3 bg-gray-50 dark:bg-[#1e293b] rounded-lg">
+              <div className="mb-5 p-3 bg-gray-50 dark:bg-[#30363D] rounded-lg">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   {selectedTemplate === 'standard' &&
                     'Краткий эпикриз с основными данными о лечении, диагнозе и рекомендациях'}
@@ -217,7 +217,7 @@ export function DischargeEpicrisis() {
                       Свернуть
                     </button>
                   </div>
-                  <div className="bg-gray-50 dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg p-4 max-h-80 overflow-y-auto">
+                  <div className="bg-gray-50 dark:bg-[#1C2128] border border-gray-200 dark:border-[#373E47] rounded-lg p-4 max-h-80 overflow-y-auto">
                     <pre className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-sans leading-relaxed">
                       {epicrisisText}
                     </pre>
@@ -330,7 +330,7 @@ export function DischargeEpicrisis() {
 
         {/* Section 3 — Discharge Summary Table */}
         <section>
-          <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
+          <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
             <div className="p-6 pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-[#5ecece]/10 flex items-center justify-center">
@@ -350,7 +350,7 @@ export function DischargeEpicrisis() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gray-50 dark:bg-[#1e293b]">
+                  <tr className="bg-gray-50 dark:bg-[#30363D]">
                     <th className="text-left px-6 py-3 font-medium text-gray-600 dark:text-gray-300">
                       Назначение
                     </th>
@@ -368,11 +368,11 @@ export function DischargeEpicrisis() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-[#253041]">
+                <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
                   {treatmentData.map((row, index) => (
                     <tr
                       key={index}
-                      className="bg-white dark:bg-[#151e2e] hover:bg-gray-50 dark:hover:bg-[#1a2536] transition-colors"
+                      className="bg-white dark:bg-[#21262D] hover:bg-gray-50 dark:hover:bg-[#1a2536] transition-colors"
                     >
                       <td className="px-6 py-3.5 text-gray-900 dark:text-gray-100 font-medium">
                         {row.name}
@@ -403,7 +403,7 @@ export function DischargeEpicrisis() {
                   ))}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-gray-50 dark:bg-[#1e293b]">
+                  <tr className="bg-gray-50 dark:bg-[#30363D]">
                     <td
                       colSpan={5}
                       className="px-6 py-3 text-sm text-gray-700 dark:text-gray-300 font-medium"
@@ -420,7 +420,7 @@ export function DischargeEpicrisis() {
 
         {/* Section 4 — Forced Discharge */}
         <section>
-          <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-red-200 dark:border-red-900/30 p-6">
+          <div className="bg-white dark:bg-[#21262D] rounded-xl border border-red-200 dark:border-red-900/30 p-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/10 flex items-center justify-center flex-shrink-0">
@@ -462,7 +462,7 @@ export function DischargeEpicrisis() {
           />
 
           {/* Modal card */}
-          <div className="relative bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="relative bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               {/* Modal header */}
               <div className="flex items-center justify-between mb-5">
@@ -480,7 +480,7 @@ export function DischargeEpicrisis() {
                     setDischargeConfirmed(false)
                     setDischargeReason('')
                   }}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
                   type="button"
                 >
                   <X className="w-4 h-4" />
@@ -501,7 +501,7 @@ export function DischargeEpicrisis() {
                     type="checkbox"
                     checked={dischargeConfirmed}
                     onChange={(e) => setDischargeConfirmed(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 dark:border-[#253041] text-red-600 focus:ring-red-500/20 dark:bg-[#0d1424] cursor-pointer accent-red-600"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-[#373E47] text-red-600 focus:ring-red-500/20 dark:bg-[#1C2128] cursor-pointer accent-red-600"
                   />
                 </div>
                 <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -520,12 +520,12 @@ export function DischargeEpicrisis() {
                   onChange={(e) => setDischargeReason(e.target.value)}
                   rows={3}
                   placeholder="Укажите причину принудительной выписки..."
-                  className="w-full bg-white dark:bg-[#0d1424] border border-gray-200 dark:border-[#253041] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-colors resize-none"
+                  className="w-full bg-white dark:bg-[#1C2128] border border-gray-200 dark:border-[#373E47] rounded-lg px-4 py-2.5 text-gray-900 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-colors resize-none"
                 />
               </div>
 
               {/* Preview of what will happen */}
-              <div className="bg-gray-50 dark:bg-[#1e293b] rounded-lg p-3 mb-6">
+              <div className="bg-gray-50 dark:bg-[#30363D] rounded-lg p-3 mb-6">
                 <div className="flex items-start gap-2">
                   <Clock className="w-4 h-4 text-gray-500 dark:text-gray-400 mt-0.5 flex-shrink-0" />
                   <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -542,7 +542,7 @@ export function DischargeEpicrisis() {
                     setDischargeConfirmed(false)
                     setDischargeReason('')
                   }}
-                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-[#1e293b] hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors"
+                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-[#30363D] hover:bg-gray-200 dark:hover:bg-[#373E47] transition-colors"
                   type="button"
                 >
                   Отмена

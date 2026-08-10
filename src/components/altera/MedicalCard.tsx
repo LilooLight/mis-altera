@@ -138,7 +138,7 @@ export function MedicalCard() {
       </div>
 
       {/* Patient Header */}
-      <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6">
+      <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-[#5ecece]/10 border border-[#5ecece]/20 flex items-center justify-center shrink-0">
@@ -162,14 +162,14 @@ export function MedicalCard() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               На лечении
             </span>
-            <span className="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-400 font-medium">
+            <span className="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-[#30363D] text-gray-600 dark:text-gray-400 font-medium">
               С 12.05.2026
             </span>
           </div>
         </div>
 
         {/* Quick diagnosis */}
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[#253041]">
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[#373E47]">
           <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Основной диагноз</p>
           <p className="text-sm text-gray-900 dark:text-gray-100">
             <span className="font-mono text-[#5ecece] mr-1.5">M54.5</span>
@@ -180,12 +180,12 @@ export function MedicalCard() {
 
       {/* Tabs */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#30363D] rounded-lg p-1">
           <button
             onClick={() => setActiveTab('chronology')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeTab === 'chronology'
-                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
@@ -195,12 +195,12 @@ export function MedicalCard() {
             onClick={() => setActiveTab('documents')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeTab === 'documents'
-                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             Документы
-            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#253041] text-gray-600 dark:text-gray-400">
+            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400">
               {documentsData.length}
             </span>
           </button>
@@ -215,7 +215,7 @@ export function MedicalCard() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Поиск записей..."
-                className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
+                className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#161B22] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
               />
             </div>
           </div>
@@ -228,19 +228,19 @@ export function MedicalCard() {
           {/* Timeline */}
           <div className="relative">
             {/* Vertical timeline line */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-gray-200 dark:bg-[#253041]" />
+            <div className="absolute left-6 top-0 bottom-0 w-px bg-gray-200 dark:bg-[#373E47]" />
 
             {chronologyData.map((entry, idx) => (
               <div key={entry.id} className="relative flex gap-4 pb-6 last:pb-0">
                 {/* Timeline dot */}
-                <div className="relative z-10 w-12 h-12 rounded-full bg-white dark:bg-[#151e2e] border-2 border-gray-200 dark:border-[#253041] flex items-center justify-center shrink-0">
+                <div className="relative z-10 w-12 h-12 rounded-full bg-white dark:bg-[#21262D] border-2 border-gray-200 dark:border-[#373E47] flex items-center justify-center shrink-0">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${typeColors[entry.type]}`}>
                     {typeIcons[entry.type]}
                   </div>
                 </div>
 
                 {/* Content card */}
-                <div className="flex-1 bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 hover:border-[#5ecece]/20 transition-colors">
+                <div className="flex-1 bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-4 hover:border-[#5ecece]/20 transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -281,7 +281,7 @@ export function MedicalCard() {
           {/* Toolbar */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#1e293b] text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">
+              <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#30363D] text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-[#373E47] transition-colors">
                 <Filter className="w-3 h-3" />
                 Фильтр
               </button>
@@ -296,11 +296,11 @@ export function MedicalCard() {
           </div>
 
           {/* Documents list */}
-          <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] divide-y divide-gray-200 dark:divide-[#253041]">
+          <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] divide-y divide-gray-200 dark:divide-[#373E47]">
             {documentsData.map((doc) => (
               <div
                 key={doc.id}
-                className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-[#1e293b]/30 transition-colors"
+                className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-[#30363D]/30 transition-colors"
               >
                 {/* File icon */}
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
@@ -335,10 +335,10 @@ export function MedicalCard() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-1 shrink-0">
-                  <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors" title="Просмотр">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors" title="Просмотр">
                     <Eye className="w-4 h-4" />
                   </button>
-                  <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors" title="Скачать">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors" title="Скачать">
                     <Download className="w-4 h-4" />
                   </button>
                 </div>

@@ -165,7 +165,7 @@ const statusConfig: Record<string, { icon: React.ReactNode; label: string; color
   pending: {
     icon: <Clock className="w-3.5 h-3.5" />,
     label: 'Ожидает',
-    color: 'bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#253041]',
+    color: 'bg-gray-100 dark:bg-[#30363D] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#373E47]',
   },
 }
 
@@ -189,17 +189,17 @@ export function AnalysesPage() {
 
       {/* Section tabs */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-gray-100 dark:bg-[#30363D] rounded-lg p-1">
           <button
             onClick={() => setActiveSection('lab')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeSection === 'lab'
-                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             Анализы
-            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#253041] text-gray-600 dark:text-gray-400">
+            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400">
               {labResults.length}
             </span>
           </button>
@@ -207,12 +207,12 @@ export function AnalysesPage() {
             onClick={() => setActiveSection('conclusions')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
               activeSection === 'conclusions'
-                ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             Заключения
-            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#253041] text-gray-600 dark:text-gray-400">
+            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400">
               {conclusions.length}
             </span>
           </button>
@@ -225,7 +225,7 @@ export function AnalysesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Поиск..."
-            className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
+            className="pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-[#161B22] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece] w-48"
           />
         </div>
       </div>
@@ -235,23 +235,23 @@ export function AnalysesPage() {
         <div className="space-y-4">
           {/* Stats row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4">
+            <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-4">
               <span className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wider">Всего</span>
               <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{labResults.length}</p>
             </div>
-            <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-emerald-200 dark:border-emerald-800/30 p-4">
+            <div className="bg-white dark:bg-[#21262D] rounded-xl border border-emerald-200 dark:border-emerald-800/30 p-4">
               <span className="text-[11px] text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Норма</span>
               <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
                 {labResults.filter(l => l.status === 'normal').length}
               </p>
             </div>
-            <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-amber-200 dark:border-amber-800/30 p-4">
+            <div className="bg-white dark:bg-[#21262D] rounded-xl border border-amber-200 dark:border-amber-800/30 p-4">
               <span className="text-[11px] text-amber-600 dark:text-amber-400 uppercase tracking-wider">Отклонения</span>
               <p className="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">
                 {labResults.filter(l => l.status === 'warning').length}
               </p>
             </div>
-            <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4">
+            <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-4">
               <span className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ожидает</span>
               <p className="text-2xl font-bold text-gray-500 dark:text-gray-400 mt-1">
                 {labResults.filter(l => l.status === 'pending').length}
@@ -260,9 +260,9 @@ export function AnalysesPage() {
           </div>
 
           {/* Table */}
-          <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
+          <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
             {/* Table header */}
-            <div className="grid grid-cols-12 gap-2 px-5 py-3 bg-gray-50 dark:bg-[#1e293b] border-b border-gray-200 dark:border-[#253041]">
+            <div className="grid grid-cols-12 gap-2 px-5 py-3 bg-gray-50 dark:bg-[#30363D] border-b border-gray-200 dark:border-[#373E47]">
               <div className="col-span-5 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Исследование</div>
               <div className="col-span-2 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Дата</div>
               <div className="col-span-2 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Статус</div>
@@ -274,7 +274,7 @@ export function AnalysesPage() {
             {labResults.map((lab) => (
               <div
                 key={lab.id}
-                className="grid grid-cols-12 gap-2 items-center px-5 py-3 border-b border-gray-100 dark:border-[#253041]/50 last:border-b-0 hover:bg-gray-50/50 dark:hover:bg-[#1e293b]/30 transition-colors cursor-pointer"
+                className="grid grid-cols-12 gap-2 items-center px-5 py-3 border-b border-gray-100 dark:border-[#373E47]/50 last:border-b-0 hover:bg-gray-50/50 dark:hover:bg-[#30363D]/30 transition-colors cursor-pointer"
                 onClick={() => setExpandedLab(expandedLab === lab.id ? null : lab.id)}
               >
                 {/* Name + Category */}
@@ -321,11 +321,11 @@ export function AnalysesPage() {
                     </span>
                   )}
                   {lab.hasReport && (
-                    <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                    <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                       <Eye className="w-3.5 h-3.5" />
                     </button>
                   )}
-                  <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-1.5 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                     <Download className="w-3.5 h-3.5" />
                   </button>
                   <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${expandedLab === lab.id ? 'rotate-180' : ''}`} />
@@ -340,7 +340,7 @@ export function AnalysesPage() {
       {activeSection === 'conclusions' && (
         <div className="space-y-4">
           {conclusions.map((c) => (
-            <div key={c.id} className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-5 hover:border-[#5ecece]/20 transition-colors">
+            <div key={c.id} className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-5 hover:border-[#5ecece]/20 transition-colors">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -356,15 +356,15 @@ export function AnalysesPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                     <Eye className="w-4 h-4" />
                   </button>
-                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                  <button className="p-2 rounded-md text-gray-400 hover:text-[#5ecece] hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                     <Download className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-              <div className="bg-gray-50 dark:bg-[#0b1120] rounded-lg p-3">
+              <div className="bg-gray-50 dark:bg-[#161B22] rounded-lg p-3">
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{c.summary}</p>
               </div>
             </div>

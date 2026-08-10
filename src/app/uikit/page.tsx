@@ -30,7 +30,7 @@ import {
 
 function DemoCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-4 flex flex-col gap-3">
+    <div className="rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#21262D] p-4 flex flex-col gap-3">
       <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">{title}</p>
       <div className="flex flex-wrap items-center gap-2">{children}</div>
     </div>
@@ -51,9 +51,9 @@ export default function UIKitReferencePage() {
   const [segment, setSegment] = useState<'mine' | 'all' | 'pending'>('mine')
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0b1120]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#161B22]">
       {/* ── Header bar ── */}
-      <header className="border-b border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e]">
+      <header className="border-b border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#21262D]">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#5ecece]/15 flex items-center justify-center">
@@ -68,7 +68,7 @@ export default function UIKitReferencePage() {
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#5ecece]/10 text-[#5ecece] font-medium">v 0.2</span>
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-md text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+              className="p-2 rounded-md text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
               aria-label="Toggle theme"
             >
               {!mounted ? <Sun className="w-4 h-4" /> : theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -102,16 +102,16 @@ export default function UIKitReferencePage() {
             <button className="rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 px-4 py-2 text-sm font-medium hover:bg-[#5ecece]/10 transition-colors">
               Контурная
             </button>
-            <button className="rounded-lg bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">
+            <button className="rounded-lg bg-gray-100 dark:bg-[#30363D] text-gray-700 dark:text-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#373E47] transition-colors">
               Вторичная
             </button>
-            <button className="rounded-lg text-gray-500 dark:text-gray-400 px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+            <button className="rounded-lg text-gray-500 dark:text-gray-400 px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
               Призрак
             </button>
             <button className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors">
               Опасная
             </button>
-            <button className="rounded-lg bg-gray-200 dark:bg-[#253041] px-4 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-not-allowed" disabled>
+            <button className="rounded-lg bg-gray-200 dark:bg-[#373E47] px-4 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-not-allowed" disabled>
               Disabled
             </button>
           </DemoCard>
@@ -124,13 +124,13 @@ export default function UIKitReferencePage() {
             <button className="flex items-center gap-2 rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 px-4 py-2 text-sm font-medium hover:bg-[#5ecece]/10 transition-colors">
               <Download className="w-4 h-4" /> Скачать
             </button>
-            <button className="flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#253041] transition-colors">
+            <button className="flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-[#30363D] text-gray-700 dark:text-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#373E47] transition-colors">
               <Eye className="w-4 h-4" /> Просмотр
             </button>
             <button className="p-2 rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
               <Settings className="w-4 h-4" />
             </button>
-            <button className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+            <button className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
               <Bell className="w-4 h-4" />
             </button>
             <button className="p-2 rounded-lg bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors">
@@ -161,7 +161,7 @@ export default function UIKitReferencePage() {
             <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[#5ecece]/15 text-[#5ecece]">
               PRO
             </span>
-            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-[#253041] text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-[#373E47] text-gray-500 dark:text-gray-400">
               MVP
             </span>
             {/* Notification dots */}
@@ -185,11 +185,11 @@ export default function UIKitReferencePage() {
                 <input
                   type="text"
                   placeholder="Поиск по ФИО или палате..."
-                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-2 pl-9 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors"
+                  className="w-full rounded-lg border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] py-2 pl-9 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors"
                 />
               </div>
               <div className="relative">
-                <select className="w-full appearance-none rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-2 pl-3 pr-8 text-sm text-gray-900 dark:text-gray-100 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors">
+                <select className="w-full appearance-none rounded-lg border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] py-2 pl-3 pr-8 text-sm text-gray-900 dark:text-gray-100 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors">
                   <option>Все специальности</option>
                   <option>Терапевт</option>
                   <option>Невролог</option>
@@ -199,14 +199,14 @@ export default function UIKitReferencePage() {
               <textarea
                 placeholder="Комментарий..."
                 rows={2}
-                className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-2 px-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors resize-none"
+                className="w-full rounded-lg border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] py-2 px-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors resize-none"
               />
             </div>
           </DemoCard>
 
           {/* ───────── 6. Сегмент-контрол ───────── */}
           <DemoCard title="Сегмент-контрол">
-            <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-[#253041] p-0.5 bg-gray-50 dark:bg-[#0d1424]">
+            <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-[#373E47] p-0.5 bg-gray-50 dark:bg-[#1C2128]">
               {([
                 { key: 'mine' as const, label: 'Мои' },
                 { key: 'all' as const, label: 'Все' },
@@ -235,7 +235,7 @@ export default function UIKitReferencePage() {
               ))}
             </div>
             {/* Role switcher variant */}
-            <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-[#253041] p-0.5 bg-gray-50 dark:bg-[#0d1424]">
+            <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-[#373E47] p-0.5 bg-gray-50 dark:bg-[#1C2128]">
               {['Пациент', 'Врач', 'Админ'].map((role) => (
                 <button
                   key={role}
@@ -261,7 +261,7 @@ export default function UIKitReferencePage() {
                     aria-checked={item.state}
                     onClick={() => item.setter(!item.state)}
                     className={`relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
-                      item.state ? 'bg-[#5ecece]' : 'bg-gray-300 dark:bg-[#253041]'
+                      item.state ? 'bg-[#5ecece]' : 'bg-gray-300 dark:bg-[#373E47]'
                     }`}
                   >
                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 ${
@@ -276,7 +276,7 @@ export default function UIKitReferencePage() {
                   role="switch"
                   aria-checked={false}
                   disabled
-                  className="relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent bg-gray-300 dark:bg-[#253041]"
+                  className="relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent bg-gray-300 dark:bg-[#373E47]"
                 >
                   <span className="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 translate-x-0" />
                 </button>
@@ -298,7 +298,7 @@ export default function UIKitReferencePage() {
                     className={`h-4 w-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                       radio === opt.value
                         ? 'border-[#5ecece]'
-                        : 'border-gray-300 dark:border-[#253041] group-hover:border-gray-400 dark:group-hover:border-gray-500'
+                        : 'border-gray-300 dark:border-[#373E47] group-hover:border-gray-400 dark:group-hover:border-gray-500'
                     }`}
                   >
                     {radio === opt.value && (
@@ -322,7 +322,7 @@ export default function UIKitReferencePage() {
                         ? 'border-[#5ecece] bg-[#5ecece]'
                         : i === 1
                           ? 'border-[#5ecece] bg-[#5ecece]'
-                          : 'border-gray-300 dark:border-[#253041] group-hover:border-gray-400 dark:group-hover:border-gray-500'
+                          : 'border-gray-300 dark:border-[#373E47] group-hover:border-gray-400 dark:group-hover:border-gray-500'
                     }`}
                   >
                     {i < 2 && <CheckCircle2 className="w-3 h-3 text-white" />}
@@ -363,7 +363,7 @@ export default function UIKitReferencePage() {
                   <span className="text-xs text-gray-500 dark:text-gray-400">Программа лечения</span>
                   <span className="text-xs font-medium text-gray-700 dark:text-gray-300">86%</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-gray-200 dark:bg-[#373E47] overflow-hidden">
                   <div className="h-full rounded-full bg-[#5ecece]" style={{ width: '86%' }} />
                 </div>
               </div>
@@ -372,7 +372,7 @@ export default function UIKitReferencePage() {
                   <span className="text-xs text-gray-500 dark:text-gray-400">Лаборатория</span>
                   <span className="text-xs font-medium text-gray-700 dark:text-gray-300">40%</span>
                 </div>
-                <div className="w-full h-1 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
+                <div className="w-full h-1 rounded-full bg-gray-200 dark:bg-[#373E47] overflow-hidden">
                   <div className="h-full rounded-full bg-amber-400" style={{ width: '40%' }} />
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function UIKitReferencePage() {
           {/* ───────── 12. Строка реестра ───────── */}
           <DemoCard title="Строка реестра">
             <div className="w-full">
-              <div className="flex items-center gap-3 rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50/50 dark:bg-[#0d1424]/50 px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors group">
+              <div className="flex items-center gap-3 rounded-lg border border-gray-200 dark:border-[#373E47] bg-gray-50/50 dark:bg-[#1C2128]/50 px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors group">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5ecece]/15 text-xs font-semibold text-[#5ecece]">ПА</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
@@ -404,7 +404,7 @@ export default function UIKitReferencePage() {
                   <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">M54.5 — Боль в пояснице · пал. 314</p>
                 </div>
                 <div className="hidden sm:flex items-center gap-2 shrink-0">
-                  <div className="w-16 h-1 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
+                  <div className="w-16 h-1 rounded-full bg-gray-200 dark:bg-[#373E47] overflow-hidden">
                     <div className="h-full rounded-full bg-[#5ecece]" style={{ width: '86%' }} />
                   </div>
                   <span className="text-[10px] text-gray-400 dark:text-gray-500 w-6 text-right">86%</span>
@@ -430,14 +430,14 @@ export default function UIKitReferencePage() {
                   Начать приём
                 </button>
               </div>
-              <div className="flex items-center gap-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1e293b] px-3 py-2">
+              <div className="flex items-center gap-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#30363D] px-3 py-2">
                 <span className="inline-block h-2 w-2 rounded-full bg-sky-500 shrink-0" />
                 <span className="shrink-0 w-20 text-xs font-mono text-gray-500 dark:text-gray-400">09:30–10:00</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">Новиков Алексей В.</p>
                   <p className="text-xs text-gray-400 dark:text-gray-500 truncate">Очередной приём</p>
                 </div>
-                <button className="shrink-0 p-1 rounded-md text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#253041] transition-colors">
+                <button className="shrink-0 p-1 rounded-md text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#373E47] transition-colors">
                   <MoreHorizontal className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -447,7 +447,7 @@ export default function UIKitReferencePage() {
           {/* ───────── 14. Контекстное меню ───────── */}
           <DemoCard title="Контекстное меню">
             <div className="w-full flex justify-end">
-              <div className="rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] shadow-lg py-1 w-44">
+              <div className="rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] shadow-lg py-1 w-44">
                 {[
                   { icon: <Clock className="w-3.5 h-3.5" />, label: 'Перенести' },
                   { icon: <XCircle className="w-3.5 h-3.5" />, label: 'Отменить' },
@@ -455,7 +455,7 @@ export default function UIKitReferencePage() {
                 ].map((item) => (
                   <button
                     key={item.label}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
                   >
                     <span className="text-gray-400 dark:text-gray-500">{item.icon}</span>
                     {item.label}
@@ -492,7 +492,7 @@ export default function UIKitReferencePage() {
                 <span className="text-gray-300 dark:text-gray-600">/</span>
                 <span className="text-[#5ecece] font-medium">Петрова А.С.</span>
               </div>
-              <div className="flex items-center border-b border-gray-200 dark:border-[#253041] -mx-4 px-4">
+              <div className="flex items-center border-b border-gray-200 dark:border-[#373E47] -mx-4 px-4">
                 {[
                   { label: 'Рабочий стол', active: false },
                   { label: 'Реестр', active: true },
@@ -511,7 +511,7 @@ export default function UIKitReferencePage() {
                 ))}
               </div>
               <div className="flex items-center gap-2">
-                <button className="flex items-center gap-1.5 rounded-md border border-gray-200 dark:border-[#253041] px-2.5 py-1 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+                <button className="flex items-center gap-1.5 rounded-md border border-gray-200 dark:border-[#373E47] px-2.5 py-1 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                   <Filter className="w-3 h-3" /> Фильтр
                 </button>
                 <button className="flex items-center gap-1.5 rounded-md border border-[#5ecece] px-2.5 py-1 text-xs font-medium text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
@@ -523,7 +523,7 @@ export default function UIKitReferencePage() {
 
           {/* ───────── 17. Карточка виджета ───────── */}
           <DemoCard title="Карточка виджета">
-            <div className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50/50 dark:bg-[#0d1424]/50 p-3">
+            <div className="w-full rounded-lg border border-gray-200 dark:border-[#373E47] bg-gray-50/50 dark:bg-[#1C2128]/50 p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-[#5ecece]" />
@@ -544,10 +544,10 @@ export default function UIKitReferencePage() {
               {[
                 { color: '#5ecece', name: 'Тиффани' },
                 { color: '#4bb8b8', name: 'Тёмный' },
-                { color: '#0b1120', name: 'Фон' },
-                { color: '#151e2e', name: 'Карточка' },
-                { color: '#253041', name: 'Бордер' },
-                { color: '#1e293b', name: 'Хедер' },
+                { color: '#161B22', name: 'Фон' },
+                { color: '#21262D', name: 'Карточка' },
+                { color: '#373E47', name: 'Бордер' },
+                { color: '#30363D', name: 'Хедер' },
                 { color: '#10b981', name: 'Успех' },
                 { color: '#f59e0b', name: 'Внимание' },
                 { color: '#ef4444', name: 'Ошибка' },
@@ -555,7 +555,7 @@ export default function UIKitReferencePage() {
               ].map((swatch) => (
                 <div key={swatch.color} className="flex flex-col items-center gap-1">
                   <div
-                    className="w-full aspect-square rounded-lg border border-gray-200 dark:border-[#253041]"
+                    className="w-full aspect-square rounded-lg border border-gray-200 dark:border-[#373E47]"
                     style={{ backgroundColor: swatch.color }}
                   />
                   <span className="text-[9px] text-gray-400 dark:text-gray-500 text-center leading-tight">{swatch.name}</span>
@@ -567,12 +567,12 @@ export default function UIKitReferencePage() {
         </div>
 
         {/* ── Footer ── */}
-        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-[#253041] flex items-center justify-between">
+        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-[#373E47] flex items-center justify-between">
           <p className="text-[10px] text-gray-400 dark:text-gray-500">
             МИС Альтера · UI-Kit · Санаторий «Буревестник»
           </p>
           <p className="text-[10px] text-gray-400 dark:text-gray-500">
-            Акцент: <span className="font-mono">#5ecece</span> · Тёмная тема: <span className="font-mono">#0b1120</span>
+            Акцент: <span className="font-mono">#5ecece</span> · Тёмная тема: <span className="font-mono">#161B22</span>
           </p>
         </div>
       </div>

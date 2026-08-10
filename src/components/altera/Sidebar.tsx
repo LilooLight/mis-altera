@@ -57,10 +57,10 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
     <aside
       className={`${
         isOpen ? 'w-64' : 'w-16'
-      } sticky top-14 h-[calc(100vh-56px)] bg-white dark:bg-[#0f1729] border-r border-gray-200 dark:border-[#253041] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}
+      } sticky top-14 h-[calc(100vh-56px)] bg-white dark:bg-[#161B22] border-r border-gray-200 dark:border-[#373E47] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}
     >
       {/* User info */}
-      <div className="p-4 border-b border-gray-200 dark:border-[#253041]">
+      <div className="p-4 border-b border-gray-200 dark:border-[#373E47]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
             <span className="text-sm font-bold text-[#5ecece]">ИИ</span>
@@ -93,7 +93,7 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-all duration-200 group relative ${
               activePage === item.id
                 ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece] border-l-2 border-[#5ecece]'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] hover:text-gray-900 dark:hover:text-gray-200 border-l-2 border-transparent'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] hover:text-gray-900 dark:hover:text-gray-200 border-l-2 border-transparent'
             } ${!isOpen ? 'justify-center px-0' : ''}`}
             title={!isOpen ? item.label : undefined}
           >
@@ -123,7 +123,7 @@ export function Sidebar({ activePage, onPageChange, isOpen, currentRole }: Sideb
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-gray-200 dark:border-[#253041]">
+      <div className="p-3 border-t border-gray-200 dark:border-[#373E47]">
         <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
           <LogOut className="w-4 h-4 shrink-0" />
           {isOpen && <span className="text-xs font-medium">Выход</span>}

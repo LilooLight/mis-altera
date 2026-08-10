@@ -143,11 +143,11 @@ export function MessengerPage() {
       </div>
 
       {/* Messenger Layout */}
-      <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden flex" style={{ height: 'calc(100vh - 200px)' }}>
+      <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden flex" style={{ height: 'calc(100vh - 200px)' }}>
         {/* Patient list sidebar */}
-        <div className="w-72 border-r border-gray-200 dark:border-[#253041] flex flex-col shrink-0">
+        <div className="w-72 border-r border-gray-200 dark:border-[#373E47] flex flex-col shrink-0">
           {/* Patient list header */}
-          <div className="p-4 border-b border-gray-200 dark:border-[#253041]">
+          <div className="p-4 border-b border-gray-200 dark:border-[#373E47]">
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100 mb-3">
               Мои пациенты
             </h2>
@@ -158,7 +158,7 @@ export function MessengerPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Поиск пациентов..."
-                className="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
+                className="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 dark:bg-[#161B22] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
               />
             </div>
           </div>
@@ -179,7 +179,7 @@ export function MessengerPage() {
                 className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 ${
                   selectedPatient.id === patient.id
                     ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 border-l-2 border-[#5ecece]'
-                    : 'hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 border-l-2 border-transparent'
+                    : 'hover:bg-gray-50 dark:hover:bg-[#30363D]/50 border-l-2 border-transparent'
                 }`}
               >
                 {/* Avatar */}
@@ -192,7 +192,7 @@ export function MessengerPage() {
                     {patient.avatar}
                   </div>
                   {patient.status === 'online' && (
-                    <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-[#151e2e]" />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-[#21262D]" />
                   )}
                 </div>
 
@@ -229,7 +229,7 @@ export function MessengerPage() {
         {/* Chat area */}
         <div className="flex-1 flex flex-col">
           {/* Chat header */}
-          <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 dark:border-[#253041]">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 dark:border-[#373E47]">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#5ecece] flex items-center justify-center text-xs font-bold text-white">
                 {selectedPatient.avatar}
@@ -246,13 +246,13 @@ export function MessengerPage() {
               </div>
             </div>
             <div className="flex items-center gap-1">
-              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                 <Phone className="w-4 h-4" />
               </button>
-              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                 <Video className="w-4 h-4" />
               </button>
-              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors">
+              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors">
                 <MoreVertical className="w-4 h-4" />
               </button>
             </div>
@@ -285,7 +285,7 @@ export function MessengerPage() {
                   <div className={`rounded-xl px-4 py-2.5 ${
                     msg.senderId === 'doctor'
                       ? 'bg-[#5ecece] text-white rounded-br-sm'
-                      : 'bg-gray-100 dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 rounded-bl-sm'
+                      : 'bg-gray-100 dark:bg-[#30363D] text-gray-900 dark:text-gray-100 rounded-bl-sm'
                   }`}>
                     <p className="text-sm leading-relaxed">{msg.text}</p>
 
@@ -294,7 +294,7 @@ export function MessengerPage() {
                       <div className={`mt-2 p-2 rounded-lg ${
                         msg.senderId === 'doctor'
                           ? 'bg-white/10'
-                          : 'bg-white dark:bg-[#0b1120]'
+                          : 'bg-white dark:bg-[#161B22]'
                       }`}>
                         <div className="flex items-center gap-2">
                           <div className={`w-8 h-8 rounded flex items-center justify-center ${
@@ -334,9 +334,9 @@ export function MessengerPage() {
           </div>
 
           {/* Input area */}
-          <div className="px-5 py-3 border-t border-gray-200 dark:border-[#253041]">
+          <div className="px-5 py-3 border-t border-gray-200 dark:border-[#373E47]">
             <div className="flex items-center gap-3">
-              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors shrink-0">
+              <button className="p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors shrink-0">
                 <Paperclip className="w-4 h-4" />
               </button>
               <input
@@ -345,7 +345,7 @@ export function MessengerPage() {
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Напишите сообщение..."
-                className="flex-1 px-4 py-2.5 text-sm bg-gray-50 dark:bg-[#0b1120] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
+                className="flex-1 px-4 py-2.5 text-sm bg-gray-50 dark:bg-[#161B22] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/50 focus:border-[#5ecece]"
               />
               <button
                 onClick={handleSend}

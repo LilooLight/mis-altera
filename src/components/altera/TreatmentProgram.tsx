@@ -28,7 +28,7 @@ export function TreatmentProgram() {
       </div>
 
       {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#1e293b] to-[#0f172a] dark:from-[#151e2e] dark:to-[#0b1120] p-6 lg:p-8">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#30363D] to-[#0f172a] dark:from-[#21262D] dark:to-[#161B22] p-6 lg:p-8">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#5ecece] rounded-full blur-[100px]" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#5ecece]/50 rounded-full blur-[80px]" />
@@ -58,7 +58,7 @@ export function TreatmentProgram() {
       {/* Info Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Doctor Card */}
-        <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-[#5ecece]/30 dark:hover:border-[#5ecece]/30 transition-colors">
+        <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-6 hover:border-[#5ecece]/30 dark:hover:border-[#5ecece]/30 transition-colors">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-2">
               <User className="w-4 h-4 text-[#5ecece]" />
@@ -66,7 +66,7 @@ export function TreatmentProgram() {
                 Лечащий врач
               </h2>
             </div>
-            <span className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-400">
+            <span className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#30363D] text-gray-600 dark:text-gray-400">
               Каб. 204
             </span>
           </div>
@@ -85,7 +85,7 @@ export function TreatmentProgram() {
                   Врач-невролог, терапевт высшей категории
                 </span>
               </div>
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-900 dark:bg-[#5ecece] text-white dark:text-[#0b1120] rounded-lg text-sm font-medium hover:bg-gray-800 dark:hover:bg-[#4bb8b8] transition-colors">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-900 dark:bg-[#5ecece] text-white dark:text-[#161B22] rounded-lg text-sm font-medium hover:bg-gray-800 dark:hover:bg-[#4bb8b8] transition-colors">
                 <Phone className="w-4 h-4" />
                 Связаться с постом врача
               </button>
@@ -94,7 +94,7 @@ export function TreatmentProgram() {
         </div>
 
         {/* Course Card */}
-        <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-6 hover:border-[#5ecece]/30 dark:hover:border-[#5ecece]/30 transition-colors">
+        <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] p-6 hover:border-[#5ecece]/30 dark:hover:border-[#5ecece]/30 transition-colors">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-[#5ecece]" />
@@ -123,7 +123,7 @@ export function TreatmentProgram() {
                 <span className="text-xs text-gray-500 dark:text-gray-400">Прогресс лечения</span>
                 <span className="text-xs font-bold text-[#5ecece]">{progress}%</span>
               </div>
-              <div className="w-full h-2 bg-gray-100 dark:bg-[#1e293b] rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-100 dark:bg-[#30363D] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-[#5ecece] to-[#8edece] rounded-full transition-all duration-500"
                   style={{ width: `${progress}%` }}
@@ -136,7 +136,7 @@ export function TreatmentProgram() {
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-gray-50 dark:bg-[#1e293b] rounded-lg p-3">
+              <div className="bg-gray-50 dark:bg-[#30363D] rounded-lg p-3">
                 <div className="flex items-center gap-1.5 mb-1">
                   <TrendingUp className="w-3 h-3 text-[#5ecece]" />
                   <span className="text-[11px] text-gray-500 dark:text-gray-400">Назначено</span>
@@ -144,7 +144,7 @@ export function TreatmentProgram() {
                 <p className="text-xl font-bold text-gray-900 dark:text-gray-100">24</p>
                 <p className="text-[10px] text-gray-400 dark:text-gray-500">процедур</p>
               </div>
-              <div className="bg-gray-50 dark:bg-[#1e293b] rounded-lg p-3">
+              <div className="bg-gray-50 dark:bg-[#30363D] rounded-lg p-3">
                 <div className="flex items-center gap-1.5 mb-1">
                   <Star className="w-3 h-3 text-emerald-500" />
                   <span className="text-[11px] text-gray-500 dark:text-gray-400">Выполнено</span>
@@ -158,8 +158,8 @@ export function TreatmentProgram() {
       </div>
 
       {/* Today's Schedule */}
-      <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-[#253041]">
+      <div className="bg-white dark:bg-[#21262D] rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-[#373E47]">
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-[#5ecece]" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
@@ -172,9 +172,9 @@ export function TreatmentProgram() {
           </button>
         </div>
 
-        <div className="divide-y divide-gray-200 dark:divide-[#253041]">
+        <div className="divide-y divide-gray-200 dark:divide-[#373E47]">
           {/* Appointment 1 */}
-          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 transition-colors">
+          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#30363D]/50 transition-colors">
             <div className="w-14 h-14 rounded-lg bg-[#5ecece]/10 dark:bg-[#5ecece]/15 flex flex-col items-center justify-center shrink-0">
               <span className="text-lg font-bold text-[#5ecece] leading-none">15:30</span>
             </div>
@@ -186,7 +186,7 @@ export function TreatmentProgram() {
                 Грязелечебница, кабина №8
               </p>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#1e293b] shrink-0">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#30363D] shrink-0">
               <MapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
               <span className="text-[11px] font-medium text-gray-600 dark:text-gray-400">
                 Корпус 1
@@ -199,7 +199,7 @@ export function TreatmentProgram() {
           </div>
 
           {/* Appointment 2 */}
-          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 transition-colors">
+          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#30363D]/50 transition-colors">
             <div className="w-14 h-14 rounded-lg bg-[#5ecece]/10 dark:bg-[#5ecece]/15 flex flex-col items-center justify-center shrink-0">
               <span className="text-lg font-bold text-[#5ecece] leading-none">17:00</span>
             </div>
@@ -211,7 +211,7 @@ export function TreatmentProgram() {
                 Кабинет мануальной терапии, №4
               </p>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#1e293b] shrink-0">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#30363D] shrink-0">
               <MapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
               <span className="text-[11px] font-medium text-gray-600 dark:text-gray-400">
                 Корпус 2
@@ -224,7 +224,7 @@ export function TreatmentProgram() {
           </div>
 
           {/* Appointment 3 */}
-          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 transition-colors">
+          <div className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-[#30363D]/50 transition-colors">
             <div className="w-14 h-14 rounded-lg bg-[#5ecece]/10 dark:bg-[#5ecece]/15 flex flex-col items-center justify-center shrink-0">
               <span className="text-lg font-bold text-[#5ecece] leading-none">18:30</span>
             </div>
@@ -236,13 +236,13 @@ export function TreatmentProgram() {
                 Режим дня — приём минеральной воды
               </p>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#1e293b] shrink-0">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#30363D] shrink-0">
               <MapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
               <span className="text-[11px] font-medium text-gray-600 dark:text-gray-400">
                 Холл
               </span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] shrink-0">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gray-100 dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] shrink-0">
               <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">Бесплатно</span>
             </div>
           </div>

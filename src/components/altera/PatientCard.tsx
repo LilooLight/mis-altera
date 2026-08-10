@@ -187,7 +187,7 @@ function AttachmentLightbox({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-[#151e2e] rounded-xl shadow-2xl border border-gray-200 dark:border-[#253041] w-full max-w-lg mx-4 p-6"
+        className="glass-card rounded-xl shadow-2xl border border-gray-200 dark:border-[#373E47] w-full max-w-lg mx-4 p-6"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -197,7 +197,7 @@ function AttachmentLightbox({
           </h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+            className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -217,12 +217,12 @@ function AttachmentLightbox({
         <div className="flex items-center gap-3 justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors"
           >
             Закрыть
           </button>
           <button
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors"
           >
             <span className="inline-flex items-center gap-2">
               <Download className="w-4 h-4" />
@@ -286,13 +286,13 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
   )
 
   return (
-    <div className="h-full flex flex-col bg-gray-50 dark:bg-[#0b1120]">
+    <div className="h-full flex flex-col bg-gray-50 dark:bg-[#161B22]">
       {/* ── Patient Info Header ──────────────────────────────────────── */}
-      <div className="bg-white dark:bg-[#151e2e] border-b border-gray-200 dark:border-[#253041] px-6 py-4">
+      <div className="glass-card border-b border-gray-200 dark:border-[#373E47] px-6 py-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
           {/* Back + Avatar + FIO + Meta */}
           <div className="flex items-center gap-4">
-            <button onClick={onBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors mr-1">
+            <button onClick={onBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors mr-1">
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="w-12 h-12 rounded-full bg-[#5ecece]/10 dark:bg-[#5ecece]/20 flex items-center justify-center flex-shrink-0">
@@ -310,7 +310,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
 
           {/* Diagnosis + Dates + Status */}
           <div className="lg:ml-auto flex flex-col sm:flex-row sm:items-center gap-3">
-            <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-[#1e293b] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#253041]">
+            <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-[#30363D] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#373E47]">
               M54.5 — Боль в пояснице
             </span>
             <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
@@ -318,7 +318,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                 <Calendar className="w-3.5 h-3.5" />
                 Заезд: 10.07.2026
               </span>
-              <span className="text-gray-300 dark:text-[#253041]">—</span>
+              <span className="text-gray-300 dark:text-[#373E47]">—</span>
               <span className="inline-flex items-center gap-1">
                 Выезд: 31.07.2026
               </span>
@@ -330,21 +330,21 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-[#253041]">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors">
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-[#373E47]">
+          <button className="px-4 py-2 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors">
             Назначить процедуру
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
             План лечения
           </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
             Выписать
           </button>
         </div>
       </div>
 
       {/* ── Tab Bar ──────────────────────────────────────────────────── */}
-      <div className="bg-white dark:bg-[#151e2e] border-b border-gray-200 dark:border-[#253041] px-6">
+      <div className="glass-card border-b border-gray-200 dark:border-[#373E47] px-6">
         <div className="flex gap-6">
           {mainTabs.map(tab => (
             <button
@@ -384,7 +384,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                   className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 ${
                     visitData.fillLater
                       ? 'bg-amber-500'
-                      : 'bg-gray-300 dark:bg-[#253041]'
+                      : 'bg-gray-300 dark:bg-[#373E47]'
                   }`}
                 >
                   <span
@@ -420,7 +420,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                   onChange={e => setVisitData(d => ({ ...d, complaints: e.target.value }))}
                   placeholder="Опишите текущие жалобы пациента…"
                   rows={3}
-                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
                 />
               </div>
 
@@ -434,7 +434,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                   onChange={e => setVisitData(d => ({ ...d, examination: e.target.value }))}
                   placeholder="Данные осмотра: кожные покровы, ЧДД, АД, пульс, перкуссия, аускультация, пальпация…"
                   rows={4}
-                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
                 />
               </div>
 
@@ -448,20 +448,20 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                   onChange={e => setVisitData(d => ({ ...d, conclusion: e.target.value }))}
                   placeholder="Заключение по результатам осмотра, рекомендации…"
                   rows={4}
-                  className="w-full rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
+                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
                 />
               </div>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#253041]">
+            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#373E47]">
               <button
                 onClick={() => visitData.fillLater ? setActiveTab('results') : setActiveTab('results')}
-                className="px-5 py-2.5 text-sm font-medium rounded-lg bg-[#5ecece] text-white hover:bg-[#4bb8b8] transition-colors"
+                className="px-5 py-2.5 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors"
               >
                 {visitData.fillLater ? 'Сохранить и закрыть' : 'Сохранить'}
               </button>
-              <button className="px-5 py-2.5 text-sm font-medium rounded-lg border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
+              <button className="px-5 py-2.5 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
                 Отмена
               </button>
             </div>
@@ -476,11 +476,11 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
               <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Лабораторные исследования
               </h2>
-              <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
+              <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-gray-200 dark:border-[#253041]">
+                      <tr className="border-b border-gray-200 dark:border-[#373E47]">
                         <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Название</th>
                         <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Значение</th>
                         <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Норма</th>
@@ -488,7 +488,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                         <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Дата</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-[#253041]">
+                    <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
                       {labResults.map((row, i) => (
                         <tr key={i} className={
                           row.status === 'abnormal' ? 'bg-red-50/50 dark:bg-red-900/5' :
@@ -523,7 +523,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                 {imagingResults.map(item => (
                   <div
                     key={item.id}
-                    className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 hover:shadow-md transition-shadow"
+                    className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-start gap-3">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
@@ -577,7 +577,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
         {activeTab === 'history' && (
           <div className="p-6">
             {/* Sub-tab toggle */}
-            <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg w-fit mb-6">
+            <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl w-fit mb-6">
               {historySubTabs.map(sub => (
                 <button
                   key={sub.key}
@@ -597,7 +597,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
             {historySubTab === 'timeline' && (
               <div className="relative">
                 {/* Vertical line */}
-                <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-200 dark:bg-[#253041]" />
+                <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-200 dark:bg-[#373E47]" />
 
                 <div className="space-y-6">
                   {timeline.map((entry, idx) => {
@@ -609,26 +609,26 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                         {/* Timeline dot */}
                         <div className={`absolute left-[14px] top-1 w-[13px] h-[13px] rounded-full border-2 ${
                           entry.type === 'system'
-                            ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1120]'
+                            ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-[#161B22]'
                             : 'border-[#5ecece] bg-[#5ecece]/20 dark:bg-[#5ecece]/10'
                         }`} />
 
                         {/* Date separator */}
                         {showDate && (
                           <div className="absolute -left-0 -top-3">
-                            <span className="text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-[#0b1120] px-1">
+                            <span className="text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-[#161B22] px-1">
                               {entry.date}
                             </span>
                           </div>
                         )}
 
                         {/* Card */}
-                        <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 hover:shadow-sm transition-shadow">
+                        <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 hover:shadow-sm transition-shadow">
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex items-center gap-2">
                               <div className={`w-7 h-7 rounded-md flex items-center justify-center ${
                                 entry.type === 'system'
-                                  ? 'bg-gray-100 dark:bg-[#1e293b] text-gray-500 dark:text-gray-400'
+                                  ? 'bg-gray-100 dark:bg-[#30363D] text-gray-500 dark:text-gray-400'
                                   : 'bg-[#5ecece]/10 text-[#5ecece]'
                               }`}>
                                 {getTimelineIcon(entry.type)}
@@ -686,7 +686,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                                 <button
                                   key={aIdx}
                                   onClick={() => setLightboxDoc(att)}
-                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-[#1e293b] text-gray-600 dark:text-gray-300 hover:bg-[#5ecece]/10 hover:text-[#5ecece] transition-colors border border-gray-200 dark:border-[#253041]"
+                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-[#30363D] text-gray-600 dark:text-gray-300 hover:bg-[#5ecece]/10 hover:text-[#5ecece] transition-colors border border-gray-200 dark:border-[#373E47]"
                                 >
                                   <Paperclip className="w-3 h-3" />
                                   {att.name}
@@ -707,14 +707,14 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
               <div>
                 {/* Filter bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-                  <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg">
+                  <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl">
                     {docFilters.map(f => (
                       <button
                         key={f.key}
                         onClick={() => setDocFilter(f.key)}
                         className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap ${
                           docFilter === f.key
-                            ? 'bg-[#5ecece] text-white'
+                            ? 'bg-[#5ecece] btn-enamel text-white'
                             : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                         }`}
                       >
@@ -730,16 +730,16 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                       placeholder="Поиск документов..."
                       value={docSearch}
                       onChange={e => setDocSearch(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0d1424] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]"
+                      className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]"
                     />
                   </div>
 
-                  <div className="sm:ml-auto flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#1e293b] rounded-lg">
+                  <div className="sm:ml-auto flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl">
                     <button
                       onClick={() => setDocViewMode('grid')}
                       className={`p-1.5 rounded-md transition-colors ${
                         docViewMode === 'grid'
-                          ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                          ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                           : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                       }`}
                     >
@@ -749,7 +749,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                       onClick={() => setDocViewMode('table')}
                       className={`p-1.5 rounded-md transition-colors ${
                         docViewMode === 'table'
-                          ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                          ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                           : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                       }`}
                     >
@@ -765,7 +765,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                       <button
                         key={doc.id}
                         onClick={() => setLightboxDoc({ name: doc.name, type: doc.type })}
-                        className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] p-4 text-left hover:shadow-md hover:border-[#5ecece]/30 transition-all group"
+                        className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 text-left hover:shadow-md hover:border-[#5ecece]/30 transition-all group"
                       >
                         <div className="flex items-start gap-3">
                           <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${getDocTypeBg(doc.type)}`}>
@@ -780,7 +780,7 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                             </p>
                           </div>
                         </div>
-                        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-[#253041] flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
+                        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-[#373E47] flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
                           <span>Загрузил: {doc.uploadedBy}</span>
                           <span>{doc.eventDate}</span>
                         </div>
@@ -791,11 +791,11 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
 
                 {/* Table View */}
                 {docViewMode === 'table' && (
-                  <div className="bg-white dark:bg-[#151e2e] rounded-xl border border-gray-200 dark:border-[#253041] overflow-hidden">
+                  <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="border-b border-gray-200 dark:border-[#253041]">
+                          <tr className="border-b border-gray-200 dark:border-[#373E47]">
                             <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Файл</th>
                             <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Тип</th>
                             <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Дата загрузки</th>
@@ -803,12 +803,12 @@ export function PatientCard({ onBack }: { onBack?: () => void }) {
                             <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Загрузил</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-[#253041]">
+                        <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
                           {filteredDocs.map(doc => (
                             <tr
                               key={doc.id}
                               onClick={() => setLightboxDoc({ name: doc.name, type: doc.type })}
-                              className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#1e293b]/50 transition-colors"
+                              className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#30363D]/50 transition-colors"
                             >
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-2">

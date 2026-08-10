@@ -251,14 +251,14 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* View Switcher */}
-          <div className="flex items-center bg-gray-100 dark:bg-[#1e293b] rounded-lg p-0.5">
+          <div className="flex items-center bg-gray-100 dark:bg-[#30363D] rounded-lg p-0.5">
             {viewModes.map(({ key, icon: Icon, label }) => (
               <button
                 key={key}
                 onClick={() => { setViewMode(key); setCurrentPage(1) }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                   viewMode === key
-                    ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                    ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
                 aria-label={label}
@@ -270,12 +270,12 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
           </div>
 
           {/* Filter Toggle */}
-          <div className="flex items-center bg-gray-100 dark:bg-[#1e293b] rounded-lg p-0.5">
+          <div className="flex items-center bg-gray-100 dark:bg-[#30363D] rounded-lg p-0.5">
             <button
               onClick={() => { setFilterMode('my'); setCurrentPage(1) }}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                 filterMode === 'my'
-                  ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                  ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
@@ -285,7 +285,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
               onClick={() => { setFilterMode('all'); setCurrentPage(1) }}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                 filterMode === 'all'
-                  ? 'bg-white dark:bg-[#151e2e] text-[#5ecece] shadow-sm'
+                  ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
@@ -305,7 +305,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 onFocus={() => { setSearchFocused(true); setShowSearchDropdown(true) }}
                 onBlur={() => setTimeout(() => { setSearchFocused(false); setShowSearchDropdown(false) }, 200) }
                 placeholder="Поиск по ФИО..."
-                className="w-full sm:w-64 pl-9 pr-3 py-2 text-sm bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
+                className="w-full sm:w-64 pl-9 pr-3 py-2 text-sm bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
               />
             </div>
 
@@ -313,13 +313,13 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
             {showSearchDropdown && searchSuggestions.length > 0 && (
               <div
                 ref={dropdownRef}
-                className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg z-20 overflow-hidden"
+                className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg shadow-lg z-20 overflow-hidden"
               >
                 {searchSuggestions.map((name) => (
                   <button
                     key={name}
                     onMouseDown={() => handleSearchSelect(name)}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#253041] transition-colors text-left"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#373E47] transition-colors text-left"
                   >
                     <User className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
                     {name}
@@ -346,7 +346,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
             <div
               key={patient.id}
               onClick={() => handleOpenPatient(patient)}
-              className="group relative bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-xl p-5 hover:shadow-lg hover:shadow-[#5ecece]/5 transition-all duration-200 hover:border-l-[#5ecece] cursor-pointer"
+              className="group relative bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl p-5 hover:shadow-lg hover:shadow-[#5ecece]/5 transition-all duration-200 hover:border-l-[#5ecece] cursor-pointer"
             >
               {patient.hasNewAnalyses && (
                 <span className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30">
@@ -393,14 +393,14 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
 
       {/* ====== LIST VIEW ====== */}
       {viewMode === 'list' && (
-        <div className="bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-xl overflow-hidden">
-          <div className="divide-y divide-gray-100 dark:divide-[#253041]">
+        <div className="bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl overflow-hidden">
+          <div className="divide-y divide-gray-100 dark:divide-[#373E47]">
             {filteredPatients.map((patient, idx) => (
               <div
                 key={patient.id}
                 onClick={() => handleOpenPatient(patient)}
-                className={`flex items-center gap-4 px-4 py-3 cursor-pointer transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-[#1e293b] ${
-                  idx % 2 === 1 ? 'bg-gray-50/50 dark:bg-[#1e293b]/30' : ''
+                className={`flex items-center gap-4 px-4 py-3 cursor-pointer transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-[#30363D] ${
+                  idx % 2 === 1 ? 'bg-gray-50/50 dark:bg-[#30363D]/30' : ''
                 }`}
               >
                 <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -453,11 +453,11 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
 
       {/* ====== TABLE VIEW ====== */}
       {viewMode === 'table' && (
-        <div className="bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 dark:bg-[#1e293b] border-b border-gray-200 dark:border-[#253041]">
+                <tr className="bg-gray-50 dark:bg-[#30363D] border-b border-gray-200 dark:border-[#373E47]">
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-12">
                     №
                   </th>
@@ -480,13 +480,13 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-[#253041]">
+              <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
                 {paginatedPatients.map((patient, idx) => (
                   <tr
                     key={patient.id}
                     onClick={() => handleOpenPatient(patient)}
-                    className={`transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-[#1e293b] cursor-pointer ${
-                      idx % 2 === 1 ? 'bg-gray-50/30 dark:bg-[#1e293b]/20' : ''
+                    className={`transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-[#30363D] cursor-pointer ${
+                      idx % 2 === 1 ? 'bg-gray-50/30 dark:bg-[#30363D]/20' : ''
                     }`}
                   >
                     <td className="px-4 py-3 text-xs text-gray-400 dark:text-gray-500">
@@ -536,7 +536,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#1e293b]">
+            <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#30363D]">
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 Страница {currentPage} из {totalPages}
               </p>
@@ -544,7 +544,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#21262D] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#30363D] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Назад
@@ -556,7 +556,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                     className={`w-8 h-8 flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
                       currentPage === page
                         ? 'bg-[#5ecece] text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#253041]'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#373E47]'
                     }`}
                   >
                     {page}
@@ -565,7 +565,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
                 <button
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-md border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#21262D] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#30363D] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                   Далее
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -579,7 +579,7 @@ export function PatientRegistry({ onOpenPatient }: PatientRegistryProps) {
       {/* ====== EMPTY STATE ====== */}
       {filteredPatients.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-[#1e293b] flex items-center justify-center mb-4">
+          <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-[#30363D] flex items-center justify-center mb-4">
             <XCircle className="w-8 h-8 text-gray-400 dark:text-gray-500" />
           </div>
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">

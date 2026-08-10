@@ -145,7 +145,7 @@ export default function Home() {
 
   if (role !== 'doctor') {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0b1120]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#161B22]">
           <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           <StubPage role={role} onSwitchToDoctor={() => setRole('doctor')} />
         </div>
@@ -157,12 +157,12 @@ export default function Home() {
   const patientTabs = tabs.filter(t => t.type === 'patient')
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0b1120] transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#161B22] transition-colors duration-300">
         {/* ═══ HEADER ═══ */}
         <Header currentRole={role} onRoleChange={setRole} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
         {/* ═══ TAB BAR ═══ */}
-        <div className="flex items-center border-b border-gray-200 dark:border-[#253041] bg-white dark:bg-[#0f1729] overflow-x-auto">
+        <div className="glass-card flex items-center border-b border-gray-200 dark:border-[#373E47] overflow-x-auto">
           {tabs.map((tab) => {
             const isActive = tab.id === activeTabId
             const isClosable = tab.type === 'patient' || (tab.type === 'system' && tab.id !== 'dashboard' && tab.id !== 'registry')
@@ -172,8 +172,8 @@ export default function Home() {
                 key={tab.id}
                 className={`group flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium whitespace-nowrap cursor-pointer border-b-2 transition-colors select-none shrink-0 ${
                   isActive
-                    ? 'border-[#5ecece] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#0b1120]'
-                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#1a2538]'
+                    ? 'border-[#5ecece] text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#161B22]'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#21262D]'
                 }`}
                 onClick={() => setActiveTabId(tab.id)}
               >
@@ -181,7 +181,7 @@ export default function Home() {
                 <span>{tab.label}</span>
                 {tab.type === 'patient' && (
                   <span className={`text-[10px] px-1 py-px rounded font-medium ${
-                    isActive ? 'bg-gray-200 dark:bg-[#253041] text-gray-600 dark:text-gray-400' : 'bg-gray-100 dark:bg-[#1e293b] text-gray-400 dark:text-gray-500'
+                    isActive ? 'bg-gray-200 dark:bg-[#373E47] text-gray-600 dark:text-gray-400' : 'bg-gray-100 dark:bg-[#30363D] text-gray-400 dark:text-gray-500'
                   }`}>
                     {(tab as PatientTab).room}
                   </span>
@@ -191,8 +191,8 @@ export default function Home() {
                     onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }}
                     className={`ml-1 p-0.5 rounded transition-colors ${
                       isActive
-                        ? 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#253041]'
-                        : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#253041]'
+                        ? 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#373E47]'
+                        : 'text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#373E47]'
                     }`}
                   >
                     <X className="w-3.5 h-3.5" />
@@ -207,9 +207,9 @@ export default function Home() {
         <div className="flex" style={{ height: 'calc(100vh - 56px - 42px)' }}>
 
           {/* ═══ SIDEBAR ═══ */}
-          <aside className={`${sidebarOpen ? 'w-60' : 'w-14'} bg-white dark:bg-[#0f1729] border-r border-gray-200 dark:border-[#253041] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}>
+          <aside className={`glass-card ${sidebarOpen ? 'w-60' : 'w-14'} border-r border-gray-200 dark:border-[#373E47] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}>
             {/* Quick Search */}
-            <div className="p-3 border-b border-gray-200 dark:border-[#253041]">
+            <div className="p-3 border-b border-gray-200 dark:border-[#373E47]">
               {sidebarOpen && (
                 <div className="relative">
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
@@ -220,15 +220,15 @@ export default function Home() {
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                     placeholder="Быстрый поиск..."
-                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-md text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
+                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#5ecece]/40 focus:border-[#5ecece] transition-colors"
                   />
                   {searchFocused && searchResults.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#151e2e] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg z-50 overflow-hidden">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#21262D] border border-gray-200 dark:border-[#373E47] rounded-xl shadow-lg z-50 overflow-hidden">
                       {searchResults.map((p) => (
                         <button
                           key={p.id}
                           onMouseDown={() => handleSearchSelect(p)}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+                          className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
                         >
                           <div className="w-7 h-7 rounded-full bg-[#5ecece]/15 border border-[#5ecece]/30 flex items-center justify-center shrink-0">
                             <span className="text-[10px] font-bold text-[#5ecece]">{p.initials}</span>
@@ -268,10 +268,10 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => openToolTab(item.id, item.label)}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-all group ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all group ${
                     activeTabId === item.id
                       ? 'bg-[#5ecece]/10 dark:bg-[#5ecece]/15 text-[#5ecece]'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] hover:text-gray-900 dark:hover:text-gray-200'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] hover:text-gray-900 dark:hover:text-gray-200'
                   } ${!sidebarOpen ? 'justify-center' : ''}`}
                 >
                   <span className="text-sm shrink-0">{item.icon}</span>
@@ -279,10 +279,10 @@ export default function Home() {
                     <>
                       <span className="text-sm font-medium truncate">{item.label}</span>
                       {item.id === 'messenger' && (
-                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#253041] text-gray-500 dark:text-gray-400 font-medium">MVP</span>
+                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">MVP</span>
                       )}
                       {item.id === 'scheduler' && (
-                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#253041] text-gray-500 dark:text-gray-400 font-medium">PRO</span>
+                        <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-[#373E47] text-gray-500 dark:text-gray-400 font-medium">PRO</span>
                       )}
                     </>
                   )}
@@ -291,8 +291,8 @@ export default function Home() {
             </nav>
 
             {/* Exit */}
-            <div className="p-2 border-t border-gray-200 dark:border-[#253041]">
-              <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            <div className="p-2 border-t border-gray-200 dark:border-[#373E47]">
+              <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                 <span className="text-sm shrink-0">🚪</span>
                 {sidebarOpen && <span className="text-xs font-medium">Выход</span>}
               </button>
@@ -302,7 +302,7 @@ export default function Home() {
           {/* ═══ CONTENT AREA ═══ */}
           <main className="flex-1 overflow-y-auto">
             {/* Breadcrumb */}
-            <div className="sticky top-0 z-10 bg-gray-50/80 dark:bg-[#0b1120]/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-[#253041]/50 px-6 py-2">
+            <div className="sticky top-0 z-10 bg-gray-50/80 dark:bg-[#161B22]/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-[#373E47]/50 px-6 py-2">
               <div className="flex items-center gap-2 text-xs">
                 {breadcrumbText.split(' / ').map((part, i, arr) => (
                   <span key={i} className={i === arr.length - 1 ? 'text-[#5ecece] font-medium' : 'text-gray-400 dark:text-gray-500'}>

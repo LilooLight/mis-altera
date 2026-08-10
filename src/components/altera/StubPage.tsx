@@ -42,7 +42,7 @@ export function StubPage({ role, onSwitchToDoctor }: StubPageProps) {
         </p>
 
         {/* Card */}
-        <div className="bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] p-8 shadow-sm">
+        <div className="bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] p-8 shadow-sm">
           <div className="w-12 h-12 rounded-xl bg-[#5ecece]/10 flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">{role === 'patient' ? '🏥' : '⚙️'}</span>
           </div>

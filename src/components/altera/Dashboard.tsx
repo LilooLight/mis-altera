@@ -157,7 +157,7 @@ function EventContextMenu({
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-full mt-1 z-30 w-48 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] shadow-lg py-1"
+      className="absolute right-0 top-full mt-1 z-30 w-48 rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#21262D]/90 backdrop-blur-sm shadow-lg py-1"
     >
       {[
         { icon: <FileText className="w-3.5 h-3.5" />, label: 'Открыть карту пациента', action: onOpenPatient, accent: true },
@@ -171,7 +171,7 @@ function EventContextMenu({
           className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium transition-colors ${
             item.accent
               ? 'text-[#5ecece] hover:bg-[#5ecece]/5'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b]'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#30363D]'
           }`}
         >
           <span className={item.accent ? 'text-[#5ecece]' : 'text-gray-400 dark:text-gray-500'}>{item.icon}</span>
@@ -222,12 +222,12 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   const currentPatient = currentAppt ? patients.find((p) => p.id === currentAppt.patientId) : null
 
   const widgetDay = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-4">
+    <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-5 flex flex-col gap-4">
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-[#5ecece]" />
-          <span className="text-sm font-bold text-gray-900 dark:text-gray-100">Мой день</span>
+          <span className="text-sm font-bold font-serif text-gray-900 dark:text-gray-100">Мой день</span>
         </div>
         <span className="text-xs text-gray-500 dark:text-gray-400">{getRussianDate()}</span>
       </div>
@@ -242,10 +242,10 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
           return (
             <li
               key={appt.id}
-              className={`relative rounded-lg transition-colors ${
+              className={`relative rounded-xl transition-colors ${
                 isCurrent
-                  ? 'bg-[#5ecece]/8 border border-[#5ecece]/20'
-                  : 'hover:bg-gray-50 dark:hover:bg-[#1e293b]'
+                  ? 'bg-[#5ecece]/8 border border-[#5ecece]/20 glow-accent'
+                  : 'hover:bg-gray-50 dark:hover:bg-[#30363D]'
               } ${appt.status === 'completed' ? 'opacity-50' : ''}`}
             >
               {/* ── Active appointment (expanded row) ── */}
@@ -260,7 +260,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleMenu(appt.id) }}
-                      className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#253041] transition-colors"
+                      className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#373E47] transition-colors"
                     >
                       <MoreHorizontal className="w-4 h-4" />
                     </button>
@@ -285,7 +285,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
 
                     <button
                       onClick={(e) => { e.stopPropagation(); openPatient(currentPatient, onOpenPatient) }}
-                      className="shrink-0 rounded-lg bg-[#5ecece] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#4bb8b8]"
+                      className="shrink-0 rounded-xl bg-[#5ecece] btn-enamel px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#4bb8b8]"
                     >
                       Начать приём
                     </button>
@@ -335,7 +335,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                       e.stopPropagation()
                       toggleMenu(appt.id)
                     }}
-                    className="shrink-0 p-1 rounded-md text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#253041] transition-colors opacity-0 group-hover:opacity-100 hover:opacity-100"
+                    className="shrink-0 p-1 rounded-lg text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#373E47] transition-colors opacity-0 group-hover:opacity-100 hover:opacity-100"
                     style={{ opacity: contextMenuId === appt.id ? 1 : undefined }}
                   >
                     <MoreHorizontal className="w-3.5 h-3.5" />
@@ -356,7 +356,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       </ul>
 
       {/* summary */}
-      <p className="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-[#253041] pt-3">
+      <p className="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-[#373E47] pt-3">
         {todayAppointments.length} приёмов, {completedCount} завершено
       </p>
     </div>
@@ -373,7 +373,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
   ]
 
   const widgetRegistry = (
-    <div className="rounded-xl border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] p-5 flex flex-col gap-4">
+    <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-5 flex flex-col gap-4">
       {/* header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
@@ -397,14 +397,14 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
       {/* toolbar: filter + search */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         {/* 3-state filter */}
-        <div className="flex items-center gap-1 rounded-lg border border-gray-200 dark:border-[#253041] p-0.5">
+        <div className="flex items-center gap-1 rounded-xl border border-gray-200 dark:border-[#373E47] p-0.5">
           {filterButtons.map((fb) => (
             <button
               key={fb.key}
               onClick={() => setFilterMode(fb.key)}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition-colors ${
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-medium transition-colors ${
                 filterMode === fb.key
-                  ? 'bg-[#5ecece] text-white'
+                  ? 'bg-[#5ecece] btn-enamel text-white'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
@@ -429,7 +429,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Поиск по ФИО или палате..."
-            className="w-full rounded-md border border-gray-200 dark:border-[#253041] bg-gray-50 dark:bg-[#0d1424] py-1.5 pl-8 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors"
+            className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-gray-50 dark:bg-[#1C2128] py-1.5 pl-8 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece] transition-colors"
           />
         </div>
       </div>
@@ -444,7 +444,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
         {filteredPatients.map((p) => (
           <div
             key={p.id}
-            className="flex items-center gap-3 rounded-lg border border-gray-200 dark:border-[#253041] bg-gray-50/50 dark:bg-[#0d1424]/50 px-3 py-2.5 transition-colors hover:bg-gray-100 dark:hover:bg-[#1e293b] hover:shadow-sm group"
+            className="flex items-center gap-3 rounded-xl border border-gray-200 dark:border-[#373E47] bg-gray-50/50 dark:bg-[#1C2128]/50 px-3 py-2.5 transition-colors hover:bg-gray-100 dark:hover:bg-[#30363D] hover:shadow-sm group"
           >
             {/* avatar */}
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5ecece]/15 text-xs font-semibold text-[#5ecece]">
@@ -471,7 +471,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
 
             {/* progress mini */}
             <div className="hidden sm:flex items-center gap-2 shrink-0">
-              <div className="w-16 h-1 rounded-full bg-gray-200 dark:bg-[#253041] overflow-hidden">
+              <div className="w-16 h-1 rounded-full bg-gray-200 dark:bg-[#373E47] overflow-hidden">
                 <div
                   className="h-full rounded-full bg-[#5ecece] transition-all"
                   style={{ width: `${p.progress}%` }}
@@ -483,7 +483,7 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
             {/* open button */}
             <button
               onClick={() => openPatient(p, onOpenPatient)}
-              className="shrink-0 rounded-md border border-[#5ecece] px-2.5 py-1 text-xs font-medium text-gray-900 dark:text-gray-100 transition-colors hover:bg-[#5ecece]/10 opacity-0 group-hover:opacity-100"
+              className="shrink-0 rounded-lg border border-[#5ecece] px-2.5 py-1 text-xs font-medium text-gray-900 dark:text-gray-100 transition-colors hover:bg-[#5ecece]/10 opacity-0 group-hover:opacity-100"
             >
               Открыть
             </button>

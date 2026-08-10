@@ -236,7 +236,7 @@ export function TreatmentPlan() {
                       ? 'px-3 py-2 rounded-lg text-xs bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                       : isSelected
                         ? 'px-3 py-2 rounded-lg text-xs bg-[#5ecece] text-white font-medium shadow-sm'
-                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
+                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
                   }
                 >
                   <Clock className="inline-block w-3 h-3 mr-1" />
@@ -263,7 +263,7 @@ export function TreatmentPlan() {
                       ? 'px-3 py-2 rounded-lg text-xs bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                       : isSelected
                         ? 'px-3 py-2 rounded-lg text-xs bg-[#5ecece] text-white font-medium shadow-sm'
-                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
+                        : 'px-3 py-2 rounded-lg text-xs bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] text-gray-700 dark:text-gray-300 hover:border-[#5ecece] hover:text-[#5ecece] transition-colors cursor-pointer'
                   }
                 >
                   <Clock className="inline-block w-3 h-3 mr-1" />
@@ -313,9 +313,9 @@ export function TreatmentPlan() {
   return (
     <div className="space-y-6">
       {/* ===================== PART 1: CONSTRUCTOR ===================== */}
-      <section className="bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] overflow-hidden">
+      <section className="bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
         {/* Constructor Header */}
-        <div className="p-4 border-b border-gray-200 dark:border-[#253041]">
+        <div className="p-4 border-b border-gray-200 dark:border-[#373E47]">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100">
               Конструктор назначений
@@ -330,13 +330,13 @@ export function TreatmentPlan() {
           </div>
 
           {/* Type Tabs */}
-          <div className="inline-flex rounded-lg bg-gray-100 dark:bg-[#1e293b] p-1 gap-1">
+          <div className="inline-flex rounded-lg bg-gray-100 dark:bg-[#30363D] p-1 gap-1">
             <button
               type="button"
               onClick={() => { setActiveTab('medication'); setSelectedSlot(null) }}
               className={
                 activeTab === 'medication'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#21262D] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -348,7 +348,7 @@ export function TreatmentPlan() {
               onClick={() => { setActiveTab('specialist'); setSelectedSlot(null) }}
               className={
                 activeTab === 'specialist'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#21262D] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -360,7 +360,7 @@ export function TreatmentPlan() {
               onClick={() => { setActiveTab('procedure'); setSelectedSlot(null) }}
               className={
                 activeTab === 'procedure'
-                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#151e2e] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
+                  ? 'inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white dark:bg-[#21262D] text-[#5ecece] text-sm font-medium shadow-sm transition-all'
                   : 'inline-flex items-center gap-2 px-4 py-2 rounded-md text-gray-500 dark:text-gray-400 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
               }
             >
@@ -384,11 +384,11 @@ export function TreatmentPlan() {
                     onChange={(e) => { setMedicationSearch(e.target.value); setShowMedDropdown(true) }}
                     onFocus={() => setShowMedDropdown(true)}
                     placeholder="Поиск препарата..."
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 {showMedDropdown && filteredMedications.length > 0 && (
-                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg shadow-lg max-h-48 overflow-y-auto">
                     {filteredMedications.map((med) => (
                       <button
                         key={med.name}
@@ -398,7 +398,7 @@ export function TreatmentPlan() {
                           setMedicationSearch(med.name)
                           setShowMedDropdown(false)
                         }}
-                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#253041] transition-colors flex items-center justify-between group"
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#373E47] transition-colors flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-2">
                           <Pill className="w-4 h-4 text-gray-400 dark:text-gray-500" />
@@ -421,7 +421,7 @@ export function TreatmentPlan() {
                     value={dosage}
                     onChange={(e) => setDosage(e.target.value)}
                     placeholder="100 мг"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 <div>
@@ -431,7 +431,7 @@ export function TreatmentPlan() {
                   <select
                     value={frequency}
                     onChange={(e) => setFrequency(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors appearance-none cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors appearance-none cursor-pointer"
                   >
                     <option value="">Выберите...</option>
                     {FREQUENCY_OPTIONS.map((opt) => (
@@ -448,7 +448,7 @@ export function TreatmentPlan() {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     placeholder="14 дней"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
               </div>
@@ -494,7 +494,7 @@ export function TreatmentPlan() {
                   onChange={(e) => setComment(e.target.value)}
                   rows={2}
                   placeholder="Дополнительные указания..."
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
                 />
               </div>
 
@@ -520,7 +520,7 @@ export function TreatmentPlan() {
                 <button
                   type="button"
                   onClick={() => setShowSpecDropdown(!showSpecDropdown)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-left text-sm flex items-center justify-between focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                  className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-left text-sm flex items-center justify-between focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Stethoscope className="w-4 h-4 text-gray-400 dark:text-gray-500" />
@@ -531,7 +531,7 @@ export function TreatmentPlan() {
                   <ChevronRight className={`w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform ${showSpecDropdown ? 'rotate-90' : ''}`} />
                 </button>
                 {showSpecDropdown && (
-                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg shadow-lg max-h-48 overflow-y-auto">
                     {SPECIALISTS.map((spec) => (
                       <button
                         key={spec.name}
@@ -540,7 +540,7 @@ export function TreatmentPlan() {
                           setSelectedSpecialist(`${spec.name} — ${spec.role}`)
                           setShowSpecDropdown(false)
                         }}
-                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#253041] transition-colors flex items-center gap-2"
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#373E47] transition-colors flex items-center gap-2"
                       >
                         <User className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                         <span className="text-gray-900 dark:text-gray-100">
@@ -561,7 +561,7 @@ export function TreatmentPlan() {
                   onChange={(e) => setComment(e.target.value)}
                   rows={2}
                   placeholder="Цель визита, жалобы..."
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors resize-none"
                 />
               </div>
 
@@ -582,7 +582,7 @@ export function TreatmentPlan() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                  className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                 />
               </div>
 
@@ -619,11 +619,11 @@ export function TreatmentPlan() {
                     onChange={(e) => { setProcedureSearch(e.target.value); setShowProcDropdown(true) }}
                     onFocus={() => setShowProcDropdown(true)}
                     placeholder="Поиск процедуры..."
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                   />
                 </div>
                 {showProcDropdown && filteredProcedures.length > 0 && (
-                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     {filteredProcedures.map((proc) => (
                       <button
                         key={proc.name}
@@ -633,7 +633,7 @@ export function TreatmentPlan() {
                           setProcedureSearch(proc.name)
                           setShowProcDropdown(false)
                         }}
-                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#253041] transition-colors flex items-center justify-between group"
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 dark:hover:bg-[#373E47] transition-colors flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-2">
                           <Activity className="w-4 h-4 text-gray-400 dark:text-gray-500" />
@@ -649,7 +649,7 @@ export function TreatmentPlan() {
               </div>
 
               {selectedProcedure && (
-                <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1e293b] border border-gray-200 dark:border-[#253041] space-y-4">
+                <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#30363D] border border-gray-200 dark:border-[#373E47] space-y-4">
                   <div className="flex items-center gap-3">
                     <Coins className="w-5 h-5 text-[#5ecece]" />
                     <div>
@@ -701,7 +701,7 @@ export function TreatmentPlan() {
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
+                      className="w-full sm:w-auto px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-[#5ecece] focus:ring-1 focus:ring-[#5ecece]/30 transition-colors"
                     />
                   </div>
 
@@ -731,8 +731,8 @@ export function TreatmentPlan() {
       </section>
 
       {/* ===================== PART 2: CALENDAR ===================== */}
-      <section className="bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] overflow-hidden">
-        <div className="p-4 border-b border-gray-200 dark:border-[#253041]">
+      <section className="bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
+        <div className="p-4 border-b border-gray-200 dark:border-[#373E47]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <h2 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100">
               План-график назначений — Июль 2026
@@ -740,16 +740,16 @@ export function TreatmentPlan() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="p-2 rounded-lg border border-gray-200 dark:border-[#253041] hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+                className="p-2 rounded-lg border border-gray-200 dark:border-[#373E47] hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
               >
                 <ChevronLeft className="w-4 h-4 text-gray-600 dark:text-gray-400" />
               </button>
-              <span className="px-3 py-1.5 text-sm font-medium text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#1e293b] rounded-lg border border-gray-200 dark:border-[#253041]">
+              <span className="px-3 py-1.5 text-sm font-medium text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-[#30363D] rounded-lg border border-gray-200 dark:border-[#373E47]">
                 Июль 2026
               </span>
               <button
                 type="button"
-                className="p-2 rounded-lg border border-gray-200 dark:border-[#253041] hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+                className="p-2 rounded-lg border border-gray-200 dark:border-[#373E47] hover:bg-gray-50 dark:hover:bg-[#30363D] transition-colors"
               >
                 <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-400" />
               </button>
@@ -777,11 +777,11 @@ export function TreatmentPlan() {
         </div>
 
         <div className="p-4">
-          <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-[#253041] rounded-xl overflow-hidden border border-gray-200 dark:border-[#253041]">
+          <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-[#373E47] rounded-xl overflow-hidden border border-gray-200 dark:border-[#373E47]">
             {WEEKDAYS.map((day) => (
               <div
                 key={day}
-                className="bg-gray-100 dark:bg-[#1e293b] py-2.5 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                className="bg-gray-100 dark:bg-[#30363D] py-2.5 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
                 {day}
               </div>
@@ -798,9 +798,9 @@ export function TreatmentPlan() {
                 <div
                   key={idx}
                   className={
-                    `bg-white dark:bg-[#151e2e] min-h-[100px] p-2 transition-colors ${
+                    `bg-white dark:bg-[#21262D] min-h-[100px] p-2 transition-colors ${
                       !cell.isCurrentMonth
-                        ? 'bg-gray-50 dark:bg-[#0b1120]/50'
+                        ? 'bg-gray-50 dark:bg-[#161B22]/50'
                         : isDropTarget
                           ? 'bg-[#5ecece]/5 dark:bg-[#5ecece]/10 border-2 border-dashed border-[#5ecece]'
                           : hasUnpaid
@@ -882,7 +882,7 @@ export function TreatmentPlan() {
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
           <div
-            className="relative bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] shadow-2xl max-w-md w-full p-6"
+            className="relative bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] shadow-2xl max-w-md w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
@@ -892,7 +892,7 @@ export function TreatmentPlan() {
               <button
                 type="button"
                 onClick={() => setShowManagementModal(false)}
-                className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+                className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
               >
                 <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
               </button>
@@ -963,7 +963,7 @@ export function TreatmentPlan() {
                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
                   Комментарий
                 </label>
-                <div className="px-3 py-2 rounded-lg bg-gray-50 dark:bg-[#0b1120] border border-gray-100 dark:border-[#253041] text-sm text-gray-600 dark:text-gray-400">
+                <div className="px-3 py-2 rounded-lg bg-gray-50 dark:bg-[#161B22] border border-gray-100 dark:border-[#373E47] text-sm text-gray-600 dark:text-gray-400">
                   {getModalAppointmentComment(modalAppointment)}
                 </div>
               </div>
@@ -1024,7 +1024,7 @@ export function TreatmentPlan() {
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
           <div
-            className="relative bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] shadow-2xl max-w-sm w-full p-6"
+            className="relative bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] shadow-2xl max-w-sm w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 mb-4">
@@ -1049,7 +1049,7 @@ export function TreatmentPlan() {
                 onChange={(e) => setCancelReason(e.target.value)}
                 rows={3}
                 placeholder="Укажите причину отмены..."
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-400/30 transition-colors resize-none"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-400/30 transition-colors resize-none"
               />
             </div>
 
@@ -1060,7 +1060,7 @@ export function TreatmentPlan() {
                   setShowCancelModal(false)
                   setCancelReason('')
                 }}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
               >
                 Закрыть
               </button>
@@ -1089,7 +1089,7 @@ export function TreatmentPlan() {
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
           <div
-            className="relative bg-white dark:bg-[#151e2e] rounded-2xl border border-gray-200 dark:border-[#253041] shadow-2xl max-w-sm w-full p-6"
+            className="relative bg-white dark:bg-[#21262D] rounded-2xl border border-gray-200 dark:border-[#373E47] shadow-2xl max-w-sm w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 mb-4">
@@ -1114,7 +1114,7 @@ export function TreatmentPlan() {
                 onChange={(e) => setBackdateReason(e.target.value)}
                 rows={3}
                 placeholder="Укажите причину..."
-                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#1e293b] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors resize-none"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#30363D] text-gray-900 dark:text-gray-100 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors resize-none"
               />
             </div>
 
@@ -1125,7 +1125,7 @@ export function TreatmentPlan() {
                   setShowBackdateModal(false)
                   setBackdateReason('')
                 }}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
               >
                 Отменить
               </button>
