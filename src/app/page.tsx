@@ -18,33 +18,18 @@ const SPLASH_DURATION = 10000 // 10 seconds
 const MESSAGE_INTERVAL = SPLASH_DURATION / PROGRESS_MESSAGES.length // 2s each
 
 /* ═══════════════════════════════════════════════════
-   SVG LOGO (inline, 64×64 viewBox, fill #0CAE9B)
+   BRAND LOGO — external SVG with built-in name + descriptor
    ═══════════════════════════════════════════════════ */
 
-function BrandLogo({ size = 64 }: { size?: number }) {
+function BrandLogo({ height = 160 }: { height?: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="shrink-0 cursor-pointer"
-    >
-      {/* Circle background */}
-      <circle cx="32" cy="32" r="30" fill="#0CAE9B" fillOpacity="0.12" stroke="#0CAE9B" strokeWidth="1.5" />
-      {/* Globe / sphere curved lines */}
-      <ellipse cx="32" cy="32" rx="16" ry="22" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
-      <path d="M16 26 Q32 22 48 26" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
-      <path d="M16 32 Q32 28 48 32" stroke="#0CAE9B" strokeWidth="1.5" fill="none" />
-      <path d="M16 38 Q32 34 48 38" stroke="#0CAE9B" strokeWidth="1.2" fill="none" />
-      <line x1="32" y1="10" x2="32" y2="54" stroke="#0CAE9B" strokeWidth="1.5" />
-      {/* Cross / medical symbol overlay */}
-      <rect x="28" y="14" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
-      <rect x="28" y="47" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
-      <rect x="12" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
-      <rect x="44" y="30.5" width="8" height="3" rx="1.5" fill="#0CAE9B" opacity="0.7" />
-    </svg>
+    <img
+      src="/mis-altera/logo-vert-text.svg"
+      alt="Альтера — медицинская информационная система"
+      height={height}
+      className="shrink-0 cursor-pointer object-contain"
+      draggable={false}
+    />
   )
 }
 
@@ -175,18 +160,8 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
           {/* ── Brand block (always at top) ── */}
           <div className="brand-block">
             <div onClick={handleLogoClick}>
-              <BrandLogo size={64} />
+              <BrandLogo height={160} />
             </div>
-            <h1 className="brand-name">Альтера</h1>
-            <p className="brand-subtitle">
-              текст
-              <br />
-              медицинская
-              <br />
-              информационная
-              <br />
-              система
-            </p>
           </div>
 
           {/* ═══════ SPLASH PHASE ═══════

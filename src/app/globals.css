@@ -242,28 +242,9 @@
   align-items: flex-start;
 }
 
+.brand-block img,
 .brand-block svg {
-  margin-bottom: 0.75rem;
   cursor: pointer;
-}
-
-.brand-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 700;
-  font-size: 64px;
-  line-height: 76px;
-  color: #1f2937;
-  margin: 0;
-}
-
-.brand-subtitle {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 22px;
-  color: #4b5563;
-  margin-top: 0.35rem;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -543,20 +524,8 @@
     padding: 48px 24px 40px 24px;
   }
 
-  .brand-block svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 0.75rem;
-  }
-
-  .brand-name {
-    font-size: 48px;
-    line-height: 56px;
-  }
-
-  .brand-subtitle {
-    font-size: 17px;
-    line-height: 19px;
+  .brand-block img {
+    height: 120px;
   }
 
   .login-form {
@@ -606,20 +575,8 @@
     padding: 36px 20px 28px 20px;
   }
 
-  .brand-block svg {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.6rem;
-  }
-
-  .brand-name {
-    font-size: 40px;
-    line-height: 48px;
-  }
-
-  .brand-subtitle {
-    font-size: 16px;
-    line-height: 18px;
+  .brand-block img {
+    height: 100px;
   }
 
   .splash-body {
