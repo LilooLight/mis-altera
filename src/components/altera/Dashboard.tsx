@@ -10,6 +10,7 @@ import {
   UserPlus,
   Clock,
   X,
+  FileText,
 } from 'lucide-react'
 
 /* ------------------------------------------------------------------ */
@@ -138,8 +139,10 @@ function StatusDot({ status }: { status: Appointment['status'] }) {
 /* popup-меню для строки события */
 function EventContextMenu({
   onClose,
+  onOpenPatient,
 }: {
   onClose: () => void
+  onOpenPatient?: () => void
 }) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -154,19 +157,24 @@ function EventContextMenu({
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-full mt-1 z-30 w-44 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] shadow-lg py-1"
+      className="absolute right-0 top-full mt-1 z-30 w-48 rounded-lg border border-gray-200 dark:border-[#253041] bg-white dark:bg-[#151e2e] shadow-lg py-1"
     >
       {[
+        { icon: <FileText className="w-3.5 h-3.5" />, label: 'Открыть карту пациента', action: onOpenPatient, accent: true },
         { icon: <Clock className="w-3.5 h-3.5" />, label: 'Перенести' },
         { icon: <X className="w-3.5 h-3.5" />, label: 'Отменить' },
         { icon: <UserPlus className="w-3.5 h-3.5" />, label: 'Назначить на другого' },
       ].map((item) => (
         <button
           key={item.label}
-          onClick={(e) => { e.stopPropagation(); onClose() }}
-          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b] transition-colors"
+          onClick={(e) => { e.stopPropagation(); item.action?.(); onClose() }}
+          className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium transition-colors ${
+            item.accent
+              ? 'text-[#5ecece] hover:bg-[#5ecece]/5'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1e293b]'
+          }`}
         >
-          <span className="text-gray-400 dark:text-gray-500">{item.icon}</span>
+          <span className={item.accent ? 'text-[#5ecece]' : 'text-gray-400 dark:text-gray-500'}>{item.icon}</span>
           {item.label}
         </button>
       ))}
@@ -284,7 +292,12 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                   </div>
 
                   {/* context menu */}
-                  {isMenuOpen && <EventContextMenu onClose={() => setContextMenuId(null)} />}
+                  {isMenuOpen && (
+                    <EventContextMenu
+                      onClose={() => setContextMenuId(null)}
+                      onOpenPatient={() => openPatient(currentPatient!, onOpenPatient)}
+                    />
+                  )}
                 </div>
               ) : (
                 /* ── Regular appointment row ── */
@@ -295,8 +308,8 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                       setContextMenuId(null)
                       return
                     }
-                    // open patient on click
-                    if (patient) openPatient(patient, onOpenPatient)
+                    // open context menu on click (not patient card)
+                    toggleMenu(appt.id)
                   }}
                 >
                   <StatusDot status={appt.status} />
@@ -329,7 +342,12 @@ export default function Dashboard({ onOpenPatient, onOpenRegistry }: DashboardPr
                   </button>
 
                   {/* context menu */}
-                  {isMenuOpen && <EventContextMenu onClose={() => setContextMenuId(null)} />}
+                  {isMenuOpen && (
+                    <EventContextMenu
+                      onClose={() => setContextMenuId(null)}
+                      onOpenPatient={patient ? () => openPatient(patient, onOpenPatient) : undefined}
+                    />
+                  )}
                 </div>
               )}
             </li>

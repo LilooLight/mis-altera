@@ -267,7 +267,7 @@ function AttachmentButton({
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-export function PatientCard() {
+export function PatientCard({ onBack }: { onBack?: () => void }) {
   const [activeTab, setActiveTab] = useState<MainTab>('visit')
   const [visitData, setVisitData] = useState({
     complaints: '',
@@ -292,7 +292,7 @@ export function PatientCard() {
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
           {/* Back + Avatar + FIO + Meta */}
           <div className="flex items-center gap-4">
-            <button className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors mr-1">
+            <button onClick={onBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#1e293b] transition-colors mr-1">
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="w-12 h-12 rounded-full bg-[#5ecece]/10 dark:bg-[#5ecece]/20 flex items-center justify-center flex-shrink-0">

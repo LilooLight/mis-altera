@@ -318,7 +318,7 @@ export default function Home() {
               {/* Patient tabs: render ALL, hide inactive (preserves sub-tab state) */}
               {patientTabs.map((tab) => (
                 <div key={tab.id} className={tab.id === activeTabId ? '' : 'hidden'}>
-                  <PatientCard />
+                  <PatientCard onBack={() => closeTab(tab.id)} />
                 </div>
               ))}
             </div>
