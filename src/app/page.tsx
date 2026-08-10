@@ -138,6 +138,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
     <div className={`auth-wrapper ${isDark ? 'auth-wrapper--dark' : 'auth-wrapper--light'}`}>
       {/* ── Background layers (fixed, decorative) ── */}
       <div className="auth-bg-image" />
+      <div className="auth-bg-image-dark" />
       <div className="biomorph-layer">
         <div className="biomorph-blob blob-1" />
         <div className="biomorph-blob blob-2" />

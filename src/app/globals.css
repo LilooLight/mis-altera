@@ -152,11 +152,19 @@
 
 /* Light theme: soft gradient bg (when dark bg-image is hidden) */
 .auth-wrapper--light .auth-bg-image {
-  opacity: 0.15;
+  opacity: 1;
 }
 
-/* Dark theme: bg image visible at full */
+.auth-wrapper--light .auth-bg-image-dark {
+  display: none;
+}
+
+/* Dark theme: dark bg image visible, light one hidden */
 .auth-wrapper--dark .auth-bg-image {
+  display: none;
+}
+
+.auth-wrapper--dark .auth-bg-image-dark {
   opacity: 1;
 }
 
@@ -165,6 +173,15 @@
   position: fixed;
   inset: 0;
   background: url('/mis-altera/splash-bg.png') center / cover no-repeat;
+  opacity: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.auth-bg-image-dark {
+  position: fixed;
+  inset: 0;
+  background: url('/mis-altera/splash-bg-dark.png') center / cover no-repeat;
   opacity: 1;
   z-index: 0;
   pointer-events: none;
