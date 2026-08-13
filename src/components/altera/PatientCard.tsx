@@ -5,127 +5,181 @@ import {
   ArrowLeft, Paperclip, Stethoscope, Activity, FlaskConical, ClipboardList,
   X, Download, Eye, Calendar, Clock, CheckCircle2, Search,
   FileText, FileSpreadsheet, Image as ImageIcon, FileVideo, LayoutGrid, List,
-  AlertTriangle, AlertCircle, ScanLine, HeartPulse, Monitor, ChevronRight,
+  AlertTriangle, AlertCircle, ScanLine, HeartPulse, Monitor,
+  Plus, Pill, Syringe, Thermometer, Droplets, Scale, BedDouble,
+  UserRound, ClipboardCheck, FileSignature, ChevronRight,
 } from 'lucide-react'
 import { TreatmentPlan } from '@/components/altera/TreatmentPlan'
 import { DischargeEpicrisis } from '@/components/altera/DischargeEpicrisis'
 
-// ─── Data ───────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════
+// Types
+// ═══════════════════════════════════════════════════════════════════════
+
+export interface PatientCardProps {
+  patient?: {
+    id: number
+    name: string
+    shortName: string
+    initials: string
+    room: string
+    hasNewAnalyses: boolean
+  }
+  onBack?: () => void
+}
+
+type MainTab = 'visit' | 'results' | 'prescriptions' | 'discharge'
+type DocAttachment = { name: string; type: 'pdf' | 'xlsx' | 'image' | 'video' }
+
+// ═══════════════════════════════════════════════════════════════════════
+// Mock Data — keyed by patient features, uses the first patient as default
+// ═══════════════════════════════════════════════════════════════════════
+
+const patientData = {
+  name: 'Козлов Виктор Сергеевич',
+  age: 54,
+  room: '312',
+  checkIn: '10.07.2026',
+  checkOut: '31.07.2026',
+  daysElapsed: 17,
+  daysTotal: 21,
+  diagnosis: 'M54.5 — Боль в пояснице',
+  diagnosisFull: 'M54.5 — Люмбагия. Дегенеративно-дистрофические изменения поясничного отдела позвоночника. Умеренный болевой синдром.',
+  status: 'Лечится' as const,
+  doctor: 'Иванов И.М.',
+}
+
+const vitals = [
+  { label: 'АД', value: '130/85', unit: 'мм рт.ст.', status: 'warning' as const, icon: HeartPulse },
+  { label: 'Температура', value: '36.8', unit: '°C', status: 'normal' as const, icon: Thermometer },
+  { label: 'СпО2', value: '97', unit: '%', status: 'normal' as const, icon: Droplets },
+  { label: 'Пульс', value: '78', unit: 'уд/мин', status: 'normal' as const, icon: Activity },
+  { label: 'Вес', value: '82', unit: 'кг', status: 'normal' as const, icon: Scale },
+]
+
+const todayEvents = [
+  { time: '08:00', type: 'procedure' as const, label: 'Грязевые аппликации на поясницу', location: 'Процедурный кабинет №2' },
+  { time: '09:30', type: 'lab' as const, label: 'Контроль ОАК, глюкоза крови', location: 'Лаборатория' },
+  { time: '11:00', type: 'visit' as const, label: 'Осмотр терапевта', location: 'Кабинет №315' },
+  { time: '14:00', type: 'procedure' as const, label: 'Подводный душ-массаж', location: 'Водолечебница' },
+  { time: '16:00', type: 'procedure' as const, label: 'Электростимуляция поясницы', location: 'Физиотерапия' },
+]
 
 const labResults = [
-  { name: 'Гемоглобин (Hb)', value: '128 г/л', norm: '120–140 г/л', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'Лейкоциты (WBC)', value: '5.8 × 10⁹/л', norm: '4.0–9.0 × 10⁹/л', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'СОЭ', value: '12 мм/ч', norm: '2–15 мм/ч', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'Глюкоза', value: '6.8 ммоль/л', norm: '4.1–5.9 ммоль/л', status: 'abnormal' as const, date: '27.07.2026' },
-  { name: 'Холестерин общий', value: '5.4 ммоль/л', norm: '< 5.2 ммоль/л', status: 'warning' as const, date: '27.07.2026' },
-  { name: 'АЛТ', value: '28 Ед/л', norm: '7–40 Ед/л', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'АСТ', value: '22 Ед/л', norm: '7–40 Ед/л', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'Креатинин', value: '88 мкмоль/л', norm: '44–97 мкмоль/л', status: 'normal' as const, date: '27.07.2026' },
-  { name: 'Мочевина', value: '5.2 ммоль/л', norm: '2.5–6.4 ммоль/л', status: 'normal' as const, date: '25.07.2026' },
-  { name: 'Тромбоциты', value: '245 × 10⁹/л', norm: '150–400 × 10⁹/л', status: 'normal' as const, date: '25.07.2026' },
+  { group: 'Биохимия', items: [
+    { name: 'Глюкоза', value: '6.8 ммоль/л', norm: '4.1–5.9', status: 'abnormal' as const },
+    { name: 'Холестерин общий', value: '5.4 ммоль/л', norm: '< 5.2', status: 'warning' as const },
+    { name: 'АЛТ', value: '28 Ед/л', norm: '7–40', status: 'normal' as const },
+    { name: 'АСТ', value: '22 Ед/л', norm: '7–40', status: 'normal' as const },
+    { name: 'Креатинин', value: '88 мкмоль/л', norm: '44–97', status: 'normal' as const },
+    { name: 'Мочевина', value: '5.2 ммоль/л', norm: '2.5–6.4', status: 'normal' as const },
+  ]},
+  { group: 'Гематология', items: [
+    { name: 'Гемоглобин (Hb)', value: '128 г/л', norm: '120–140', status: 'normal' as const },
+    { name: 'Лейкоциты (WBC)', value: '5.8 × 10⁹/л', norm: '4.0–9.0', status: 'normal' as const },
+    { name: 'СОЭ', value: '12 мм/ч', norm: '2–15', status: 'normal' as const },
+    { name: 'Тромбоциты', value: '245 × 10⁹/л', norm: '150–400', status: 'normal' as const },
+  ]},
+  { group: 'ЭКГ', items: [
+    { name: 'Ритм', value: 'Синусовый', norm: 'Синусовый', status: 'normal' as const },
+    { name: 'ЧСС', value: '72 уд/мин', norm: '60–100', status: 'normal' as const },
+  ]},
+  { group: 'УЗИ', items: [
+    { name: 'УЗИ брюшной полости', value: 'Без патологий', norm: '—', status: 'normal' as const },
+    { name: 'ЭхоКГ', value: 'Ожидается', norm: '—', status: 'warning' as const },
+  ]},
 ]
 
-const imagingResults = [
-  { id: 1, type: 'xray' as const, name: 'Рентгенография поясничного отдела', date: '24.07.2026', doctor: 'Рентгенолог Петров А.В.', result: 'Умеренные дегенеративные изменения L4-L5. Умеренное снижение высоты межпозвонкового диска.', status: 'completed' as const, hasAttachment: true },
-  { id: 2, type: 'ultrasound' as const, name: 'УЗИ органов брюшной полости', date: '22.07.2026', doctor: 'УЗ-специалист Ким Л.С.', result: 'Печень не увеличена. Желчный пузырь без особенностей. Поджелудочная железа в норме. Почки без патологий.', status: 'completed' as const, hasAttachment: true },
-  { id: 3, type: 'ekg' as const, name: 'ЭКГ', date: '10.07.2026', doctor: 'Врач-терапевт Иванов И.М.', result: 'Синусовый ритм, ЧСС 72 в мин. ЭОС отклонена влево. Нарушений реполяризации не выявлено.', status: 'completed' as const, hasAttachment: true },
-  { id: 4, type: 'ultrasound' as const, name: 'УЗИ сердца (ЭхоКГ)', date: '26.07.2026', doctor: 'Кардиолог Сидоров К.М.', result: 'Ожидается', status: 'pending' as const, hasAttachment: false },
+const prescriptions = [
+  { id: 1, name: 'Грязевые аппликации', type: 'procedure' as const, schedule: 'Ежедневно', days: '10/15', status: 'active' as const },
+  { id: 2, name: 'Подводный душ-массаж', type: 'procedure' as const, schedule: 'Пн, Ср, Пт', days: '7/12', status: 'active' as const },
+  { id: 3, name: 'Электростимуляция', type: 'procedure' as const, schedule: 'Пн, Ср, Пт', days: '4/10', status: 'active' as const },
+  { id: 4, name: 'Нимесан 100мг', type: 'medication' as const, schedule: '2 раза в день', days: '—', status: 'active' as const },
+  { id: 5, name: 'Мильгамма', type: 'medication' as const, schedule: '1 раз в день (в/м)', days: '5/10', status: 'active' as const },
+  { id: 6, name: 'L-карнитин', type: 'medication' as const, schedule: '1 раз в день', days: '—', status: 'active' as const },
+  { id: 7, name: 'Рентген поясницы', type: 'analysis' as const, schedule: 'Выполнено 24.07', days: '✓', status: 'completed' as const },
 ]
 
-const timeline = [
-  { id: 1, date: '27.07.2026', time: '10:30', type: 'visit' as const, doctor: 'Иванов И.М. (терапевт)', complaints: 'Ноющая боль в пояснице. Усиление после физической нагрузки.', status: 'Пальпация L4-L5 болезненна, угол движения ограничен.', diagnosis: 'M54.5 — Боль в пояснице', dynamics: 'Умеренное улучшение на фоне грязелечения. Рекомендовано продолжение процедур.', attachments: [{ name: 'Рентген поясницы.pdf', type: 'pdf' as const }] },
-  { id: 2, date: '26.07.2026', time: '14:00', type: 'procedure' as const, doctor: 'Медсестра (процедурный кабинет)', complaints: '', status: 'Грязевые аппликации на поясницу. Температура 42°C, 20 мин.', diagnosis: '', dynamics: 'Реакция умеренная, пациент переносит хорошо.', attachments: [] },
-  { id: 3, date: '25.07.2026', time: '09:00', type: 'lab' as const, doctor: 'Лаборатория', complaints: '', status: 'ОАК, ОАМ, биохимия крови направлены.', diagnosis: '', dynamics: 'Результаты в пределах нормы, кроме глюкозы (6.8 ммоль/л).', attachments: [{ name: 'Анализ крови от 25.07.xlsx', type: 'xlsx' as const }] },
-  { id: 4, date: '24.07.2026', time: '11:30', type: 'procedure' as const, doctor: 'Медсестра (водолечебница)', complaints: '', status: 'Подводный душ-массаж, 15 мин, давление 2.5 атм.', diagnosis: '', dynamics: 'Курс 10 процедур, переносимость хорошая.', attachments: [] },
-  { id: 5, date: '22.07.2026', time: '10:00', type: 'visit' as const, doctor: 'Сидорова О.Н. (невролог)', complaints: 'Боль в пояснице, онемение правой руки.', status: 'Болезненность паравертебральных точек L4-S1. Тинель-симптом справа положительный.', diagnosis: 'M54.5 + M79.3 — Панникулит правого предплечья', dynamics: 'Диагноз подтверждён. Дополнительно назначен массаж правой руки.', attachments: [{ name: 'Заключение невролога.pdf', type: 'pdf' as const }, { name: 'ЭНМГ правой руки.pdf', type: 'pdf' as const }] },
-  { id: 6, date: '10.07.2026', time: '09:00', type: 'visit' as const, doctor: 'Иванов И.М. (терапевт)', complaints: 'Боль в пояснице около 2 месяцев. Ухудшение после переохлаждения.', status: 'Общее состояние удовлетворительное. Кожные покровы чистые. Суставы без деформации.', diagnosis: 'M54.5 — Боль в пояснице', dynamics: 'Первичный осмотр. Назначено обследование. Сформирован план лечения.', attachments: [{ name: 'Справка от поликлиники.pdf', type: 'pdf' as const }] },
-  { id: 7, date: '10.07.2026', time: '08:00', type: 'system' as const, doctor: 'Система', complaints: '', status: 'Поступление: приложены документы 3 шт. (направление, справки, результаты анализов).', diagnosis: '', dynamics: '', attachments: [{ name: 'Направление в санаторий.pdf', type: 'pdf' as const }, { name: 'Выписка из карты.pdf', type: 'pdf' as const }, { name: 'Анализы поликлиники.pdf', type: 'pdf' as const }] },
+const procedureCatalog = [
+  { id: 1, name: 'Грязевые аппликации', category: 'Бальнеология', duration: '20 мин', isPaid: false, price: null },
+  { id: 2, name: 'Подводный душ-массаж', category: 'Гидротерапия', duration: '15 мин', isPaid: false, price: null },
+  { id: 3, name: 'Электростимуляция', category: 'Физиотерапия', duration: '15 мин', isPaid: false, price: null },
+  { id: 4, name: 'Магнитотерапия', category: 'Физиотерапия', duration: '20 мин', isPaid: false, price: null },
+  { id: 5, name: 'УВТ поясницы', category: 'Физиотерапия', duration: '10 мин', isPaid: true, price: '2 500 ₽' },
+  { id: 6, name: 'Инфракрасная сауна', category: 'Термолечение', duration: '30 мин', isPaid: true, price: '1 800 ₽' },
+  { id: 7, name: 'Озонотерапия', category: 'Инъекции', duration: '15 мин', isPaid: true, price: '3 200 ₽' },
 ]
 
-const documents = [
-  { id: 1, name: 'Рентген поясницы.pdf', type: 'pdf' as const, uploadDate: '24.07.2026', eventDate: '24.07.2026', uploadedBy: 'Рентгенолог Петров А.В.', eventLabel: 'Исследование: Рентген' },
-  { id: 2, name: 'Заключение невролога.pdf', type: 'pdf' as const, uploadDate: '22.07.2026', eventDate: '22.07.2026', uploadedBy: 'Невролог Сидорова О.Н.', eventLabel: 'Консультация: Невролог' },
-  { id: 3, name: 'ЭНМГ правой руки.pdf', type: 'pdf' as const, uploadDate: '22.07.2026', eventDate: '22.07.2026', uploadedBy: 'Невролог Сидорова О.Н.', eventLabel: 'Исследование: ЭНМГ' },
-  { id: 4, name: 'Анализ крови от 25.07.xlsx', type: 'xlsx' as const, uploadDate: '25.07.2026', eventDate: '25.07.2026', uploadedBy: 'Лаборатория', eventLabel: 'Анализы: ОАК + Биохимия' },
-  { id: 5, name: 'Снимок УЗИ брюшной полости.jpg', type: 'image' as const, uploadDate: '22.07.2026', eventDate: '22.07.2026', uploadedBy: 'УЗ-специалист Ким Л.С.', eventLabel: 'Исследование: УЗИ' },
-  { id: 6, name: 'ЭКГ от 10.07.pdf', type: 'pdf' as const, uploadDate: '10.07.2026', eventDate: '10.07.2026', uploadedBy: 'Терапевт Иванов И.М.', eventLabel: 'Исследование: ЭКГ' },
-  { id: 7, name: 'Справка от поликлиники.pdf', type: 'pdf' as const, uploadDate: '10.07.2026', eventDate: '10.07.2026', uploadedBy: 'Система', eventLabel: 'Документы заезда' },
-  { id: 8, name: 'Выписка из карты.pdf', type: 'pdf' as const, uploadDate: '10.07.2026', eventDate: '10.07.2026', uploadedBy: 'Система', eventLabel: 'Документы заезда' },
-  { id: 9, name: 'Анализы поликлиники.pdf', type: 'pdf' as const, uploadDate: '10.07.2026', eventDate: '10.07.2026', uploadedBy: 'Система', eventLabel: 'Документы заезда' },
+// ═══════════════════════════════════════════════════════════════════════
+// Constants
+// ═══════════════════════════════════════════════════════════════════════
+
+const mainTabs: { key: MainTab; label: string; icon: typeof Stethoscope }[] = [
+  { key: 'visit', label: 'Форма приёма', icon: Stethoscope },
+  { key: 'results', label: 'Результаты', icon: FlaskConical },
+  { key: 'prescriptions', label: 'Назначения', icon: ClipboardList },
+  { key: 'discharge', label: 'Выписка', icon: FileSignature },
 ]
 
-// ─── Types ──────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════
+// Helpers
+// ═══════════════════════════════════════════════════════════════════════
 
-type DocAttachment = { name: string; type: 'pdf' | 'xlsx' | 'image' | 'video' }
-type TimelineEntry = (typeof timeline)[number]
-type DocItem = (typeof documents)[number]
-type MainTab = 'visit' | 'results' | 'history' | 'plan' | 'discharge'
-type HistorySubTab = 'timeline' | 'documents'
-type DocFilter = 'all' | 'imaging' | 'pdf' | 'video'
-type DocViewMode = 'grid' | 'table'
+function StatusDot({ status }: { status: 'normal' | 'abnormal' | 'warning' }) {
+  const colors = {
+    normal: 'bg-green',
+    abnormal: 'bg-red',
+    warning: 'bg-amber',
+  }
+  return <span className={`w-2 h-2 rounded-full ${colors[status]}`} />
+}
 
-// ─── Constants ──────────────────────────────────────────────────────────────
+function StatusBadge({ status }: { status: 'normal' | 'abnormal' | 'warning' }) {
+  if (status === 'normal') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">
+        <CheckCircle2 className="w-3 h-3" /> В норме
+      </span>
+    )
+  }
+  if (status === 'abnormal') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400">
+        <AlertCircle className="w-3 h-3" /> Отклонение
+      </span>
+    )
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400">
+      <AlertTriangle className="w-3 h-3" /> Внимание
+    </span>
+  )
+}
 
-const mainTabs: { key: MainTab; label: string }[] = [
-  { key: 'visit', label: 'Форма приёма' },
-  { key: 'results', label: 'Результаты исследований' },
-  { key: 'history', label: 'История' },
-  { key: 'plan', label: 'План лечения' },
-  { key: 'discharge', label: 'Выписка' },
-]
-
-const historySubTabs: { key: HistorySubTab; label: string }[] = [
-  { key: 'timeline', label: 'Хронология приёмов' },
-  { key: 'documents', label: 'Документы и медиа' },
-]
-
-const docFilters: { key: DocFilter; label: string }[] = [
-  { key: 'all', label: 'Все' },
-  { key: 'imaging', label: 'Снимки (УЗИ/Рентген)' },
-  { key: 'pdf', label: 'PDF-выписки' },
-  { key: 'video', label: 'Видео' },
-]
-
-// ─── Helpers ────────────────────────────────────────────────────────────────
-
-function getTimelineIcon(type: TimelineEntry['type']) {
+function getEventIcon(type: string) {
   switch (type) {
-    case 'visit': return <Stethoscope className="w-4 h-4" />
-    case 'procedure': return <Activity className="w-4 h-4" />
-    case 'lab': return <FlaskConical className="w-4 h-4" />
-    case 'diagnosis': return <ClipboardList className="w-4 h-4" />
-    case 'system': return <Monitor className="w-4 h-4" />
-    default: return <FileText className="w-4 h-4" />
+    case 'visit': return <Stethoscope className="w-3.5 h-3.5" />
+    case 'procedure': return <Activity className="w-3.5 h-3.5" />
+    case 'lab': return <FlaskConical className="w-3.5 h-3.5" />
+    default: return <Clock className="w-3.5 h-3.5" />
   }
 }
 
-function getTimelineLabel(type: TimelineEntry['type']) {
+function getEventBg(type: string) {
   switch (type) {
-    case 'visit': return 'Приём'
-    case 'procedure': return 'Процедура'
-    case 'lab': return 'Анализы'
-    case 'diagnosis': return 'Консультация'
-    case 'system': return 'Системное событие'
-    default: return 'Запись'
+    case 'visit': return 'bg-accent-tiffany/10 text-accent-tiffany'
+    case 'procedure': return 'bg-purple/10 text-purple'
+    case 'lab': return 'bg-amber/10 text-amber'
+    default: return 'bg-gray-100 dark:bg-dark-surface text-gray-500'
   }
 }
 
-function getImagingIcon(type: string) {
+function getRxTypeIcon(type: string) {
   switch (type) {
-    case 'xray': return <ScanLine className="w-5 h-5" />
-    case 'ultrasound': return <Monitor className="w-5 h-5" />
-    case 'ekg': return <HeartPulse className="w-5 h-5" />
-    default: return <Eye className="w-5 h-5" />
-  }
-}
-
-function getDocTypeIcon(type: string) {
-  switch (type) {
-    case 'pdf': return <FileText className="w-6 h-6" />
-    case 'xlsx': return <FileSpreadsheet className="w-6 h-6" />
-    case 'image': return <ImageIcon className="w-6 h-6" />
-    case 'video': return <FileVideo className="w-6 h-6" />
-    default: return <FileText className="w-6 h-6" />
+    case 'procedure': return <Syringe className="w-4 h-4" />
+    case 'medication': return <Pill className="w-4 h-4" />
+    case 'analysis': return <FlaskConical className="w-4 h-4" />
+    default: return <ClipboardList className="w-4 h-4" />
   }
 }
 
@@ -139,95 +193,173 @@ function getDocTypeBg(type: string) {
   }
 }
 
-function filterDocuments(docs: DocItem[], filter: DocFilter): DocItem[] {
-  if (filter === 'all') return docs
-  if (filter === 'imaging') return docs.filter(d => d.eventLabel.toLowerCase().includes('узи') || d.eventLabel.toLowerCase().includes('рентген'))
-  if (filter === 'pdf') return docs.filter(d => d.type === 'pdf')
-  if (filter === 'video') return docs.filter(d => d.type === 'video')
-  return docs
+function getDocTypeIcon(type: string) {
+  switch (type) {
+    case 'pdf': return <FileText className="w-6 h-6" />
+    case 'xlsx': return <FileSpreadsheet className="w-6 h-6" />
+    case 'image': return <ImageIcon className="w-6 h-6" />
+    case 'video': return <FileVideo className="w-6 h-6" />
+    default: return <FileText className="w-6 h-6" />
+  }
 }
 
-// ─── Sub-components ─────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════
+// Sub-components: Modals
+// ═══════════════════════════════════════════════════════════════════════
 
-function StatusBadge({ status }: { status: 'normal' | 'abnormal' | 'warning' }) {
-  if (status === 'normal') {
-    return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">
-        <CheckCircle2 className="w-3 h-3" />
-        В норме
-      </span>
-    )
-  }
-  if (status === 'abnormal') {
-    return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400">
-        <AlertCircle className="w-3 h-3" />
-        Отклонение
-      </span>
-    )
-  }
-  return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400">
-      <AlertTriangle className="w-3 h-3" />
-      Внимание
-    </span>
+function ProcedureModal({ onClose }: { onClose: () => void }) {
+  const [search, setSearch] = useState('')
+  const [selected, setSelected] = useState<number | null>(null)
+  const filtered = procedureCatalog.filter(p =>
+    p.name.toLowerCase().includes(search.toLowerCase()) ||
+    p.category.toLowerCase().includes(search.toLowerCase())
   )
-}
 
-function AttachmentLightbox({
-  doc,
-  onClose,
-}: {
-  doc: DocAttachment
-  onClose: () => void
-}) {
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="glass-card rounded-xl shadow-2xl border border-gray-200 dark:border-[#373E47] w-full max-w-lg mx-4 p-6"
-        onClick={e => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="glass-card rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-border-subtle w-full max-w-2xl mx-4 max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
         {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 font-sans pr-4">
-            {doc.name}
-          </h3>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors"
-          >
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-dark-border-subtle flex items-center justify-between shrink-0">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Назначить процедуру</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Выберите процедуру из каталога</p>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* File type icon + fake preview */}
+        {/* Search */}
+        <div className="px-6 pt-4 shrink-0">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text" placeholder="Поиск процедуры..." value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-tiffany/30 focus:border-accent-tiffany"
+            />
+          </div>
+        </div>
+
+        {/* List */}
+        <div className="flex-1 overflow-y-auto px-6 py-3 space-y-2">
+          {filtered.map(proc => (
+            <button
+              key={proc.id}
+              onClick={() => setSelected(selected === proc.id ? null : proc.id)}
+              className={`w-full text-left rounded-xl border p-4 transition-all ${
+                selected === proc.id
+                  ? 'border-accent-tiffany bg-accent-tiffany/5 dark:bg-accent-tiffany/10'
+                  : 'border-gray-200 dark:border-dark-border-subtle hover:border-accent-tiffany/30 hover:shadow-sm'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${getEventBg('procedure')}`}>
+                    <Syringe className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{proc.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{proc.category} · {proc.duration}</p>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  {proc.isPaid && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/30">
+                      Платно: {proc.price}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-gray-200 dark:border-dark-border-subtle flex items-center justify-between shrink-0">
+          <button onClick={onClose} className="px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-200 dark:border-dark-border-subtle text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+            Отмена
+          </button>
+          <button
+            disabled={selected === null}
+            onClick={onClose}
+            className={`px-5 py-2.5 text-sm font-medium rounded-xl btn-enamel text-white transition-all ${
+              selected !== null ? 'bg-accent-tiffany hover:bg-accent-tiffany-dark cursor-pointer' : 'bg-gray-300 dark:bg-dark-surface text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Назначить
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DischargeModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="glass-card rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-border-subtle w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-dark-border-subtle flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Выписка пациента</h3>
+          <button onClick={onClose} className="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="px-6 py-5 space-y-4">
+          <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Подтверждение выписки</p>
+              <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
+                После подписания эпикриза пациент будет выписан. Убедитесь, что все назначения завершены.
+              </p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Тип выписки</label>
+            <select className="w-full rounded-xl border border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-card px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-tiffany/30 focus:border-accent-tiffany">
+              <option>Улучшение</option>
+              <option>Без изменений</option>
+              <option>Ухудшение</option>
+              <option>По желанию пациента</option>
+            </select>
+          </div>
+        </div>
+        <div className="px-6 py-4 border-t border-gray-200 dark:border-dark-border-subtle flex items-center justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-200 dark:border-dark-border-subtle text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+            Отмена
+          </button>
+          <button onClick={onClose} className="px-5 py-2.5 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors">
+            Подписать и закрыть
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AttachmentLightbox({ doc, onClose }: { doc: DocAttachment; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="glass-card rounded-xl shadow-2xl border border-gray-200 dark:border-dark-border-subtle w-full max-w-lg mx-4 p-6" onClick={e => e.stopPropagation()}>
+        <div className="flex items-start justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 pr-4">{doc.name}</h3>
+          <button onClick={onClose} className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
         <div className={`w-full h-48 rounded-lg flex flex-col items-center justify-center gap-3 mb-4 ${getDocTypeBg(doc.type)}`}>
-          <span className="opacity-60">
-            {getDocTypeIcon(doc.type)}
-          </span>
+          <span className="opacity-60">{getDocTypeIcon(doc.type)}</span>
           <span className="text-xs uppercase tracking-wider font-medium opacity-60">
             {doc.type === 'xlsx' ? 'Таблица' : doc.type === 'pdf' ? 'PDF-документ' : doc.type === 'image' ? 'Изображение' : 'Видео'}
           </span>
         </div>
-
-        {/* Actions */}
         <div className="flex items-center gap-3 justify-end">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors"
-          >
+          <button onClick={onClose} className="px-4 py-2 text-sm font-medium rounded-xl border border-accent-tiffany text-gray-900 dark:text-gray-100 hover:bg-accent-tiffany/10 transition-colors">
             Закрыть
           </button>
-          <button
-            className="px-4 py-2 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors"
-          >
-            <span className="inline-flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Скачать
-            </span>
+          <button className="px-4 py-2 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors">
+            <span className="inline-flex items-center gap-2"><Download className="w-4 h-4" />Скачать</span>
           </button>
         </div>
       </div>
@@ -235,627 +367,493 @@ function AttachmentLightbox({
   )
 }
 
-function AttachmentButton({
-  attachments,
-  onOpen,
-}: {
-  attachments: DocAttachment[]
-  onOpen: (doc: DocAttachment) => void
-}) {
-  if (attachments.length === 0) return null
+// ═══════════════════════════════════════════════════════════════════════
+// LEFT PANEL
+// ═══════════════════════════════════════════════════════════════════════
 
-  const label = attachments.length === 1
-    ? `Приложено: ${attachments[0].name}`
-    : `Приложено: ${attachments.length} файл(ов)`
+function LeftPanel({
+  onOpenProcedure,
+  onOpenDischarge,
+  onGoToPrescriptions,
+}: {
+  onOpenProcedure: () => void
+  onOpenDischarge: () => void
+  onGoToPrescriptions: () => void
+}) {
+  const p = patientData
+  const initials = p.name.split(' ').map(n => n[0]).join('').slice(0, 2)
 
   return (
-    <div className="relative group">
-      <button
-        onClick={attachments.length === 1 ? () => onOpen(attachments[0]) : undefined}
-        className="p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-[#5ecece] hover:bg-[#5ecece]/10 transition-colors"
-        aria-label={label}
-      >
-        <Paperclip className="w-3.5 h-3.5" />
-      </button>
-      {/* Tooltip */}
-      <div className="absolute right-0 top-full mt-1 px-3 py-1.5 rounded-md bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 shadow-lg">
-        {label}
+    <aside className="w-[300px] shrink-0 border-r border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-card overflow-y-auto">
+      {/* Back button */}
+      <div className="px-4 pt-4 pb-2">
+        {/* empty space — back button is in the parent header */}
+      </div>
+
+      {/* Avatar + FIO + meta */}
+      <div className="px-5 pb-4 text-center">
+        <div className="w-16 h-16 rounded-full bg-accent-tiffany/10 dark:bg-accent-tiffany/20 flex items-center justify-center mx-auto border-2 border-accent-tiffany/20">
+          <span className="text-lg font-semibold text-accent-tiffany">{initials}</span>
+        </div>
+        <h2 className="mt-3 text-base font-semibold text-gray-900 dark:text-gray-100 leading-tight">{p.name}</h2>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {p.age} лет · <span className="inline-flex items-center gap-1"><BedDouble className="w-3 h-3" /> палата {p.room}</span>
+        </p>
+        <div className="flex items-center justify-center gap-3 mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <span className="inline-flex items-center gap-1"><Calendar className="w-3 h-3" />{p.checkIn}</span>
+          <span className="text-gray-300 dark:text-dark-border">→</span>
+          <span>{p.checkOut}</span>
+        </div>
+        <div className="flex items-center justify-center gap-2 mt-2">
+          <div className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-dark-border overflow-hidden">
+            <div className="h-full rounded-full bg-accent-tiffany transition-all" style={{ width: `${(p.daysElapsed / p.daysTotal) * 100}%` }} />
+          </div>
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">{p.daysElapsed}/{p.daysTotal} дн.</span>
+        </div>
+        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30 mt-2">
+          {p.status}
+        </span>
+      </div>
+
+      {/* Diagnosis */}
+      <div className="px-5 py-3 border-t border-gray-100 dark:border-dark-border">
+        <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Диагноз</h4>
+        <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{p.diagnosisFull}</p>
+      </div>
+
+      {/* Vitals */}
+      <div className="px-5 py-3 border-t border-gray-100 dark:border-dark-border">
+        <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2.5">Ключевые показатели</h4>
+        <div className="space-y-2">
+          {vitals.map(v => (
+            <div key={v.label} className="flex items-center gap-2.5">
+              <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 ${
+                v.status === 'normal' ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400' :
+                v.status === 'warning' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400' :
+                'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
+              }`}>
+                <v.icon className="w-3.5 h-3.5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{v.label}</span>
+                  <StatusDot status={v.status} />
+                </div>
+                <span className={`text-sm font-semibold ${
+                  v.status === 'normal' ? 'text-gray-900 dark:text-gray-100' :
+                  v.status === 'warning' ? 'text-amber-600 dark:text-amber-400' :
+                  'text-red-600 dark:text-red-400'
+                }`}>
+                  {v.value} <span className="text-xs font-normal text-gray-400">{v.unit}</span>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2">Последний осмотр: 27.07.2026, 10:30</p>
+      </div>
+
+      {/* Today Events */}
+      <div className="px-5 py-3 border-t border-gray-100 dark:border-dark-border">
+        <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2.5">Ближайшие мероприятия</h4>
+        <div className="space-y-2">
+          {todayEvents.map((ev, i) => (
+            <div key={i} className="flex items-start gap-2.5">
+              <div className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${getEventBg(ev.type)}`}>
+                {getEventIcon(ev.type)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-accent-tiffany">{ev.time}</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300 truncate">{ev.label}</span>
+                </div>
+                <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate">{ev.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="px-5 py-4 border-t border-gray-100 dark:border-dark-border space-y-2 sticky bottom-0 bg-white dark:bg-dark-card">
+        <button
+          onClick={onOpenProcedure}
+          className="w-full px-4 py-2.5 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors flex items-center justify-center gap-2"
+        >
+          <Plus className="w-4 h-4" /> Назначить процедуру
+        </button>
+        <button
+          onClick={onGoToPrescriptions}
+          className="w-full px-4 py-2 text-sm font-medium rounded-xl border border-accent-tiffany text-gray-900 dark:text-gray-100 hover:bg-accent-tiffany/10 transition-colors flex items-center justify-center gap-2"
+        >
+          <ClipboardCheck className="w-4 h-4" /> План лечения
+        </button>
+        <button
+          onClick={onOpenDischarge}
+          className="w-full px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 dark:border-dark-border-subtle text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:border-red/30 hover:text-red dark:hover:text-red-400 transition-colors flex items-center justify-center gap-2"
+        >
+          <FileSignature className="w-4 h-4" /> Выписать
+        </button>
+      </div>
+    </aside>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// RIGHT PANEL — TABS
+// ═══════════════════════════════════════════════════════════════════════
+
+function TabVisit({ setActiveTab }: { setActiveTab: (t: MainTab) => void }) {
+  const [visitData, setVisitData] = useState({ complaints: '', examination: '', conclusion: '', fillLater: false })
+
+  return (
+    <div className="p-6 max-w-3xl">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100">Осмотр пациента</h2>
+        <label className="flex items-center gap-2.5 cursor-pointer select-none">
+          <span className="text-sm text-gray-500 dark:text-gray-400">Заполнить позднее</span>
+          <button
+            role="switch" aria-checked={visitData.fillLater}
+            onClick={() => setVisitData(d => ({ ...d, fillLater: !d.fillLater }))}
+            className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 ${
+              visitData.fillLater ? 'bg-amber-500' : 'bg-gray-300 dark:bg-dark-border-subtle'
+            }`}
+          >
+            <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+              visitData.fillLater ? 'translate-x-4.5' : 'translate-x-0.5'
+            }`} />
+          </button>
+        </label>
+      </div>
+
+      {visitData.fillLater && (
+        <div className="mb-6 rounded-lg border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 px-4 py-3 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Отложенное заполнение</p>
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">Форма будет добавлена в список «К заполнению».</p>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Жалобы пациента</label>
+          <textarea
+            value={visitData.complaints} onChange={e => setVisitData(d => ({ ...d, complaints: e.target.value }))}
+            placeholder="Опишите текущие жалобы…" rows={3}
+            className="w-full rounded-xl border border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-surface px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-tiffany/30 focus:border-accent-tiffany resize-y"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Объективный статус</label>
+          <textarea
+            value={visitData.examination} onChange={e => setVisitData(d => ({ ...d, examination: e.target.value }))}
+            placeholder="Кожные покровы, ЧДД, АД, пульс…" rows={4}
+            className="w-full rounded-xl border border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-surface px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-tiffany/30 focus:border-accent-tiffany resize-y"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Клиническое заключение</label>
+          <textarea
+            value={visitData.conclusion} onChange={e => setVisitData(d => ({ ...d, conclusion: e.target.value }))}
+            placeholder="Заключение по результатам осмотра…" rows={4}
+            className="w-full rounded-xl border border-gray-200 dark:border-dark-border-subtle bg-white dark:bg-dark-surface px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-tiffany/30 focus:border-accent-tiffany resize-y"
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-dark-border-subtle">
+        <button
+          onClick={() => setActiveTab('results')}
+          className="px-5 py-2.5 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors"
+        >
+          {visitData.fillLater ? 'Сохранить и закрыть' : 'Сохранить осмотр'}
+        </button>
+        {!visitData.fillLater && (
+          <button
+            onClick={() => setActiveTab('prescriptions')}
+            className="px-5 py-2.5 text-sm font-medium rounded-xl border border-accent-tiffany text-gray-900 dark:text-gray-100 hover:bg-accent-tiffany/10 transition-colors"
+          >
+            Сохранить и активировать назначения
+          </button>
+        )}
+        <button className="px-5 py-2.5 text-sm font-medium rounded-xl border border-gray-200 dark:border-dark-border-subtle text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+          Отмена
+        </button>
       </div>
     </div>
   )
 }
 
-// ─── Main Component ─────────────────────────────────────────────────────────
+function TabResults({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) => void }) {
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100">Результаты анализов</h2>
+        <button className="px-4 py-2 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors inline-flex items-center gap-2">
+          <Plus className="w-4 h-4" /> Добавить результат
+        </button>
+      </div>
 
-export function PatientCard({ onBack }: { onBack?: () => void }) {
+      {labResults.map(group => (
+        <section key={group.group}>
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+            <ChevronRight className="w-4 h-4 text-accent-tiffany" />
+            {group.group}
+          </h3>
+          <div className="glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-dark-border-subtle">
+                    <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Показатель</th>
+                    <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Значение</th>
+                    <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Референс</th>
+                    <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Статус</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-dark-border/50">
+                  {group.items.map((row, i) => (
+                    <tr key={i} className={row.status === 'abnormal' ? 'bg-red-50/50 dark:bg-red-900/5' : row.status === 'warning' ? 'bg-amber-50/50 dark:bg-amber-900/5' : ''}>
+                      <td className="px-4 py-2.5 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{row.name}</td>
+                      <td className={`px-4 py-2.5 font-mono text-sm whitespace-nowrap ${
+                        row.status === 'abnormal' ? 'text-red-600 dark:text-red-400 font-semibold' :
+                        row.status === 'warning' ? 'text-amber-600 dark:text-amber-400 font-medium' :
+                        'text-gray-700 dark:text-gray-300'
+                      }`}>{row.value}</td>
+                      <td className="px-4 py-2.5 text-gray-500 dark:text-gray-400 font-mono text-xs whitespace-nowrap">{row.norm}</td>
+                      <td className="px-4 py-2.5"><StatusBadge status={row.status} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      {/* Imaging section (compact) */}
+      <section>
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+          <ChevronRight className="w-4 h-4 text-accent-tiffany" />
+          Инструментальные исследования
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {imagingResults.map(item => (
+            <div key={item.id} className="glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle p-4 hover:shadow-sm transition-shadow">
+              <div className="flex items-start gap-3">
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                  item.status === 'completed'
+                    ? 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400'
+                    : 'bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400'
+                }`}>
+                  {item.type === 'xray' ? <ScanLine className="w-4 h-4" /> : item.type === 'ultrasound' ? <Monitor className="w-4 h-4" /> : <HeartPulse className="w-4 h-4" />}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{item.name}</h4>
+                    {item.status === 'completed' ? <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> : <Clock className="w-4 h-4 text-amber-500 shrink-0" />}
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{item.doctor} · {item.date}</p>
+                  <p className={`text-sm mt-1.5 leading-relaxed ${item.status === 'pending' ? 'text-amber-600 dark:text-amber-400 italic' : 'text-gray-600 dark:text-gray-300'}`}>{item.result}</p>
+                  {item.hasAttachment && (
+                    <button onClick={() => onOpenLightbox({ name: `${item.name}.pdf`, type: 'pdf' })} className="inline-flex items-center gap-1 mt-2 text-xs font-medium text-accent-tiffany hover:text-accent-tiffany-dark transition-colors">
+                      <Paperclip className="w-3 h-3" /> Вложение
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+const imagingResults = [
+  { id: 1, type: 'xray' as const, name: 'Рентгенография поясничного отдела', date: '24.07.2026', doctor: 'Петров А.В.', result: 'Умеренные дегенеративные изменения L4-L5.', status: 'completed' as const, hasAttachment: true },
+  { id: 2, type: 'ultrasound' as const, name: 'УЗИ органов брюшной полости', date: '22.07.2026', doctor: 'Ким Л.С.', result: 'Без патологий.', status: 'completed' as const, hasAttachment: true },
+  { id: 3, type: 'ekg' as const, name: 'ЭКГ', date: '10.07.2026', doctor: 'Иванов И.М.', result: 'Синусовый ритм, ЧСС 72.', status: 'completed' as const, hasAttachment: true },
+  { id: 4, type: 'ultrasound' as const, name: 'УЗИ сердца (ЭхоКГ)', date: '26.07.2026', doctor: 'Сидоров К.М.', result: 'Ожидается', status: 'pending' as const, hasAttachment: false },
+]
+
+function TabPrescriptions() {
+  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list')
+
+  return (
+    <div className="p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100">Назначения</h2>
+        <div className="flex items-center gap-3">
+          {/* View toggle */}
+          <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-dark-surface rounded-xl">
+            <button onClick={() => setViewMode('list')} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${viewMode === 'list' ? 'bg-accent-tiffany/10 text-accent-tiffany' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+              Список
+            </button>
+            <button onClick={() => setViewMode('calendar')} className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${viewMode === 'calendar' ? 'bg-accent-tiffany/10 text-accent-tiffany' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+              Календарь
+            </button>
+          </div>
+          <button className="px-4 py-2 text-sm font-medium rounded-xl btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors inline-flex items-center gap-2">
+            <Plus className="w-4 h-4" /> Добавить
+          </button>
+        </div>
+      </div>
+
+      {viewMode === 'list' ? (
+        <div className="glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-dark-border-subtle">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Назначение</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Тип</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">График</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Прогресс</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Статус</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-dark-border/50">
+                {prescriptions.map(rx => (
+                  <tr key={rx.id} className={rx.status === 'completed' ? 'opacity-60' : 'hover:bg-gray-50 dark:hover:bg-dark-surface/50 transition-colors'}>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className={`w-8 h-8 rounded-md flex items-center justify-center shrink-0 ${
+                          rx.type === 'procedure' ? 'bg-purple/10 text-purple' :
+                          rx.type === 'medication' ? 'bg-accent-tiffany/10 text-accent-tiffany' :
+                          'bg-amber/10 text-amber'
+                        }`}>
+                          {getRxTypeIcon(rx.type)}
+                        </div>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">{rx.name}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs capitalize">{rx.type === 'procedure' ? 'Процедура' : rx.type === 'medication' ? 'Медикамент' : 'Анализ'}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300 text-xs">{rx.schedule}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300 text-xs font-mono">{rx.days}</td>
+                    <td className="px-4 py-3">
+                      {rx.status === 'active' ? (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">Активно</span>
+                      ) : (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-dark-surface text-gray-500 dark:text-gray-400">Завершено</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        /* Calendar view: simplified week view */
+        <div className="glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle p-4">
+          <div className="text-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">27 июля — 2 августа 2026</div>
+          <div className="grid grid-cols-7 gap-2">
+            {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((day, i) => {
+              const isToday = i === 6 // Sunday = today in this mock
+              return (
+                <div key={day} className={`text-center p-2 rounded-lg border ${isToday ? 'border-accent-tiffany bg-accent-tiffany/5 dark:bg-accent-tiffany/10' : 'border-gray-200 dark:border-dark-border'}`}>
+                  <div className={`text-xs font-medium ${isToday ? 'text-accent-tiffany' : 'text-gray-500 dark:text-gray-400'}`}>{day}</div>
+                  <div className={`text-lg font-semibold mt-0.5 ${isToday ? 'text-accent-tiffany' : 'text-gray-900 dark:text-gray-100'}`}>{27 + i > 31 ? (27 + i - 31) : 27 + i}</div>
+                  <div className="mt-1 space-y-0.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-purple mx-auto" title="Грязевые аппликации" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent-tiffany mx-auto" title="Нимесан" />
+                    {i % 2 === 0 && <div className="w-1.5 h-1.5 rounded-full bg-blue mx-auto" title="Душ-массаж" />}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════════════════════
+
+export function PatientCard({ onBack }: PatientCardProps) {
   const [activeTab, setActiveTab] = useState<MainTab>('visit')
-  const [visitData, setVisitData] = useState({
-    complaints: '',
-    examination: '',
-    conclusion: '',
-    fillLater: false,
-  })
-  const [historySubTab, setHistorySubTab] = useState<HistorySubTab>('timeline')
-  const [docFilter, setDocFilter] = useState<DocFilter>('all')
-  const [docViewMode, setDocViewMode] = useState<DocViewMode>('grid')
-  const [docSearch, setDocSearch] = useState('')
+  const [showProcedureModal, setShowProcedureModal] = useState(false)
+  const [showDischargeModal, setShowDischargeModal] = useState(false)
   const [lightboxDoc, setLightboxDoc] = useState<DocAttachment | null>(null)
 
-  const filteredDocs = filterDocuments(documents, docFilter).filter(d =>
-    d.name.toLowerCase().includes(docSearch.toLowerCase())
-  )
-
   return (
-    <div className="h-full flex flex-col bg-gray-50 dark:bg-[#161B22]">
-      {/* ── Patient Info Header ──────────────────────────────────────── */}
-      <div className="glass-card border-b border-gray-200 dark:border-[#373E47] px-6 py-4">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          {/* Back + Avatar + FIO + Meta */}
-          <div className="flex items-center gap-4">
-            <button onClick={onBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#30363D] transition-colors mr-1">
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <div className="w-12 h-12 rounded-full bg-[#5ecece]/10 dark:bg-[#5ecece]/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-semibold text-[#5ecece]">КВ</span>
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100 font-sans leading-tight">
-                Козлов Виктор Сергеевич
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                54 года · № палаты <span className="font-medium text-gray-700 dark:text-gray-300">312</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Diagnosis + Dates + Status */}
-          <div className="lg:ml-auto flex flex-col sm:flex-row sm:items-center gap-3">
-            <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-[#30363D] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#373E47]">
-              M54.5 — Боль в пояснице
-            </span>
-            <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-              <span className="inline-flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />
-                Заезд: 10.07.2026
-              </span>
-              <span className="text-gray-300 dark:text-[#373E47]">—</span>
-              <span className="inline-flex items-center gap-1">
-                Выезд: 31.07.2026
-              </span>
-            </div>
-            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30">
-              Лечится
-            </span>
-          </div>
+    <div className="h-full flex flex-col bg-gray-50 dark:bg-dark-bg">
+      {/* ── Top Header (narrow, with back + patient name + status) ── */}
+      <div className="glass-card border-b border-gray-200 dark:border-dark-border-subtle px-4 py-2.5 flex items-center gap-3 shrink-0">
+        <button onClick={onBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <div className="w-8 h-8 rounded-full bg-accent-tiffany/10 dark:bg-accent-tiffany/20 flex items-center justify-center shrink-0 border border-accent-tiffany/20">
+          <span className="text-xs font-semibold text-accent-tiffany">КВ</span>
         </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-[#373E47]">
-          <button className="px-4 py-2 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors">
-            Назначить процедуру
-          </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
-            План лечения
-          </button>
-          <button className="px-4 py-2 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
-            Выписать
-          </button>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{patientData.name}</h1>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30 shrink-0">
+              {patientData.status}
+            </span>
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {patientData.diagnosis} · палата {patientData.room} · {patientData.doctor}
+          </p>
+        </div>
+        <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 shrink-0">
+          <Calendar className="w-3.5 h-3.5" />
+          <span>{patientData.checkIn} → {patientData.checkOut}</span>
         </div>
       </div>
 
-      {/* ── Tab Bar ──────────────────────────────────────────────────── */}
-      <div className="glass-card border-b border-gray-200 dark:border-[#373E47] px-6">
-        <div className="flex gap-6">
+      {/* ── Tab Bar (in the right content area) ── */}
+      <div className="glass-card border-b border-gray-200 dark:border-dark-border-subtle px-6 shrink-0">
+        <div className="flex gap-1">
           {mainTabs.map(tab => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`relative pb-3 pt-3 text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap ${
                 activeTab === tab.key
-                  ? 'text-[#5ecece]'
+                  ? 'text-accent-tiffany'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
+              <tab.icon className="w-4 h-4" />
               {tab.label}
               {activeTab === tab.key && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5ecece] rounded-full" />
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-tiffany rounded-full" />
               )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── Tab Content ──────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto">
-        {/* ======== Tab 0: Форма приёма ======== */}
-        {activeTab === 'visit' && (
-          <div className="p-6 max-w-3xl">
-            {/* Header with fill-later switch */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100">
-                Осмотр пациента
-              </h2>
-              <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                <span className="text-sm text-gray-500 dark:text-gray-400">Заполнить позднее</span>
-                <button
-                  role="switch"
-                  aria-checked={visitData.fillLater}
-                  onClick={() => setVisitData(d => ({ ...d, fillLater: !d.fillLater }))}
-                  className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200 ${
-                    visitData.fillLater
-                      ? 'bg-amber-500'
-                      : 'bg-gray-300 dark:bg-[#373E47]'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-                      visitData.fillLater ? 'translate-x-4.5' : 'translate-x-0.5'
-                    }`}
-                  />
-                </button>
-              </label>
-            </div>
+      {/* ── Content: Left Panel + Right Content ── */}
+      <div className="flex flex-1 min-h-0">
+        {/* Left sidebar — fixed width, scrollable */}
+        <LeftPanel
+          onOpenProcedure={() => setShowProcedureModal(true)}
+          onOpenDischarge={() => setShowDischargeModal(true)}
+          onGoToPrescriptions={() => setActiveTab('prescriptions')}
+        />
 
-            {/* Fill-later notice */}
-            {visitData.fillLater && (
-              <div className="mb-6 rounded-lg border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 px-4 py-3 flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Отложенное заполнение</p>
-                  <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
-                    Форма будет добавлена в список «К заполнению» на главной панели. Не забудьте завершить оформление после приёма.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Complaints */}
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Жалобы пациента
-                </label>
-                <textarea
-                  value={visitData.complaints}
-                  onChange={e => setVisitData(d => ({ ...d, complaints: e.target.value }))}
-                  placeholder="Опишите текущие жалобы пациента…"
-                  rows={3}
-                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
-                />
-              </div>
-
-              {/* Examination / Objective status */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Объективный статус (осмотр)
-                </label>
-                <textarea
-                  value={visitData.examination}
-                  onChange={e => setVisitData(d => ({ ...d, examination: e.target.value }))}
-                  placeholder="Данные осмотра: кожные покровы, ЧДД, АД, пульс, перкуссия, аускультация, пальпация…"
-                  rows={4}
-                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
-                />
-              </div>
-
-              {/* Clinical conclusion */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Клиническое заключение
-                </label>
-                <textarea
-                  value={visitData.conclusion}
-                  onChange={e => setVisitData(d => ({ ...d, conclusion: e.target.value }))}
-                  placeholder="Заключение по результатам осмотра, рекомендации…"
-                  rows={4}
-                  className="w-full rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece] transition-colors resize-y"
-                />
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#373E47]">
-              <button
-                onClick={() => visitData.fillLater ? setActiveTab('results') : setActiveTab('results')}
-                className="px-5 py-2.5 text-sm font-medium rounded-xl bg-[#5ecece] btn-enamel text-white hover:bg-[#4bb8b8] transition-colors"
-              >
-                {visitData.fillLater ? 'Сохранить и закрыть' : 'Сохранить'}
-              </button>
-              <button className="px-5 py-2.5 text-sm font-medium rounded-xl border border-[#5ecece] text-gray-900 dark:text-gray-100 hover:bg-[#5ecece]/10 transition-colors">
-                Отмена
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ======== Tab 1: Research Results ======== */}
-        {activeTab === 'results' && (
-          <div className="p-6 space-y-8">
-            {/* Lab Results Section */}
-            <section>
-              <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Лабораторные исследования
-              </h2>
-              <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-gray-200 dark:border-[#373E47]">
-                        <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Название</th>
-                        <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Значение</th>
-                        <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Норма</th>
-                        <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Статус</th>
-                        <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Дата</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
-                      {labResults.map((row, i) => (
-                        <tr key={i} className={
-                          row.status === 'abnormal' ? 'bg-red-50/50 dark:bg-red-900/5' :
-                          row.status === 'warning' ? 'bg-amber-50/50 dark:bg-amber-900/5' :
-                          ''
-                        }>
-                          <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{row.name}</td>
-                          <td className={`px-4 py-3 font-mono text-sm whitespace-nowrap ${
-                            row.status === 'abnormal' ? 'text-red-600 dark:text-red-400 font-semibold' :
-                            row.status === 'warning' ? 'text-amber-600 dark:text-amber-400 font-medium' :
-                            'text-gray-700 dark:text-gray-300'
-                          }`}>
-                            {row.value}
-                          </td>
-                          <td className="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs whitespace-nowrap">{row.norm}</td>
-                          <td className="px-4 py-3"><StatusBadge status={row.status} /></td>
-                          <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs whitespace-nowrap">{row.date}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </section>
-
-            {/* Imaging Results Section */}
-            <section>
-              <h2 className="font-serif text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Инструментальные исследования
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {imagingResults.map(item => (
-                  <div
-                    key={item.id}
-                    className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        item.status === 'completed'
-                          ? 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400'
-                          : 'bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400'
-                      }`}>
-                        {getImagingIcon(item.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                            {item.name}
-                          </h3>
-                          {item.status === 'completed' && (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
-                          )}
-                          {item.status === 'pending' && (
-                            <Clock className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                          {item.doctor} · {item.date}
-                        </p>
-                        <p className={`text-sm mt-2 leading-relaxed ${
-                          item.status === 'pending'
-                            ? 'text-amber-600 dark:text-amber-400 italic'
-                            : 'text-gray-600 dark:text-gray-300'
-                        }`}>
-                          {item.result}
-                        </p>
-                        {item.hasAttachment && (
-                          <button
-                            onClick={() => setLightboxDoc({ name: `${item.name}.pdf`, type: 'pdf' })}
-                            className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium text-[#5ecece] hover:text-[#4bb8b8] transition-colors"
-                          >
-                            <Paperclip className="w-3 h-3" />
-                            Открыть вложение
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        )}
-
-        {/* ======== Tab 2: History ======== */}
-        {activeTab === 'history' && (
-          <div className="p-6">
-            {/* Sub-tab toggle */}
-            <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl w-fit mb-6">
-              {historySubTabs.map(sub => (
-                <button
-                  key={sub.key}
-                  onClick={() => setHistorySubTab(sub.key)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                    historySubTab === sub.key
-                      ? 'bg-[#5ecece]/10 text-[#5ecece]'
-                      : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                  }`}
-                >
-                  {sub.label}
-                </button>
-              ))}
-            </div>
-
-            {/* ── Sub-tab A: Timeline ── */}
-            {historySubTab === 'timeline' && (
-              <div className="relative">
-                {/* Vertical line */}
-                <div className="absolute left-5 top-0 bottom-0 w-px bg-gray-200 dark:bg-[#373E47]" />
-
-                <div className="space-y-6">
-                  {timeline.map((entry, idx) => {
-                    const prevEntry = timeline[idx - 1]
-                    const showDate = !prevEntry || prevEntry.date !== entry.date
-
-                    return (
-                      <div key={entry.id} className="relative pl-12">
-                        {/* Timeline dot */}
-                        <div className={`absolute left-[14px] top-1 w-[13px] h-[13px] rounded-full border-2 ${
-                          entry.type === 'system'
-                            ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-[#161B22]'
-                            : 'border-[#5ecece] bg-[#5ecece]/20 dark:bg-[#5ecece]/10'
-                        }`} />
-
-                        {/* Date separator */}
-                        {showDate && (
-                          <div className="absolute -left-0 -top-3">
-                            <span className="text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-[#161B22] px-1">
-                              {entry.date}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Card */}
-                        <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 hover:shadow-sm transition-shadow">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex items-center gap-2">
-                              <div className={`w-7 h-7 rounded-md flex items-center justify-center ${
-                                entry.type === 'system'
-                                  ? 'bg-gray-100 dark:bg-[#30363D] text-gray-500 dark:text-gray-400'
-                                  : 'bg-[#5ecece]/10 text-[#5ecece]'
-                              }`}>
-                                {getTimelineIcon(entry.type)}
-                              </div>
-                              <div>
-                                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                  {getTimelineLabel(entry.type)}
-                                </span>
-                                <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
-                                  {entry.doctor}
-                                </span>
-                                <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
-                                  {entry.time}
-                                </span>
-                              </div>
-                            </div>
-                            <AttachmentButton
-                              attachments={entry.attachments}
-                              onOpen={doc => setLightboxDoc(doc)}
-                            />
-                          </div>
-
-                          {/* Clinical fields */}
-                          <div className="mt-3 space-y-2 text-sm">
-                            {entry.complaints && (
-                              <div>
-                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Жалобы: </span>
-                                <span className="text-gray-700 dark:text-gray-300">{entry.complaints}</span>
-                              </div>
-                            )}
-                            {entry.status && (
-                              <div>
-                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Объективный статус: </span>
-                                <span className="text-gray-700 dark:text-gray-300">{entry.status}</span>
-                              </div>
-                            )}
-                            {entry.diagnosis && (
-                              <div>
-                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Диагноз: </span>
-                                <span className="text-gray-700 dark:text-gray-300 font-medium">{entry.diagnosis}</span>
-                              </div>
-                            )}
-                            {entry.dynamics && (
-                              <div>
-                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Динамика: </span>
-                                <span className="text-gray-700 dark:text-gray-300">{entry.dynamics}</span>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Multiple attachment chips */}
-                          {entry.attachments.length > 1 && (
-                            <div className="mt-3 flex flex-wrap gap-2">
-                              {entry.attachments.map((att, aIdx) => (
-                                <button
-                                  key={aIdx}
-                                  onClick={() => setLightboxDoc(att)}
-                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-[#30363D] text-gray-600 dark:text-gray-300 hover:bg-[#5ecece]/10 hover:text-[#5ecece] transition-colors border border-gray-200 dark:border-[#373E47]"
-                                >
-                                  <Paperclip className="w-3 h-3" />
-                                  {att.name}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* ── Sub-tab B: Documents & Media ── */}
-            {historySubTab === 'documents' && (
-              <div>
-                {/* Filter bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-                  <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl">
-                    {docFilters.map(f => (
-                      <button
-                        key={f.key}
-                        onClick={() => setDocFilter(f.key)}
-                        className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap ${
-                          docFilter === f.key
-                            ? 'bg-[#5ecece] btn-enamel text-white'
-                            : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                        }`}
-                      >
-                        {f.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="relative flex-1 max-w-xs">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
-                    <input
-                      type="text"
-                      placeholder="Поиск документов..."
-                      value={docSearch}
-                      onChange={e => setDocSearch(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-[#373E47] bg-white dark:bg-[#1C2128] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5ecece]/30 focus:border-[#5ecece]"
-                    />
-                  </div>
-
-                  <div className="sm:ml-auto flex items-center gap-1 p-1 bg-gray-100 dark:bg-[#30363D] rounded-xl">
-                    <button
-                      onClick={() => setDocViewMode('grid')}
-                      className={`p-1.5 rounded-md transition-colors ${
-                        docViewMode === 'grid'
-                          ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
-                          : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      <LayoutGrid className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setDocViewMode('table')}
-                      className={`p-1.5 rounded-md transition-colors ${
-                        docViewMode === 'table'
-                          ? 'bg-white dark:bg-[#21262D] text-[#5ecece] shadow-sm'
-                          : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      <List className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Grid View */}
-                {docViewMode === 'grid' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {filteredDocs.map(doc => (
-                      <button
-                        key={doc.id}
-                        onClick={() => setLightboxDoc({ name: doc.name, type: doc.type })}
-                        className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] p-4 text-left hover:shadow-md hover:border-[#5ecece]/30 transition-all group"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${getDocTypeBg(doc.type)}`}>
-                            {getDocTypeIcon(doc.type)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate group-hover:text-[#5ecece] transition-colors">
-                              {doc.name}
-                            </h4>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                              {doc.eventLabel}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-[#373E47] flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
-                          <span>Загрузил: {doc.uploadedBy}</span>
-                          <span>{doc.eventDate}</span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Table View */}
-                {docViewMode === 'table' && (
-                  <div className="glass-card rounded-xl border border-gray-200 dark:border-[#373E47] overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="border-b border-gray-200 dark:border-[#373E47]">
-                            <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Файл</th>
-                            <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Тип</th>
-                            <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Дата загрузки</th>
-                            <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Дата события</th>
-                            <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Загрузил</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-[#373E47]">
-                          {filteredDocs.map(doc => (
-                            <tr
-                              key={doc.id}
-                              onClick={() => setLightboxDoc({ name: doc.name, type: doc.type })}
-                              className="cursor-pointer hover:bg-gray-50 dark:hover:bg-[#30363D]/50 transition-colors"
-                            >
-                              <td className="px-4 py-3">
-                                <div className="flex items-center gap-2">
-                                  <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${getDocTypeBg(doc.type)}`}>
-                                    {getDocTypeIcon(doc.type)}
-                                  </div>
-                                  <span className="font-medium text-gray-900 dark:text-gray-100 truncate max-w-[200px]">{doc.name}</span>
-                                </div>
-                              </td>
-                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400 uppercase text-xs">{doc.type}</td>
-                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{doc.uploadDate}</td>
-                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{doc.eventDate}</td>
-                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{doc.uploadedBy}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-
-                {/* Empty state */}
-                {filteredDocs.length === 0 && (
-                  <div className="text-center py-12">
-                    <FileText className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Документы не найдены</p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ======== Tab 3: Treatment Plan ======== */}
-        {activeTab === 'plan' && <TreatmentPlan />}
-
-        {/* ======== Tab 4: Discharge ======== */}
-        {activeTab === 'discharge' && <DischargeEpicrisis />}
+        {/* Right content — scrollable */}
+        <div className="flex-1 overflow-y-auto">
+          {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} />}
+          {activeTab === 'results' && <TabResults onOpenLightbox={setLightboxDoc} />}
+          {activeTab === 'prescriptions' && <TabPrescriptions />}
+          {activeTab === 'discharge' && <DischargeEpicrisis />}
+        </div>
       </div>
 
-      {/* ── Lightbox Modal ───────────────────────────────────────────── */}
-      {lightboxDoc && (
-        <AttachmentLightbox
-          doc={lightboxDoc}
-          onClose={() => setLightboxDoc(null)}
-        />
-      )}
+      {/* ── Modals ── */}
+      {showProcedureModal && <ProcedureModal onClose={() => setShowProcedureModal(false)} />}
+      {showDischargeModal && <DischargeModal onClose={() => setShowDischargeModal(false)} />}
+      {lightboxDoc && <AttachmentLightbox doc={lightboxDoc} onClose={() => setLightboxDoc(null)} />}
     </div>
   )
 }
