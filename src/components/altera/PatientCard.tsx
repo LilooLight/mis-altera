@@ -8,6 +8,7 @@ import {
   AlertTriangle, AlertCircle, ScanLine, HeartPulse, Monitor,
   Plus, Pill, Syringe, Thermometer, Droplets, Scale, BedDouble,
   UserRound, ClipboardCheck, FileSignature, ChevronRight,
+  Pencil, Trash2, ShieldAlert, AlertOctagon, Ban, Check,
 } from 'lucide-react'
 import { TreatmentPlan } from '@/components/altera/TreatmentPlan'
 import { DischargeEpicrisis } from '@/components/altera/DischargeEpicrisis'
@@ -108,7 +109,19 @@ const procedureCatalog = [
   { id: 5, name: 'УВТ поясницы', category: 'Физиотерапия', duration: '10 мин', isPaid: true, price: '2 500 ₽' },
   { id: 6, name: 'Инфракрасная сауна', category: 'Термолечение', duration: '30 мин', isPaid: true, price: '1 800 ₽' },
   { id: 7, name: 'Озонотерапия', category: 'Инъекции', duration: '15 мин', isPaid: true, price: '3 200 ₽' },
+  { id: 8, name: 'Лазеротерапия поясницы', category: 'Физиотерапия', duration: '15 мин', isPaid: true, price: '1 500 ₽' },
+  { id: 9, name: 'Криотерапия', category: 'Физиотерапия', duration: '10 мин', isPaid: false, price: null },
 ]
+
+// Compatibility matrix: procedure id → list of incompatible procedure ids
+const compatibilityRules: Record<number, { incompatibleWith: number[]; warning?: string }> = {
+  5: { incompatibleWith: [3], warning: 'УВТ и электростимуляция на одну область несовместимы' },
+  3: { incompatibleWith: [5], warning: 'Электростимуляция и УВТ на одну область несовместимы' },
+  6: { incompatibleWith: [4], warning: 'Инфракрасная сауна и магнитотерапия в один день не рекомендованы' },
+  4: { incompatibleWith: [6], warning: 'Магнитотерапия и инфракрасная сауна в один день не рекомендованы' },
+  7: { incompatibleWith: [9], warning: 'Озонотерапия и криотерапия — пересекающиеся эффекты' },
+  9: { incompatibleWith: [7], warning: 'Криотерапия и озонотерапия — пересекающиеся эффекты' },
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // Constants
@@ -375,10 +388,12 @@ function LeftPanel({
   onOpenProcedure,
   onOpenDischarge,
   onGoToPrescriptions,
+  patientStatus,
 }: {
   onOpenProcedure: () => void
   onOpenDischarge: () => void
   onGoToPrescriptions: () => void
+  patientStatus: string
 }) {
   const p = patientData
   const initials = p.name.split(' ').map(n => n[0]).join('').slice(0, 2)
@@ -410,8 +425,12 @@ function LeftPanel({
           </div>
           <span className="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">{p.daysElapsed}/{p.daysTotal} дн.</span>
         </div>
-        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30 mt-2">
-          {p.status}
+        <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium mt-2 ${
+          patientStatus === 'Выписан'
+            ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
+            : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30'
+        }`}>
+          {patientStatus}
         </span>
       </div>
 
@@ -781,6 +800,17 @@ export function PatientCard({ onBack }: PatientCardProps) {
   const [showProcedureModal, setShowProcedureModal] = useState(false)
   const [showDischargeModal, setShowDischargeModal] = useState(false)
   const [lightboxDoc, setLightboxDoc] = useState<DocAttachment | null>(null)
+  const [patientStatus, setPatientStatus] = useState<string>(patientData.status)
+
+  function handleAssignProcedure(procId: number) {
+    // In production: API call to add prescription
+    const procName = procedureCatalog.find(p => p.id === procId)?.name
+    console.log('Assigned procedure:', procName)
+  }
+
+  function handleDischarge() {
+    setPatientStatus('Выписан')
+  }
 
   return (
     <div className="h-full flex flex-col bg-gray-50 dark:bg-dark-bg">
@@ -795,8 +825,12 @@ export function PatientCard({ onBack }: PatientCardProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{patientData.name}</h1>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30 shrink-0">
-              {patientData.status}
+            <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium shrink-0 ${
+              patientStatus === 'Выписан'
+                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
+                : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30'
+            }`}>
+              {patientStatus}
             </span>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -839,20 +873,21 @@ export function PatientCard({ onBack }: PatientCardProps) {
           onOpenProcedure={() => setShowProcedureModal(true)}
           onOpenDischarge={() => setShowDischargeModal(true)}
           onGoToPrescriptions={() => setActiveTab('prescriptions')}
+          patientStatus={patientStatus}
         />
 
         {/* Right content — scrollable */}
         <div className="flex-1 overflow-y-auto">
           {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} />}
           {activeTab === 'results' && <TabResults onOpenLightbox={setLightboxDoc} />}
-          {activeTab === 'prescriptions' && <TabPrescriptions />}
+          {activeTab === 'prescriptions' && <TabPrescriptions onOpenProcedure={() => setShowProcedureModal(true)} />}
           {activeTab === 'discharge' && <DischargeEpicrisis />}
         </div>
       </div>
 
       {/* ── Modals ── */}
-      {showProcedureModal && <ProcedureModal onClose={() => setShowProcedureModal(false)} />}
-      {showDischargeModal && <DischargeModal onClose={() => setShowDischargeModal(false)} />}
+      {showProcedureModal && <ProcedureModal onClose={() => setShowProcedureModal(false)} onAssign={handleAssignProcedure} />}
+      {showDischargeModal && <DischargeModal onClose={() => setShowDischargeModal(false)} onDischarge={handleDischarge} />}
       {lightboxDoc && <AttachmentLightbox doc={lightboxDoc} onClose={() => setLightboxDoc(null)} />}
     </div>
   )
