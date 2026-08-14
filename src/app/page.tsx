@@ -632,7 +632,7 @@ function DoctorDashboard({ onLogout }: { onLogout: () => void }) {
 
             {patientTabs.map((tab) => (
               <div key={tab.id} className={tab.id === activeTabId ? '' : 'hidden'}>
-                <PatientCard onBack={() => setActiveTabId(patientBackTarget)} />
+                <PatientCard patientId={tab.patientId} onBack={() => setActiveTabId(patientBackTarget)} />
               </div>
             ))}
           </div>

@@ -17,6 +17,7 @@ import {
   User,
   MapPin,
 } from 'lucide-react'
+import { allPatients } from '@/data/patients'
 
 interface PatientRegistryProps {
   onOpenPatient: (patient: { id: number; name: string; shortName: string; initials: string; room: string; hasNewAnalyses: boolean }) => void
@@ -41,16 +42,21 @@ interface Patient {
   hasNewAnalyses: boolean
 }
 
-const patients: Patient[] = [
-  { id: 1, fio: 'Петрова Анна Сергеевна', age: 45, diagnosis: 'M54.5 — Боль в пояснице', doctor: 'Иванов И.М.', room: '314', checkIn: '2026-07-10', checkOut: '2026-07-31', status: 'active', progress: 18, daysTotal: 21, overdue: false, hasNewAnalyses: true },
-  { id: 2, fio: 'Козлов Дмитрий Александрович', age: 58, diagnosis: 'I10 — Эссенциальная гипертензия', doctor: 'Иванов И.М.', room: '215', checkIn: '2026-07-05', checkOut: '2026-07-25', status: 'active', progress: 16, daysTotal: 20, overdue: false, hasNewAnalyses: false },
-  { id: 3, fio: 'Смирнова Елена Владимировна', age: 38, diagnosis: 'M79.3 — Панникулит', doctor: 'Сидорова О.Н.', room: '412', checkIn: '2026-07-01', checkOut: '2026-07-20', status: 'completed', progress: 20, daysTotal: 20, overdue: false, hasNewAnalyses: true },
-  { id: 4, fio: 'Морозов Игорь Петрович', age: 62, diagnosis: 'G43 — Мигрень', doctor: 'Иванов И.М.', room: '118', checkIn: '2026-06-20', checkOut: '2026-07-10', status: 'completed', progress: 21, daysTotal: 21, overdue: false, hasNewAnalyses: false },
-  { id: 5, fio: 'Волкова Марина Николаевна', age: 51, diagnosis: 'M45 — Анкилозирующий спондилит', doctor: 'Сидорова О.Н.', room: '307', checkIn: '2026-07-12', checkOut: '2026-07-28', status: 'active', progress: 8, daysTotal: 16, overdue: true, hasNewAnalyses: false },
-  { id: 6, fio: 'Новиков Алексей Викторович', age: 44, diagnosis: 'M17 — Гонартроз', doctor: 'Иванов И.М.', room: '223', checkIn: '2026-07-08', checkOut: '2026-07-30', status: 'active', progress: 12, daysTotal: 22, overdue: false, hasNewAnalyses: true },
-  { id: 7, fio: 'Кузнецова Ольга Андреевна', age: 56, diagnosis: 'E78.5 — Дислипидемия', doctor: 'Сидорова О.Н.', room: '409', checkIn: '2026-07-14', checkOut: '2026-08-03', status: 'active', progress: 6, daysTotal: 20, overdue: false, hasNewAnalyses: false },
-  { id: 8, fio: 'Соколов Павел Дмитриевич', age: 67, diagnosis: 'I25.1 — Атеросклеротическая болезнь', doctor: 'Иванов И.М.', room: '116', checkIn: '2026-06-25', checkOut: '2026-07-15', status: 'active', progress: 19, daysTotal: 20, overdue: true, hasNewAnalyses: false },
-]
+const patients: Patient[] = allPatients.map(p => ({
+  id: p.profile.id,
+  fio: p.profile.name,
+  age: p.profile.age,
+  diagnosis: p.profile.diagnosis,
+  doctor: p.profile.doctor,
+  room: p.profile.room === '—' ? 'Амб.' : p.profile.room,
+  checkIn: p.profile.checkIn.split('.').reverse().join('-'),
+  checkOut: p.profile.checkOut.split('.').reverse().join('-'),
+  status: (p.profile.status === 'Выписан' || p.profile.status === 'Архив') ? 'completed' : 'active',
+  progress: p.profile.daysElapsed,
+  daysTotal: p.profile.daysTotal,
+  overdue: p.profile.daysElapsed > p.profile.daysTotal,
+  hasNewAnalyses: p.visits.length > 0 && p.visits.some(v => v.attachments.length > 0),
+}))
 
 const MY_DOCTOR = 'Иванов И.М.'
 

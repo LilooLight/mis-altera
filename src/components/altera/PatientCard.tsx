@@ -11,12 +11,14 @@ import {
   Pencil, Trash2, ShieldAlert, AlertOctagon, Ban, Check,
 } from 'lucide-react'
 import { DischargeEpicrisis } from '@/components/altera/DischargeEpicrisis'
+import { getPatientById, allergyRestrictionMap } from '@/data/patients'
 
 // ═══════════════════════════════════════════════════════════════════════
 // Types
 // ═══════════════════════════════════════════════════════════════════════
 
 export interface PatientCardProps {
+  patientId?: number
   patient?: {
     id: number
     name: string
@@ -440,7 +442,7 @@ const assignmentTypeTabs: { key: AssignmentType; label: string; icon: typeof Pil
   { key: 'analysis', label: 'Исследование', icon: FlaskConical },
 ]
 
-function NewAssignmentModal({ onClose }: { onClose: () => void }) {
+function NewAssignmentModal({ onClose, allergies, restrictions, onAssign }: { onClose: () => void; allergies: string[]; restrictions: string[]; onAssign: (item: string, params: Record<string, string>) => void }) {
   const [activeTab, setActiveTab] = useState<AssignmentType>('medication')
   const [search, setSearch] = useState('')
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
@@ -480,8 +482,26 @@ function NewAssignmentModal({ onClose }: { onClose: () => void }) {
   )
 
   function handleAssign() {
-    // In production: API call
-    console.log('New assignment:', { type: activeTab, item: selectedItem, frequency, duration, dosage, selectedTimeSlot, isPaid, comment })
+    if (!selectedItem) return
+    // Check for allergy/restriction conflicts
+    const globalWarnings = allergyRestrictionMap[selectedItem] ?? []
+    const patientAllergyWarnings = allergies.filter(a =>
+      selectedItem.toLowerCase().includes(a.toLowerCase())
+    ).map(a => ({ type: 'allergy' as const, reason: a }))
+    const patientRestrictionWarnings = restrictions.filter(r =>
+      selectedItem.toLowerCase().includes(r.toLowerCase())
+    ).map(r => ({ type: 'restriction' as const, reason: r }))
+    const allWarnings = [...globalWarnings, ...patientAllergyWarnings, ...patientRestrictionWarnings]
+
+    if (allWarnings.length > 0) {
+      onAssign(selectedItem, { frequency, duration, dosage, selectedTimeSlot: selectedTimeSlot ?? '', comment })
+      // We store the pending action for the parent to show warning
+      console.log('Allergy warning for:', selectedItem, allWarnings)
+      return
+    }
+
+    // No warnings — proceed
+    onAssign(selectedItem, { frequency, duration, dosage, selectedTimeSlot: selectedTimeSlot ?? '', comment })
     onClose()
   }
 
@@ -759,8 +779,7 @@ function LeftPanel({
           <span className="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">{p.daysElapsed}/{p.daysTotal} дн.</span>
         </div>
         <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium mt-2 ${
-          patientStatus === 'Выписан'
-            ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
+          patientStatus === 'Выписан' || patientStatus === 'Архив' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
             : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30'
         }`}>
           {patientStatus}
@@ -839,7 +858,7 @@ function LeftPanel({
 // RIGHT PANEL — TABS
 // ═══════════════════════════════════════════════════════════════════════
 
-function TabVisit({ setActiveTab }: { setActiveTab: (t: MainTab) => void }) {
+function TabVisit({ setActiveTab, prevVitals }: { setActiveTab: (t: MainTab) => void; prevVitals: typeof previousVitals }) {
   const [complaints, setComplaints] = useState('')
   const [showObjective, setShowObjective] = useState(false)
   const [showPrevValues, setShowPrevValues] = useState(true)
@@ -1398,11 +1417,11 @@ function TabPrescriptions() {
 // HISTORY TAB
 // ═══════════════════════════════════════════════════════════════════════
 
-function TabHistory({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) => void }) {
+function TabHistory({ onOpenLightbox, visits }: { onOpenLightbox: (doc: DocAttachment) => void; visits: typeof visitHistory }) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null)
-  const selected = selectedItem ? visitHistory.find(h => h.id === selectedItem) : null
+  const selected = selectedItem ? visits.find(h => h.id === selectedItem) : null
 
-  const hasAttachments = (item: typeof visitHistory[number]) => item.attachments && item.attachments.length > 0
+  const hasAttachments = (item: typeof visits[number]) => item.attachments && item.attachments.length > 0
 
   return (
     <div className="p-6 space-y-4">
@@ -1414,7 +1433,7 @@ function TabHistory({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) =
       <div className="flex gap-6">
         {/* Timeline */}
         <div className="flex-1 space-y-3">
-          {visitHistory.map(item => {
+          {visits.map(item => {
             const isSelected = selectedItem === item.id
             const typeColor = item.type === 'Терапевт' ? 'bg-accent-tiffany' : item.type === 'Невролог' ? 'bg-purple' : item.type === 'Процедура' ? 'bg-amber' : 'bg-blue'
             const attached = hasAttachments(item)
@@ -1549,21 +1568,121 @@ function TabHistory({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) =
   )
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+// ALLERGY / RESTRICTION WARNING MODAL
+// ═══════════════════════════════════════════════════════════════════════
+
+function AllergyWarningModal({
+  itemName,
+  warnings,
+  onClose,
+  onConfirm,
+}: {
+  itemName: string
+  warnings: { type: 'allergy' | 'restriction'; reason: string }[]
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="glass-card rounded-2xl shadow-2xl border border-red-200 dark:border-red-800/40 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
+        <div className="px-6 py-4 border-b border-red-200 dark:border-red-800/40 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center shrink-0">
+            <ShieldAlert className="w-5 h-5 text-red-600 dark:text-red-400" />
+          </div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">Предупреждение</h3>
+        </div>
+        <div className="px-6 py-5 space-y-3">
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+            Пациенту противопоказано назначение <span className="font-semibold text-red-600 dark:text-red-400">{'\u00AB'}{itemName}{'\u00BB'}</span>.
+          </p>
+          <div className="space-y-2">
+            {warnings.map((w, i) => (
+              <div key={i} className={`p-3 rounded-xl border flex items-start gap-2.5 ${
+                w.type === 'allergy'
+                  ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30'
+                  : 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/30'
+              }`}>
+                {w.type === 'allergy' ? <AlertOctagon className="w-4 h-4 text-red-500 shrink-0 mt-0.5" /> : <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />}
+                <div>
+                  <p className={`text-xs font-medium ${
+                    w.type === 'allergy' ? 'text-red-700 dark:text-red-300' : 'text-amber-700 dark:text-amber-300'
+                  }`}>
+                    {w.type === 'allergy' ? 'Аллергия' : 'Ограничение'}: {w.reason}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+            Вы можете отменить назначение или подтвердить его despite предупреждения.
+          </p>
+        </div>
+        <div className="px-6 py-4 border-t border-gray-200 dark:border-dark-border-subtle flex items-center justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2.5 text-sm font-medium rounded-xl border border-gray-200 dark:border-dark-border-subtle text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
+            Отменить
+          </button>
+          <button onClick={onConfirm} className="px-5 py-2.5 text-sm font-medium rounded-xl bg-red-600 hover:bg-red-700 text-white transition-colors">
+            Назначить, несмотря на ограничение
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ═══════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════════════════
 
-export function PatientCard({ onBack }: PatientCardProps) {
+export function PatientCard({ patientId, onBack }: PatientCardProps) {
   const [activeTab, setActiveTab] = useState<MainTab>('visit')
   const [showProcedureModal, setShowProcedureModal] = useState(false)
   const [showDischargeModal, setShowDischargeModal] = useState(false)
   const [lightboxDoc, setLightboxDoc] = useState<DocAttachment | null>(null)
-  const [patientStatus, setPatientStatus] = useState<string>(patientData.status)
+  const [allergyWarning, setAllergyWarning] = useState<{ itemName: string; warnings: { type: 'allergy' | 'restriction'; reason: string }[]; onConfirm: () => void } | null>(null)
+
+  // Load patient data from DB or fallback to hardcoded
+  const dbPatient = patientId ? getPatientById(patientId) : undefined
+  const pData = dbPatient?.profile ?? patientData
+  const [patientStatus, setPatientStatus] = useState<string>(pData.status)
+
+  // Allergies and restrictions from DB
+  const allergies = dbPatient?.profile.allergies ?? []
+  const restrictions = dbPatient?.profile.restrictions ?? []
+  const diet = dbPatient?.profile.diet
 
 
 
   function handleDischarge() {
     setPatientStatus('Выписан')
+  }
+
+  function handleNewAssignment(itemName: string, params: Record<string, string>) {
+    // Check for conflicts with patient allergies/restrictions
+    const globalWarnings = allergyRestrictionMap[itemName] ?? []
+    const patientAllergyWarnings = allergies.filter(a =>
+      itemName.toLowerCase().includes(a.toLowerCase())
+    ).map(a => ({ type: 'allergy' as const, reason: a }))
+    const patientRestrictionWarnings = restrictions.filter(r =>
+      itemName.toLowerCase().includes(r.toLowerCase())
+    ).map(r => ({ type: 'restriction' as const, reason: r }))
+    const allWarnings = [...globalWarnings, ...patientAllergyWarnings, ...patientRestrictionWarnings]
+
+    if (allWarnings.length > 0) {
+      setAllergyWarning({
+        itemName,
+        warnings: allWarnings,
+        onConfirm: () => {
+          console.log('Assigned despite warning:', { itemName, params })
+          setAllergyWarning(null)
+          setShowProcedureModal(false)
+        },
+      })
+    } else {
+      console.log('Assigned:', { itemName, params })
+      setShowProcedureModal(false)
+    }
   }
 
   return (
@@ -1574,30 +1693,29 @@ export function PatientCard({ onBack }: PatientCardProps) {
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div className="w-8 h-8 rounded-full bg-accent-tiffany/10 dark:bg-accent-tiffany/20 flex items-center justify-center shrink-0 border border-accent-tiffany/20">
-          <span className="text-xs font-semibold text-accent-tiffany">КВ</span>
+          <span className="text-xs font-semibold text-accent-tiffany">{pData.name.split(' ').map(n => n[0]).join('').slice(0, 2)}</span>
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{patientData.name}</h1>
+            <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{pData.name}</h1>
             <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium shrink-0 ${
-              patientStatus === 'Выписан'
-                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
+              patientStatus === 'Выписан' || patientStatus === 'Архив' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30'
                 : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/30'
             }`}>
               {patientStatus}
             </span>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {patientData.diagnosisFull}
+            {pData.diagnosisFull}
           </p>
           <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">
-            {patientData.age} лет, {patientData.gender === 'М' ? 'муж.' : 'жен.'} · палата {patientData.room} · {patientData.doctor}
+            {pData.age} лет, {pData.gender === 'М' ? 'муж.' : 'жен.'}{pData.room !== '—' ? ' · палата ' + pData.room : ' · амбулаторный'} · {pData.doctor}
           </p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
             <Calendar className="w-3.5 h-3.5" />
-            <span>{patientData.checkIn} → {patientData.checkOut}</span>
+            <span>{pData.checkIn} → {pData.checkOut}</span>
           </div>
           <div className="w-px h-5 bg-gray-200 dark:bg-dark-border-subtle mx-1" />
           <button
@@ -1614,6 +1732,31 @@ export function PatientCard({ onBack }: PatientCardProps) {
           </button>
         </div>
       </div>
+
+
+      {/* ── Allergies & Restrictions bar ── */}
+      {(allergies.length > 0 || restrictions.length > 0 || diet) && (
+        <div className="px-4 py-2 border-b border-gray-100 dark:border-dark-border/50 bg-white dark:bg-dark-card/50 flex items-center gap-2 flex-wrap">
+          {allergies.map(a => (
+            <span key={a} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-red-50 dark:bg-red-900/15 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800/30">
+              <AlertOctagon className="w-3 h-3" />
+              Аллергия: {a}
+            </span>
+          ))}
+          {restrictions.map(r => (
+            <span key={r} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-50 dark:bg-amber-900/15 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/30">
+              <ShieldAlert className="w-3 h-3" />
+              {r}
+            </span>
+          ))}
+          {diet && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-dark-border">
+              <ClipboardCheck className="w-3 h-3" />
+              Диета: {diet}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* ── Tab Bar (in the right content area) ── */}
       <div className="glass-card border-b border-gray-200 dark:border-dark-border-subtle px-6 shrink-0">
@@ -1640,16 +1783,17 @@ export function PatientCard({ onBack }: PatientCardProps) {
 
       {/* ── Content area ── */}
       <div className="flex-1 overflow-y-auto min-h-0">
-          {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} />}
+          {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} prevVitals={dbPatient?.previousVitals ?? previousVitals} />}
           {activeTab === 'results' && <TabResults onOpenLightbox={setLightboxDoc} />}
           {activeTab === 'prescriptions' && <TabPrescriptions onOpenProcedure={() => setShowProcedureModal(true)} />}
-          {activeTab === 'history' && <TabHistory onOpenLightbox={setLightboxDoc} />}
+          {activeTab === 'history' && <TabHistory onOpenLightbox={setLightboxDoc} visits={dbPatient?.visits ?? visitHistory} />}
           {activeTab === 'discharge' && <DischargeEpicrisis />}
       </div>
 
       {/* ── Modals ── */}
-      {showProcedureModal && <NewAssignmentModal onClose={() => setShowProcedureModal(false)} />}
+      {showProcedureModal && <NewAssignmentModal onClose={() => setShowProcedureModal(false)} allergies={allergies} restrictions={restrictions} onAssign={handleNewAssignment} />}
       {showDischargeModal && <DischargeModal onClose={() => setShowDischargeModal(false)} onDischarge={handleDischarge} />}
+      {allergyWarning && <AllergyWarningModal itemName={allergyWarning.itemName} warnings={allergyWarning.warnings} onClose={() => setAllergyWarning(null)} onConfirm={allergyWarning.onConfirm} />}
       {lightboxDoc && <AttachmentLightbox doc={lightboxDoc} onClose={() => setLightboxDoc(null)} />}
     </div>
   )
