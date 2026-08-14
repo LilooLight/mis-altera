@@ -1594,9 +1594,24 @@ export function PatientCard({ onBack }: PatientCardProps) {
             {patientData.age} лет, {patientData.gender === 'М' ? 'муж.' : 'жен.'} · палата {patientData.room} · {patientData.doctor}
           </p>
         </div>
-        <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 shrink-0">
-          <Calendar className="w-3.5 h-3.5" />
-          <span>{patientData.checkIn} → {patientData.checkOut}</span>
+        <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{patientData.checkIn} → {patientData.checkOut}</span>
+          </div>
+          <div className="w-px h-5 bg-gray-200 dark:bg-dark-border-subtle mx-1" />
+          <button
+            onClick={() => setShowProcedureModal(true)}
+            className="px-3 py-1.5 text-xs font-medium rounded-lg btn-enamel bg-accent-tiffany text-white hover:bg-accent-tiffany-dark transition-colors inline-flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" /> Новое назначение
+          </button>
+          <button
+            onClick={() => setShowDischargeModal(true)}
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-dark-border-subtle text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:border-red/30 hover:text-red dark:hover:text-red-400 transition-colors inline-flex items-center gap-1.5"
+          >
+            <FileSignature className="w-3.5 h-3.5" /> Выписать
+          </button>
         </div>
       </div>
 
@@ -1623,24 +1638,13 @@ export function PatientCard({ onBack }: PatientCardProps) {
         </div>
       </div>
 
-      {/* ── Content: Left Panel + Right Content ── */}
-      <div className="flex flex-1 min-h-0">
-        {/* Left sidebar — fixed width, scrollable */}
-        <LeftPanel
-          onOpenProcedure={() => setShowProcedureModal(true)}
-          onOpenDischarge={() => setShowDischargeModal(true)}
-          onGoToPrescriptions={() => setActiveTab('prescriptions')}
-          patientStatus={patientStatus}
-        />
-
-        {/* Right content — scrollable */}
-        <div className="flex-1 overflow-y-auto">
+      {/* ── Content area ── */}
+      <div className="flex-1 overflow-y-auto min-h-0">
           {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} />}
           {activeTab === 'results' && <TabResults onOpenLightbox={setLightboxDoc} />}
           {activeTab === 'prescriptions' && <TabPrescriptions onOpenProcedure={() => setShowProcedureModal(true)} />}
           {activeTab === 'history' && <TabHistory onOpenLightbox={setLightboxDoc} />}
           {activeTab === 'discharge' && <DischargeEpicrisis />}
-        </div>
       </div>
 
       {/* ── Modals ── */}
