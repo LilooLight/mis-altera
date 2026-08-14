@@ -1263,12 +1263,35 @@ function TabResults({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) =
 
 
 const visitHistory = [
-  { id: 1, date: '27.07.2026', time: '10:30', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Осмотр плановый. Жалобы на ноющую боль в пояснице. АД 130/85, пульс 78.' },
-  { id: 2, date: '25.07.2026', time: '09:00', type: 'Невролог', doctor: 'Сидорова О.Н.', summary: 'Консультация. Рекомендована коррекция терапии.' },
-  { id: 3, date: '24.07.2026', time: '14:00', type: 'Процедура', doctor: '', summary: 'Рентгенография поясничного отдела. Умеренные ДД L4-L5.' },
-  { id: 4, date: '22.07.2026', time: '08:30', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Осмотр. Динамика положительная. АД 140/90.' },
-  { id: 5, date: '20.07.2026', time: '11:00', type: 'Процедура', doctor: '', summary: 'УЗИ брюшной полости. Без патологий.' },
-  { id: 6, date: '18.07.2026', time: '10:00', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Первичный осмотр. Жалобы на боль в пояснице, ограничение подвижности.' },
+  { id: 1, date: '27.07.2026', time: '10:30', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Осмотр плановый. Жалобы на ноющую боль в пояснице. АД 130/85, пульс 78.',
+    attachments: [] },
+  { id: 2, date: '25.07.2026', time: '09:00', type: 'Невролог', doctor: 'Сидорова О.Н.', summary: 'Консультация. Рекомендована коррекция терапии.',
+    attachments: [
+      { name: 'Заключение невролога_Сидорова_25.07.pdf', type: 'pdf' as const },
+    ] },
+  { id: 3, date: '24.07.2026', time: '14:00', type: 'Процедура', doctor: 'Петров А.В.', summary: 'Рентгенография поясничного отдела. Умеренные ДД L4-L5.',
+    attachments: [
+      { name: 'Рентген_поясница_24.07.dicom', type: 'image' as const },
+      { name: 'Заключение_рентгенолог_Петров.pdf', type: 'pdf' as const },
+    ] },
+  { id: 4, date: '22.07.2026', time: '08:30', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Осмотр. Динамика положительная. АД 140/90.',
+    attachments: [
+      { name: 'ОАК_22.07.2026.pdf', type: 'pdf' as const },
+      { name: 'Биохимия_глюкоза_холестерин.xlsx', type: 'xlsx' as const },
+    ] },
+  { id: 5, date: '20.07.2026', time: '11:00', type: 'Процедура', doctor: 'Ким Л.С.', summary: 'УЗИ брюшной полости. Без патологий.',
+    attachments: [
+      { name: 'УЗИ_брюшная_полость_протокол.pdf', type: 'pdf' as const },
+      { name: 'УЗИ_снимки_20.07.png', type: 'image' as const },
+    ] },
+  { id: 6, date: '18.07.2026', time: '10:00', type: 'Терапевт', doctor: 'Иванов И.М.', summary: 'Первичный осмотр. Жалобы на боль в пояснице, ограничение подвижности.',
+    attachments: [
+      { name: 'Направление_в_санаторий_№2847.pdf', type: 'pdf' as const },
+      { name: 'Выписка_из_карты_стационара.pdf', type: 'pdf' as const },
+      { name: 'МРТ_поясница_10.07.dicom', type: 'image' as const },
+      { name: 'ЭКГ_входное_10.07.pdf', type: 'pdf' as const },
+      { name: 'ОАК_ОАМ_входные.xlsx', type: 'xlsx' as const },
+    ] },
 ]
 
 const imagingResults = [
@@ -1375,9 +1398,11 @@ function TabPrescriptions() {
 // HISTORY TAB
 // ═══════════════════════════════════════════════════════════════════════
 
-function TabHistory() {
+function TabHistory({ onOpenLightbox }: { onOpenLightbox: (doc: DocAttachment) => void }) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null)
   const selected = selectedItem ? visitHistory.find(h => h.id === selectedItem) : null
+
+  const hasAttachments = (item: typeof visitHistory[number]) => item.attachments && item.attachments.length > 0
 
   return (
     <div className="p-6 space-y-4">
@@ -1392,6 +1417,7 @@ function TabHistory() {
           {visitHistory.map(item => {
             const isSelected = selectedItem === item.id
             const typeColor = item.type === 'Терапевт' ? 'bg-accent-tiffany' : item.type === 'Невролог' ? 'bg-purple' : item.type === 'Процедура' ? 'bg-amber' : 'bg-blue'
+            const attached = hasAttachments(item)
             return (
               <button
                 key={item.id}
@@ -1417,6 +1443,12 @@ function TabHistory() {
                         {item.doctor && <span className="text-xs text-gray-500 dark:text-gray-400">— {item.doctor}</span>}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 shrink-0">
+                        {attached && (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-accent-tiffany/10 text-accent-tiffany" title={`${item.attachments.length} влож.`}>
+                            <Paperclip className="w-3 h-3" />
+                            <span>{item.attachments.length}</span>
+                          </span>
+                        )}
                         <Calendar className="w-3 h-3" />
                         <span>{item.date}</span>
                         <span>{item.time}</span>
@@ -1432,7 +1464,7 @@ function TabHistory() {
 
         {/* Detail panel */}
         {selected && (
-          <div className="w-[320px] shrink-0 glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle p-4 sticky top-6 self-start">
+          <div className="w-[360px] shrink-0 glass-card rounded-xl border border-gray-200 dark:border-dark-border-subtle p-4 sticky top-6 self-start">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Подробности</h3>
               <button onClick={() => setSelectedItem(null)} className="p-1 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors">
@@ -1458,6 +1490,52 @@ function TabHistory() {
                 <span className="text-xs text-gray-500 dark:text-gray-400">Описание</span>
                 <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{selected.summary}</p>
               </div>
+
+              {/* ── Attachments section ── */}
+              {hasAttachments(selected) && (
+                <div className="pt-3 border-t border-gray-200 dark:border-dark-border-subtle">
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <Paperclip className="w-3.5 h-3.5 text-accent-tiffany" />
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                      Вложения ({selected.attachments.length})
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {selected.attachments.map((doc, i) => (
+                      <div
+                        key={i}
+                        className={`flex items-center gap-2.5 p-2.5 rounded-lg border border-gray-200 dark:border-dark-border-subtle hover:border-accent-tiffany/30 transition-colors group ${getDocTypeBg(doc.type)}`}
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white dark:bg-dark-card/50">
+                          {getDocTypeIcon(doc.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{doc.name}</p>
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                            {doc.type === 'pdf' ? 'PDF' : doc.type === 'xlsx' ? 'Excel' : doc.type === 'image' ? 'Изображение' : 'Видео'}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            onClick={() => onOpenLightbox(doc)}
+                            className="p-1.5 rounded-md text-gray-400 hover:text-accent-tiffany hover:bg-accent-tiffany/10 transition-colors"
+                            title="Предпросмотр"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            className="p-1.5 rounded-md text-gray-400 hover:text-accent-tiffany hover:bg-accent-tiffany/10 transition-colors"
+                            title="Скачать"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="pt-2 border-t border-gray-200 dark:border-dark-border-subtle">
                 <button className="w-full px-3 py-2 text-xs font-medium rounded-lg border border-accent-tiffany text-accent-tiffany hover:bg-accent-tiffany/10 transition-colors">
                   Открыть полный отчёт
@@ -1560,7 +1638,7 @@ export function PatientCard({ onBack }: PatientCardProps) {
           {activeTab === 'visit' && <TabVisit setActiveTab={setActiveTab} />}
           {activeTab === 'results' && <TabResults onOpenLightbox={setLightboxDoc} />}
           {activeTab === 'prescriptions' && <TabPrescriptions onOpenProcedure={() => setShowProcedureModal(true)} />}
-          {activeTab === 'history' && <TabHistory />}
+          {activeTab === 'history' && <TabHistory onOpenLightbox={setLightboxDoc} />}
           {activeTab === 'discharge' && <DischargeEpicrisis />}
         </div>
       </div>
